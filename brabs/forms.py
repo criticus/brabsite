@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from brabs.models import Comment
+from brabs.models import Comments
 
 
 class CommentForm(ModelForm):
@@ -18,4 +18,4 @@ class CommentForm(ModelForm):
         return self.object
 
     class Meta:
-        model = Comment
+        model = Comments

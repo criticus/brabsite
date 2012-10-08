@@ -1,17 +1,21 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import patterns, include, url
+from django.views.generic import ListView, DetailView
+from brabs.views import BrabDetailView
+from brabs.models import Brab
+from django.contrib import admin
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'brabsite.views.home', name='home'),
-    # url(r'^brabsite/', include('brabsite.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', ListView.as_view(
+        queryset=Brab.objects.all(),
+        context_object_name="brabs_list"),
+        name="home"
+    ),
+    url(r'^brab/(?P<pk>[a-zA-Z0-9-]+)/$', BrabDetailView.as_view(
+        queryset=Brab.objects.all(),
+        context_object_name="brab"),
+        name="brab"
+    ),
+    url(r'^admin/', include(admin.site.urls)),
 )

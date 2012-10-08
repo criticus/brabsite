@@ -4,6 +4,8 @@
     <jdbc-url>jdbc:mysql://:5000/brabout</jdbc-url>
     <user-name>Rosty</user-name>
     <user-password>dfeedfc3dfcbdfc7dfc5dfc4dfcedfd9df9b</user-password>
+    <schema-pattern>brabout.*</schema-pattern>
+    <default-schemas>brabout.*</default-schemas>
     <libraries>
       <library>
         <url>file://$USER_HOME$/.PyCharm20/config/jdbc-drivers/mysql-connector-license.txt</url>
