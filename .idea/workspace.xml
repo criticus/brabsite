@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0169490-e848-4f59-b231-6d9fd6c1639b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/Rosty.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabs/forms.py" afterPath="$PROJECT_DIR$/brabs/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabs/models.py" afterPath="$PROJECT_DIR$/brabs/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/urls.py" afterPath="$PROJECT_DIR$/brabsite/urls.py" />
     </list>
     <ignored path="brabsite.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -338,7 +332,11 @@
       <created>1349731485921</created>
       <updated>1349731485921</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Second commit">
+      <created>1349739710312</created>
+      <updated>1349739710312</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
