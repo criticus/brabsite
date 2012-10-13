@@ -1,0 +1,25 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<br/>
+{% if form.errors %}
+    <div class="alert alert-error">
+        Please correct the errors below: {{ form.errors }}
+    </div>
+{% endif %}
+
+<form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
+
+<input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
+
+<input type="password" name="password" id="id_password" placeholder="Password" class="input-small"/>
+<input type="submit" value="Sign in" class="btn btn-primary"/>
+</form>
+{% endblock %}
+
+{% block content-related %}
+<p>If you don't have an account, you can <a href="/accounts/register/">sign
+up</a> for one.
+{% endblock %}
