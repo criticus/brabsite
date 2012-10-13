@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Brabs</h2>
+    {% for brab in brab_list %}
+        <h3><a href="{% url brab pk=brab.id %}">{{ brab.title }}</a></h3>
+        <p>{{ brab.description|truncatewords:40 }}</p>
+        <p>{{ brab.auth_user.name}}</p>
+        <p>{{ brab.created_at }}   </p>
+    {% endfor %}
+{% endblock %}

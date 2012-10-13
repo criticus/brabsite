@@ -1,4 +1,5 @@
 # Django settings for brabsite project.
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -64,6 +65,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'site_media').replace('\\','/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -90,7 +92,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -102,23 +104,22 @@ ROOT_URLCONF = 'brabsite.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'brabsite.wsgi.application'
 
+import os.path
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+    )
 
 INSTALLED_APPS = (
+    'registration',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'django.contrib.humanize',
     'brabs',
 )
 
@@ -150,3 +151,13 @@ LOGGING = {
         },
     }
 }
+
+#registration settings
+ACCOUNT_ACTIVATION_DAYS=7
+EMAIL_HOST='localhost'
+EMAIL_PORT=1025
+EMAIL_HOST_USER='root'
+EMAIL_HOST_PASSWORD=''
+
+# python -m smtpd -n -c DebuggingServer localhost:1025
+# pip install django-registration
