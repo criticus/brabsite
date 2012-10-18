@@ -1,26 +1,10 @@
-from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-
-class Brab_Base(models.Model):
-    visible = models.BooleanField(help_text="Visible")
-    created_at = models.DateTimeField(auto_now_add=True, help_text="Created")
-    updated_at = models.DateTimeField(auto_now_add=True, help_text="Updated")
-    deleted = models.BooleanField(help_text="Deleted")
-
-    def save(self):
-        if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        super(Brab_Base, self).save()
-
-    def get_absolute_url(self):
-        return reverse(self.__class__.__name__, kwargs={"pk": self.id})
-
+from django.utils import timezone
 
 class Brab(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Brabber")
+    auth_user = models.ForeignKey(User, verbose_name='Brabber', help_text="Brabber")
     title = models.CharField(blank=True, max_length=255, help_text="Brab Title")
     description = models.TextField (help_text="Brab Description")
     visible = models.BooleanField(help_text="Visible")
@@ -30,8 +14,8 @@ class Brab(models.Model):
 
     def save(self):
         if self.created_at == None:
-                self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+                self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Brab, self).save()
 
     def get_absolute_url(self):
@@ -50,8 +34,8 @@ class Category(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Category, self).save()
 
     def get_absolute_url(self):
@@ -71,8 +55,8 @@ class Category_to_brab(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Category_to_brab, self).save()
 
     def get_absolute_url(self):
@@ -82,8 +66,8 @@ class Category_to_brab(models.Model):
         return self.id
 
 class Comments(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
-    brab = models.ForeignKey(Brab, help_text="Brab")
+    auth_user = models.ForeignKey(User, blank=True, null=True, help_text="Author")
+    brab = models.ForeignKey(Brab, blank=True, null=True, help_text="Brab")
 
     comment = models.TextField (help_text= 'Comment text')
 
@@ -94,9 +78,12 @@ class Comments(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+
+
+        self.updated_at = timezone.now()
         super(Comments, self).save()
+
 
     def get_absolute_url(self):
         return reverse('comments', kwargs={"pk": self.id})
@@ -117,8 +104,8 @@ class Messages(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Messages, self).save()
 
     def get_absolute_url(self):
@@ -140,8 +127,8 @@ class Pictures(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Pictures, self).save()
 
     def get_absolute_url(self):
@@ -161,8 +148,8 @@ class Tag(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Tag, self).save()
 
     def get_absolute_url(self):
@@ -182,8 +169,8 @@ class Tag_to_brab(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Tag_to_brab, self).save()
 
     def get_absolute_url(self):
@@ -202,8 +189,8 @@ class Vote(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Vote, self).save()
 
     def get_absolute_url(self):
@@ -223,8 +210,8 @@ class Vote_to_brab(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Tag_to_brab, self).save()
 
     def get_absolute_url(self):
@@ -243,8 +230,8 @@ class Vote_totals(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Vote_totals, self).save()
 
     def get_absolute_url(self):
@@ -264,8 +251,8 @@ class Attribute(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Attribute, self).save()
 
     def get_absolute_url(self):
@@ -285,8 +272,8 @@ class Attribute_to_brab(models.Model):
 
     def save(self):
         if self.created_at == None:
-            self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
         super(Attribute_to_brab, self).save()
 
     def get_absolute_url(self):
