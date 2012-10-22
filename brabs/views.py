@@ -1,8 +1,9 @@
 from django.http import Http404, HttpResponse
 from django.http import HttpResponseRedirect
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm
 from brabs.models import Brab
+from brabs.models import LoggedInMixin
 
 from django.shortcuts import render_to_response
 
@@ -52,7 +53,7 @@ class BrabAddView(CreateView):
     methods = ['get', 'post']
     context_object_name="brab"
     template_name = "brabs/brab_add.html"
-#    Note absence of parenthesis around the form_class name below!
+#    Note absence of parenthesis around the form_class and model names below!
     form_class = BrabForm
     model = Brab
 
@@ -72,3 +73,12 @@ class BrabAddView(CreateView):
         self.object = None
         context = self.get_context_data(object=self.object, form=form)
         return self.render_to_response(context)
+
+
+class BrabListView(LoggedInMixin, ListView):
+    template_name = 'brabs/brab_list.html'
+    paginate_by = 25
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return Brab.objects.filter(auth_user_id=self.request.user.id)

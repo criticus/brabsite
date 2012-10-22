@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
+from django import http
+from django.views import generic
+
+class LoggedInMixin(object):
+    """ A mixin requiring a user to be logged in. """
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            raise http.Http404
+        return super(LoggedInMixin, self).dispatch(request, *args, **kwargs)
+
 class Brab(models.Model):
     auth_user = models.ForeignKey(User, null=True, blank=True, verbose_name='Brabber', help_text="Brabber")
     title = models.CharField(blank=True, max_length=255, help_text="Brab Title")
