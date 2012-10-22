@@ -14,13 +14,13 @@
     <p>{{ brab.created_at }}</p>
     <hr>
     <h2>Comments:</h2>
-    {% if brab.comments %}
-        {% for comment in brab.comments %}
-            <p>{{ comment.body }}</p>
-            <p><strong>{{ comment.auth_user.name }}</strong> <small>on {{ comment.created_at }}</small></p>
+
+        {% for comment in brab.comments_set.all %}
+            <p><strong>{{ comment.comment }}</strong></p>
+            <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
             {{ comment.text }}
         {% endfor %}
-    {% endif %}
+
     <h2>Add a comment</h2>
     <form action="." method="post">
         {% include "_forms.html" %}
