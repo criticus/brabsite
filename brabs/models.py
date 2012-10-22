@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 class Brab(models.Model):
-    auth_user = models.ForeignKey(User, verbose_name='Brabber', help_text="Brabber")
+    auth_user = models.ForeignKey(User, null=True, blank=True, verbose_name='Brabber', help_text="Brabber")
     title = models.CharField(blank=True, max_length=255, help_text="Brab Title")
     description = models.TextField (help_text="Brab Description")
     visible = models.BooleanField(help_text="Visible")
@@ -25,7 +25,7 @@ class Brab(models.Model):
         return self.title
 
 class Category(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     name = models.CharField(blank=True, max_length=250, help_text="Category Name")
     visible = models.BooleanField(help_text="Visible")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Category Created")
@@ -45,7 +45,7 @@ class Category(models.Model):
         return self.name
 
 class Category_to_brab(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     brab = models.ForeignKey(Brab, help_text="Brab")
     category = models.ForeignKey(Category, help_text= "Category")
 
@@ -92,8 +92,8 @@ class Comments(models.Model):
         return self.comment
 
 class Messages(models.Model):
-    auth_user_from = models.ForeignKey(User, related_name='auth_user_from', help_text="From")
-    auth_user_to = models.ForeignKey(User, related_name='auth_user_to', help_text="To")
+    auth_user_from = models.ForeignKey(User, null=True, blank=True, related_name='auth_user_from', help_text="From")
+    auth_user_to = models.ForeignKey(User, null=True, blank=True, related_name='auth_user_to', help_text="To")
 
     message = models.TextField (help_text= 'Message text')
 
@@ -159,7 +159,7 @@ class Tag(models.Model):
         return self.tag
 
 class Tag_to_brab(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     brab = models.ForeignKey(Brab, help_text="Brab")
     tag = models.ForeignKey(Tag, help_text= "Category")
 
@@ -200,7 +200,7 @@ class Vote(models.Model):
         return self.tag
 
 class Vote_to_brab(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     brab = models.ForeignKey(Brab, help_text="Brab")
     vote = models.ForeignKey(Vote, help_text= "Vote")
 
@@ -262,7 +262,7 @@ class Attribute(models.Model):
         return self.name
 
 class Attribute_to_brab(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     brab = models.ForeignKey(Brab, help_text="Brab")
     attribute = models.ForeignKey(Attribute, help_text= "Category")
 
