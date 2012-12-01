@@ -19,8 +19,10 @@
             <h1><a href="/" class="brand">&nbsp;brabout.com</a>!</h1> <h4><small>Brag About It! ...shamelessly :-)</small></h4>
                 {% if user.is_authenticated %}
                     <p>Welcome, {{ user.username }}!&nbsp;<a href="/accounts/logout">Logout...</a></p>
+                    <p><a href="/addabrab">Add a brab...</a></p>
+                    <p><a href="/mybrabs">My Brabs</a></p>
                 {% else %}
-                    <p>Please log in.</p>
+                    <p>Please <a href="/accounts/login">log in..</a></p>
                 {% endif %}
 
         </div>
