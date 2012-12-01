@@ -15,9 +15,8 @@ go to github to your branch and open PR (pull request)
 after at least one +1 you can merge your PR to upstream
 
 How to update master:
-
-git checkout master
-git pull upstream master
-git push origin master
-git checkout branch_name
-git rebase master
+>git checkout master
+>git pull upstream master
+>git push origin master
+>git checkout branch_name
+>git rebase master
