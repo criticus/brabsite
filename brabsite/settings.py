@@ -46,12 +46,16 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = (
+    os.path.join(os.path.dirname(__file__), 'user_media').replace('\\','/'),
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/user_media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -120,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'django.contrib.humanize',
+    'storages',
     'brabs',
 )
 
@@ -161,3 +166,23 @@ EMAIL_HOST_PASSWORD=''
 
 # python -m smtpd -n -c DebuggingServer localhost:1025
 # pip install django-registration
+
+# eventually we should be using s3Storage.py from  mstarinc / django-s3storage,
+# but for now we are using s3boto original
+# pip install django-storages
+# pip install boto
+
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#
+#AWS_ACCESS_KEY_ID = "AKIAIAMDCZFLG7JZFMHQ"
+#
+#AWS_SECRET_ACCESS_KEY = "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"
+#
+#AWS_STORAGE_BUCKET_NAME = "brabout"
+#
+#AWS_S3_SECURE_URLS = True
+#
+## stops IK checking S3 all the time
+#IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
+
+

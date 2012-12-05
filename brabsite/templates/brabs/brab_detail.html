@@ -9,11 +9,27 @@
 {% block content %}
     <p>{{ brab.description }}<p>
     <p>{{ brab.auth_user.name }}</p>
-
-
     <p>{{ brab.created_at }}</p>
     <hr>
-    <h2>Comments:</h2>
+
+    <h2>Pictures:</h2>
+
+    {% for picture in brab.pictures_set.all %}
+        <p><strong>{{ picture.title }}</strong></p>
+        <p><small>uploaded on {{ picture.created_at }}</small></p>
+        {{ picture.picture }}
+    {% endfor %}
+
+    <h2>Add a picture</h2>
+    <form action="." method="post" enctype="multipart/form-data">
+        {{ P_form.as_p }}
+        {% include "_forms.html" %}
+        <div class="actions">
+            <input name="P" type="submit" class="btn primary" value="upload">
+        </div>
+    </form>
+
+     <h2>Comments:</h2>
 
         {% for comment in brab.comments_set.all %}
             <p><strong>{{ comment.comment }}</strong></p>
@@ -23,9 +39,10 @@
 
     <h2>Add a comment</h2>
     <form action="." method="post">
+        {{ C_form.as_p }}
         {% include "_forms.html" %}
         <div class="actions">
-            <input type="submit" class="btn primary" value="comment">
+            <input name="C" type="submit" class="btn primary" value="comment">
         </div>
     </form>
 {% endblock %}
