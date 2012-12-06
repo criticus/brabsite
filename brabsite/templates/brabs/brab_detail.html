@@ -17,33 +17,44 @@
         {% for picture in brab.pictures_set.all %}
             <p><strong>{{ picture.title }}</strong></p>
             <img src="{{ picture.picture.url}}" alt="" width="90" height="90">
-            <p><small>uploaded on {{ picture.created_at }}</small></p>
+            <p><small>
+                {% if picture.main %}
+                    Main -&nbsp;
+                {% endif %}
+                uploaded on {{ picture.created_at }}</small></p>
         {% endfor %}
     {% endif %}
 
-    <h2>Add a picture</h2>
-    <form action="." method="post" enctype="multipart/form-data">
-        {{ P_form.as_p }}
-        {% include "_forms.html" %}
-        <div class="actions">
-            <input name="P" type="submit" class="btn primary" value="upload">
-        </div>
-    </form>
-
+    {% if brab.auth_user.id == user.id %}
+        <h2>Add a picture</h2>
+        <form action="." method="post" enctype="multipart/form-data">
+            {{ P_form.as_p }}
+            {% include "_forms.html" %}
+            <div class="actions">
+                <input name="P" type="submit" class="btn primary" value="upload">
+            </div>
+        </form>
+    {% else %}
+        <p>You may not add pictures since you are not the author of this brab.</p>
+    {% endif %}
      <h2>Comments:</h2>
 
-        {% for comment in brab.comments_set.all %}
-            <p><strong>{{ comment.comment }}</strong></p>
-            <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
+     {% for comment in brab.comments_set.all %}
+         <p><strong>{{ comment.comment }}</strong></p>
+         <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
             {{ comment.text }}
-        {% endfor %}
+     {% endfor %}
 
-    <h2>Add a comment</h2>
-    <form action="." method="post">
-        {{ C_form.as_p }}
-        {% include "_forms.html" %}
-        <div class="actions">
-            <input name="C" type="submit" class="btn primary" value="comment">
-        </div>
-    </form>
+    {% if user.is_authenticated %}
+        <h2>Add a comment</h2>
+        <form action="." method="post">
+            {{ C_form.as_p }}
+            {% include "_forms.html" %}
+            <div class="actions">
+                <input name="C" type="submit" class="btn primary" value="comment">
+            </div>
+        </form>
+    {% else %}
+        <p>You may not add comments until you log in.</p>
+    {% endif %}
 {% endblock %}

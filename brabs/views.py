@@ -38,6 +38,14 @@ class BrabDetailView(DetailView):
             comment_form = CommentForm(prefix="C")
             picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
             if picture_form.is_valid():
+
+                if not self.object.pictures_set.count():
+                    picture_form.instance.main = 1
+                elif picture_form.instance.main:
+                    for picture in self.object.pictures_set.all():
+                        picture.main = 0
+                        picture.save()
+
                 #            Fill comments.brab_id with pk of the current brab
                 picture_form.instance.brab_id = self.object.pk
                 picture_form.instance.visible = 1
