@@ -126,7 +126,7 @@ class Messages(models.Model):
 
 class Pictures(models.Model):
     brab = models.ForeignKey(Brab, blank=True, null=True, help_text="Brab")
-
+    title = models.TextField(null=True, help_text="title")
     picture = models.ImageField(upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width", null=True, blank=True, max_length=250, help_text="Picture URL")
     pic_height = models.IntegerField(null=True, blank=True)
     pic_width = models.IntegerField(null=True, blank=True)

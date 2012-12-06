@@ -12,13 +12,14 @@
     <p>{{ brab.created_at }}</p>
     <hr>
 
-    <h2>Pictures:</h2>
-
-    {% for picture in brab.pictures_set.all %}
-        <p><strong>{{ picture.title }}</strong></p>
-        <p><small>uploaded on {{ picture.created_at }}</small></p>
-        {{ picture.picture }}
-    {% endfor %}
+    {% if brab.pictures_set %}
+        <h2>Pictures:</h2>
+        {% for picture in brab.pictures_set.all %}
+            <p><strong>{{ picture.title }}</strong></p>
+            <img src="{{ picture.picture.url}}" alt="" width="90" height="90">
+            <p><small>uploaded on {{ picture.created_at }}</small></p>
+        {% endfor %}
+    {% endif %}
 
     <h2>Add a picture</h2>
     <form action="." method="post" enctype="multipart/form-data">

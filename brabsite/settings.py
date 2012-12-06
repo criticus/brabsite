@@ -47,7 +47,7 @@ USE_TZ = True
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = (
-    os.path.join(os.path.dirname(__file__), 'user_media').replace('\\','/'),
+    os.path.join(os.path.dirname(__file__), 'user_media').replace('\\','/')
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     )

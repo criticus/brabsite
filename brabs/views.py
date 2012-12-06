@@ -39,7 +39,8 @@ class BrabDetailView(DetailView):
             picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
             if picture_form.is_valid():
                 #            Fill comments.brab_id with pk of the current brab
-                comment_form.instance.brab_id = self.object.pk
+                picture_form.instance.brab_id = self.object.pk
+                picture_form.instance.visible = 1
                 picture_form.save()
                 return HttpResponseRedirect(self.object.get_absolute_url())
 
