@@ -30,7 +30,7 @@ class PictureForm(ModelForm):
 
     title = forms.CharField(label='Title')
     picture = forms.ImageField(label='Select a file',
-        help_text='max. 42 megabytes')
+        help_text='max. 42 megabytes!')
     pic_height = forms.IntegerField( required=False, widget=forms.HiddenInput())
     pic_width = forms.IntegerField( required=False, widget=forms.HiddenInput())
     brab = forms.IntegerField( required=False, widget=forms.HiddenInput())

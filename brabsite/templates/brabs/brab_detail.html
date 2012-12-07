@@ -15,13 +15,15 @@
     {% if brab.pictures_set %}
         <h2>Pictures:</h2>
         {% for picture in brab.pictures_set.all %}
-            <p><strong>{{ picture.title }}</strong></p>
-            <img src="{{ picture.picture.url}}" alt="" width="90" height="90">
-            <p><small>
-                {% if picture.main %}
-                    Main -&nbsp;
-                {% endif %}
-                uploaded on {{ picture.created_at }}</small></p>
+            {% if picture.visible%}
+                <p><strong>{{ picture.title }}</strong></p>
+                <img src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                <p><small>
+                    {% if picture.main %}
+                        Main -&nbsp;
+                    {% endif %}
+                    uploaded on {{ picture.created_at }}</small></p>
+            {% endif %}
         {% endfor %}
     {% endif %}
 
