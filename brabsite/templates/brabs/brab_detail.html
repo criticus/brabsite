@@ -17,7 +17,7 @@
         {% for picture in brab.pictures_set.all %}
             {% if picture.visible%}
                 <p><strong>{{ picture.title }}</strong></p>
-                <img src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                <img src="{{ picture.picture.url}}" alt="" width="250" height="250">
                 <p><small>
                     {% if picture.main %}
                         Main -&nbsp;

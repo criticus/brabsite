@@ -10,7 +10,7 @@
         {% if brab.pictures_set %}
              {% for picture in brab.pictures_set.all %}
                   {% if picture.main and picture.visible%}
-                        <p><img src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                        <p><a href="{% url brab pk=brab.id %}"><img src="{{ picture.picture.url}}" alt="" width="150" height="150"></a>
                    {% endif %}
             {% endfor %}
         {% endif %}
