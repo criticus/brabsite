@@ -34,6 +34,7 @@ class Brab(models.Model):
     def __unicode__(self):
         return self.title
 
+
 class Category(models.Model):
     auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     name = models.CharField(blank=True, max_length=250, help_text="Category Name")

@@ -3,43 +3,90 @@
 <head>
     <meta charset="utf-8">
     <title>Brag About It!</title>
+
+    <link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
     <style>.content {padding-top: 80px;}</style>
 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
 
 </head>
 
-<body>
+<body class="portfolio">
 
-<div class="topbar">
-    <div class="fill">
-        <div class="container">
-            <h1><a href="/" class="brand">&nbsp;brabout.com</a>!</h1> <h4><small>Brag About It! ...shamelessly :-)</small></h4>
+
+<div id="wrapper" class="container_12 clearfix">
+
+    <!-- Text Logo -->
+
+    <h1 id="logo" class="grid_4"><a href="/" class="brand">&nbsp;Brabout.com!</a></h1>
+    <h3 class="moto muted">Brag About It! ...shamelessly :)</h3>
+
+    <div class="topbar">
+        <div class="fill">
+            <div class="">
                 {% if user.is_authenticated %}
-                    <p>Welcome, {{ user.username }}!&nbsp;<a href="/accounts/logout">Logout...</a></p>
+                    <p>Hey, {{ user.username }}!&nbsp;<a href="/accounts/logout">Logout</a></p>
 
-                    <p><a href="/addabrab">Add a brab...</a></p>
+                    <p><a class="btn btn-info" href="/addabrab">New Brab</a>
                     {% if "mybrabs" in request.path %}
-                        <p><a href="/">All Brabs</a></p>
+                        &nbsp; <a class="btn btn-primary" href="/">Brablist</a></p>
                     {% else %}
-                        <p><a href="/mybrabs">My Brabs</a></p>
+                        &nbsp;<a class="btn btn-primary" href="/mybrabs">My Brablist</a></p>
                     {% endif %}
                 {% else %}
-                    <p>Please <a href="/accounts/login">log in..</a></p>
+                    <p>Please <a href="/accounts/login">Sign In</a></p>
                 {% endif %}
 
+            </div>
         </div>
     </div>
-</div>
 
-<div class="container">
-    <div class="content">
-        {% block page_header %}{% endblock %}
-        {% block content %}{% endblock %}
+
+    <div class="hr grid_12 clearfix">&nbsp;</div>
+
+    <!-- Catch Line and Link -->
+    <span class="grid_12 clearfix"><input type="text" placeholder="Search"></span>
+
+    <div class="pr grid_12 clearfix">&nbsp;</div>
+
+    <!-- Portfolio Items -->
+
+    <!-- Section 1 -->
+
+    <div class="catagory_1 clearfix">
+        <!-- Row 1 -->
+
+        <div class="grid_12">
+            {% block page_header %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
-</div>
+
+
+    <div class="hr grid_12 clearfix">&nbsp;</div>
+
+    <!-- Footer -->
+    <p class="grid_12 footer clearfix">
+        <span class="float"><b>&copy; Copyright</b> <a href="http://brabout.com">Brabout Inc.</a></span>
+        <a class="float right" href="#">top</a>
+    </p>
+
+</div><!--end wrapper-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>
