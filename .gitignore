@@ -1,4 +1,8 @@
 .idea/
 *.pyc
 brabsite/user_media/
-settings.py
+brabsite/settings.py
+.DS_Store
+brabsite/lib/
+
+
