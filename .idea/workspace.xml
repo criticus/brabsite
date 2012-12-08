@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0169490-e848-4f59-b231-6d9fd6c1639b" name="Default" comment="Now pictures tagged as &quot;Main&quot; are displayed on the brab list!">
-      <change type="DELETED" beforePath="C:\Linux\Cygwin\home\Rosty\brabout\brabsite\brabsite\user_media\pictures\2012\12\07\Aetna.gif" afterPath="" />
       <change type="DELETED" beforePath="C:\Linux\Cygwin\home\Rosty\brabout\brabsite\brabsite\user_media\pictures\2012\12\07\Brabout_Pictures.gif" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabs/forms.py" afterPath="$PROJECT_DIR$/brabs/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/settings.py" afterPath="$PROJECT_DIR$/brabsite/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/templates/base.html" afterPath="$PROJECT_DIR$/brabsite/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html" afterPath="$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html" />
+      <change type="DELETED" beforePath="C:\Linux\Cygwin\home\Rosty\brabout\brabsite\brabsite\user_media\pictures\2012\12\07\Aetna.gif" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html" afterPath="$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html" afterPath="$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/templates/base.html" afterPath="$PROJECT_DIR$/brabsite/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabs/forms.py" afterPath="$PROJECT_DIR$/brabs/forms.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/brabsite/settings.py" afterPath="$PROJECT_DIR$/brabsite/settings.py" />
     </list>
     <ignored path="brabsite.iws" />
     <ignored path=".idea/" />
@@ -37,10 +37,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="settings.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/brabsite/settings.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="5" selection-start="220" selection-end="220" vertical-scroll-proportion="0.0">
+                <state line="193" column="0" selection-start="6389" selection-end="6389" vertical-scroll-proportion="3.5936472">
                   <folding>
                     <element signature="e#40#54#0" expanded="true" />
                   </folding>
@@ -48,10 +48,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="base.html" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/brabsite/templates/base.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="23" column="0" selection-start="790" selection-end="790" vertical-scroll-proportion="0.05462185">
+                <state line="23" column="0" selection-start="790" selection-end="790" vertical-scroll-proportion="-15.038462">
                   <folding />
                 </state>
               </provider>
@@ -61,10 +61,19 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="brab_list.html" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="brab_list.html" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="15" column="19" selection-start="576" selection-end="587" vertical-scroll-proportion="0.5214724">
+                <state line="15" column="19" selection-start="576" selection-end="587" vertical-scroll-proportion="-9.807693">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="3" column="11" selection-start="45" selection-end="45" vertical-scroll-proportion="0.055075593">
                   <folding />
                 </state>
               </provider>
@@ -94,8 +103,9 @@
         <option value="$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html" />
         <option value="$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html" />
         <option value="$PROJECT_DIR$/brabs/forms.py" />
-        <option value="$PROJECT_DIR$/brabsite/settings.py" />
         <option value="$PROJECT_DIR$/brabsite/templates/base.html" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/brabsite/settings.py" />
       </list>
     </option>
   </component>
@@ -131,6 +141,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -237,19 +248,18 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Ignored.Files" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/brabsite/user_media" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Ignored.Files" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/brabsite/user_media" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -280,25 +290,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="brabsite" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <method />
-    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -318,6 +309,25 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="brabsite" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -340,7 +350,7 @@
     </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
       <JSDebuggerConfigurationSettings>
-        <option name="engineId" />
+        <option name="engineId" value="embedded" />
         <option name="fileUrl" />
       </JSDebuggerConfigurationSettings>
       <method />
@@ -370,10 +380,6 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
-      <RunnerSettings RunnerId="PyDebugRunner" />
-      <RunnerSettings RunnerId="PythonRunner" />
-      <ConfigurationWrapper RunnerId="PyDebugRunner" />
-      <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
     <list size="1">
@@ -442,14 +448,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="20" y="4" width="1870" height="1098" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5268614" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11894273" sideWeight="0.56782335" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43217665" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12004405" sideWeight="0.56782335" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43135247" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47313854" sideWeight="0.49839914" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4721346" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
@@ -525,11 +531,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Python27/Lib/site-packages/django/core/servers/basehttp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="0" selection-start="4706" selection-end="4706" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://C:/Python27/Lib/threading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="500" column="18" selection-start="15733" selection-end="15733" vertical-scroll-proportion="2.6" />
@@ -567,9 +568,7 @@
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django/views/generic/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="0" selection-start="1720" selection-end="1720" vertical-scroll-proportion="0.33203885">
-          <folding />
-        </state>
+        <state line="47" column="0" selection-start="1720" selection-end="1720" vertical-scroll-proportion="0.33203885" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brabsite/templates/brabs/brab_detail.html">
@@ -581,23 +580,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/brabs/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="11" selection-start="5295" selection-end="5302" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="135" column="11" selection-start="5295" selection-end="5302" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brabs/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="37" selection-start="1379" selection-end="1379" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="19" selection-start="576" selection-end="587" vertical-scroll-proportion="0.5214724">
-          <folding />
-        </state>
+        <state line="32" column="37" selection-start="1379" selection-end="1379" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brabs/views.py">
@@ -607,19 +595,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/brabsite/settings.py">
+    <entry file="file://$PROJECT_DIR$/brabsite/templates/brabs/brab_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="5" selection-start="220" selection-end="220" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#40#54#0" expanded="true" />
-          </folding>
+        <state line="15" column="19" selection-start="576" selection-end="587" vertical-scroll-proportion="-9.807693">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="11" selection-start="45" selection-end="45" vertical-scroll-proportion="0.055075593">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brabsite/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="790" selection-end="790" vertical-scroll-proportion="0.05462185">
+        <state line="23" column="0" selection-start="790" selection-end="790" vertical-scroll-proportion="-15.038462">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brabsite/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="0" selection-start="6389" selection-end="6389" vertical-scroll-proportion="3.5936472">
+          <folding>
+            <element signature="e#40#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
