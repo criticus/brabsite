@@ -177,15 +177,15 @@ EMAIL_HOST_PASSWORD=''
 # pip install django-storages
 # pip install boto
 
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #
-#AWS_ACCESS_KEY_ID = "AKIAIAMDCZFLG7JZFMHQ"
+AWS_ACCESS_KEY_ID = "AKIAIAMDCZFLG7JZFMHQ"
 #
-#AWS_SECRET_ACCESS_KEY = "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"
+AWS_SECRET_ACCESS_KEY = "tpdx/cJdoZSqgJ+R7JkP11aYvgPlI6CorDF7GiuE"
 #
-#AWS_STORAGE_BUCKET_NAME = "brabout"
+AWS_STORAGE_BUCKET_NAME = "brabout"
 #
-#AWS_S3_SECURE_URLS = True
+AWS_S3_SECURE_URLS = True
 #
 ## stops IK checking S3 all the time
 #IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
