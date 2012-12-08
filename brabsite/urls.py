@@ -3,9 +3,10 @@ from django.contrib import admin
 from django.views.generic import ListView, DetailView
 from brabs.models import Brab
 from brabs.views import BrabAddView, BrabDetailView, BrabListView
-from django.http import HttpRequest
+from django.conf import settings
 
 admin.autodiscover()
+
 
 urlpatterns = patterns('',
     url(r'^mybrabs/$', BrabListView.as_view(
@@ -31,3 +32,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.urls')),
 )
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += patterns('',
+        (r'^user_media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT}))

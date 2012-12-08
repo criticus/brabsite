@@ -1,2 +1,4 @@
 .idea/
 *.pyc
+brabsite/user_media/
+settings.py
