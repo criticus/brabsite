@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Brabs</h2>
-    {% for brab in brab_list %}
-        <h3><a href="{% url brab pk=brab.id %}">{{ brab.title }}</a></h3>
-        <p>{{ brab.description|truncatewords:60 }}</p>
-        <p>{{ brab.auth_user.name}}</p>
-
-        {% if brab.pictures_set %}
-             {% for picture in brab.pictures_set.all %}
-                  {% if picture.main and picture.visible%}
-                        <p><a href="{% url brab pk=brab.id %}"><img src="{{ picture.picture.url}}" alt="" width="150" height="150"></a>
-                   {% endif %}
+{{ brab_list.index }}
+{% for brab in brab_list %}
+{% if forloop.counter|divisibleby:4 %}
+<a class="portfolio_item float omega" href="{% url brab pk=brab.id %}">
+    {%  elif forloop.counter|add:"-1"|divisibleby:4%}
+    <a class="portfolio_item float alpha" href="{% url brab pk=brab.id %}">
+        {% else %}
+        <a class="portfolio_item float" href="{% url brab pk=brab.id %}">
+            {% endif %}
+            <span>{{ brab.title }} by {{ brab.auth_user }}</span>
+            {% if brab.pictures_set %}
+            {% for picture in brab.pictures_set.all %}
+            {% if picture.main and picture.visible%}
+            <img style="width=223px;height:150px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
+            {% endif %}
             {% endfor %}
-        {% endif %}
-
-        <p>{{ brab.created_at }}   </p>
-    {% endfor %}
+            {% else %}
+            <img class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
+            {% endif %}
+        </a>
+{% endfor %}
 {% endblock %}
