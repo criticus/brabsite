@@ -4,6 +4,7 @@ from brabs.models import Brab, Comments, Pictures
 
 class BrabForm(ModelForm):
 
+    tags = forms.CharField(max_length=100)
     auth_user = forms.IntegerField(required=False, widget=forms.HiddenInput())
     brab = forms.IntegerField(initial = 0,  required=False, widget=forms.HiddenInput())
     created_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())

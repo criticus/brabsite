@@ -9,18 +9,28 @@
 {% block content %}
     <p>{{ brab.description }}<p>
     <p>{{ brab.auth_user.name }}</p>
+    <small><b>Tags:
+    {% for tag_to_brab in brab.tag_to_brab_set.all %}
+        {{ tag_to_brab.tag }}
+    {% endfor %}
+    </b></small>
     <p>{{ brab.created_at }}</p>
     <hr>
 
     {% if brab.pictures_set %}
         <h2>Pictures:</h2>
         {% for picture in brab.pictures_set.all %}
-            {% if picture.visible%}
+            {% if picture.visible or brab.auth_user.id == user.id %}
                 <p><strong>{{ picture.title }}</strong></p>
                 <img src="{{ picture.picture.url}}" alt="" width="250" height="250">
                 <p><small>
                     {% if picture.main %}
-                        Main -&nbsp;
+                        Main -
+                    {% endif %}
+                    {% if picture.visible and brab.auth_user.id == user.id%}
+                        Visible -
+                    {% else %}
+                        Hidden -
                     {% endif %}
                     uploaded on {{ picture.created_at }}</small></p>
             {% endif %}

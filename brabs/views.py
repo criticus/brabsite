@@ -2,8 +2,9 @@ from django.http import Http404, HttpResponse
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm, PictureForm
-from brabs.models import Brab, Pictures, Comments
+from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab
 from brabs.models import LoggedInMixin
+import re
 from django.forms.models import modelformset_factory, inlineformset_factory
 
 def hello(request):
@@ -86,15 +87,39 @@ class BrabAddView(CreateView):
         #            Fill comments.auth_user_id with request.user.id
             form.instance.auth_user_id = request.user.id
             #            Fill comments.brab_id with pk of the current brab
+            tags = form.cleaned_data['tags']
+            tags = self.parse_tags(tags)
 
             brab = form.save(commit=False)
             brab.save()
+            tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
             return HttpResponseRedirect(brab.get_absolute_url())
 
         self.object = None
         context = self.get_context_data(object=self.object, form=form)
         return self.render_to_response(context)
 
+    def parse_tags(self, tags):
+        tags = tags.lower()
+        tags = re.split('; |, |,|;', tags)
+        return tags
+
+    def add_tag_records(self, tags, user_id, brab_id):
+        tag_count = 0
+        for tag_text in tags:
+            tag_count = tag_count + 1
+            existing_tags = Tag.objects.filter(tag__exact=tag_text)
+            if not existing_tags:
+                tag_object = Tag(auth_user_id = user_id, tag = tag_text, visible = True)
+                tag_object.save()
+                tag_link = Tag_to_brab(auth_user_id = user_id, brab_id = brab_id, tag_id = tag_object.pk)
+            else:
+                existing_tag = Tag.objects.get(tag__exact=tag_text)
+                tag_link = Tag_to_brab(auth_user_id = user_id, brab_id = brab_id, tag_id = existing_tag.pk)
+
+            tag_link.save()
+
+        return tag_count
 
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
