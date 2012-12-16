@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from django import http
-from django.views import generic
+
 
 class LoggedInMixin(object):
     """ A mixin requiring a user to be logged in. """
@@ -77,7 +77,7 @@ class Category_to_brab(models.Model):
         return self.id
 
 class Comments(models.Model):
-    auth_user = models.ForeignKey(User, blank=True, null=True, help_text="Author")
+    auth_user= models.ForeignKey(User, blank=True, null=True, help_text="Author")
     brab = models.ForeignKey(Brab, blank=True, null=True, help_text="Brab")
 
     comment = models.TextField (help_text= 'Comment text')
@@ -153,7 +153,7 @@ class Pictures(models.Model):
 
 
 class Tag(models.Model):
-    auth_user = models.ForeignKey(User, help_text="Creator")
+    auth_user= models.ForeignKey(User, blank=True, null=True, help_text="Author")
     tag = models.CharField(blank=True, max_length=250, help_text="Tag Name")
     visible = models.BooleanField(help_text="Visible")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Created")
@@ -173,7 +173,7 @@ class Tag(models.Model):
         return self.tag
 
 class Tag_to_brab(models.Model):
-    auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
+    auth_user= models.ForeignKey(User, null=True, blank=True, help_text="Creator")
     brab = models.ForeignKey(Brab, help_text="Brab")
     tag = models.ForeignKey(Tag, help_text= "Category")
 

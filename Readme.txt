@@ -20,3 +20,9 @@ How to update master:
 >git push origin master
 >git checkout branch_name
 >git rebase master
+
+----------------------------------------------------------------------------
+
+To hook up with Amazon S3 storages:
+pip install boto
+pip install django-storages
