@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/'}),
     url(r'^accounts/', include('registration.urls')),
 )
 

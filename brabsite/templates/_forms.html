@@ -16,6 +16,6 @@
             </div>
         </div>
     {% endfor %}
-    {% csrf_token %}
+
     <div style="display:none">{% for h in form.hidden_fields %} {{ h }}{% endfor %}</div>
 </fieldset>

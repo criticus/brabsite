@@ -2,7 +2,7 @@ from django.http import Http404, HttpResponse
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm, PictureForm
-from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab
+from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab
 from brabs.models import LoggedInMixin
 import re
 from django.forms.models import modelformset_factory, inlineformset_factory
@@ -89,10 +89,12 @@ class BrabAddView(CreateView):
             #            Fill comments.brab_id with pk of the current brab
             tags = form.cleaned_data['tags']
             tags = self.parse_tags(tags)
+            category = form.cleaned_data['category']
 
             brab = form.save(commit=False)
             brab.save()
             tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
+            category_count = self.add_category_records(category, request.user.id, brab.pk)
             return HttpResponseRedirect(brab.get_absolute_url())
 
         self.object = None
@@ -120,6 +122,16 @@ class BrabAddView(CreateView):
             tag_link.save()
 
         return tag_count
+
+    def add_category_records(self, categories, user_id, brab_id):
+        category_count = 0
+        for categ_id in categories:
+            category_count = category_count + 1
+            category_link = Category_to_brab(auth_user_id = user_id, brab_id = brab_id, category_id = categ_id)
+
+            category_link.save()
+
+        return category_count
 
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
