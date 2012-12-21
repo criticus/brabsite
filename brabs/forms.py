@@ -1,9 +1,11 @@
 from django import forms
 from django.forms import ModelForm
 from brabs.models import Brab, Comments, Pictures, Category
+from django.forms.models import modelformset_factory, inlineformset_factory
 
 class BrabForm(ModelForm):
 
+    title = forms.CharField(label='Brab Title', max_length=100)
     category = forms.MultipleChoiceField(required=True)
     tags = forms.CharField(max_length=100)
     auth_user = forms.IntegerField(required=False, widget=forms.HiddenInput())
@@ -42,20 +44,22 @@ class CommentForm(ModelForm):
 
 class PictureForm(ModelForm):
 
-    title = forms.CharField(label='Title')
-    picture = forms.ImageField(label='Select a file',
-        help_text='Max. 42MB!')
-    pic_height = forms.IntegerField( required=False, widget=forms.HiddenInput())
-    pic_width = forms.IntegerField( required=False, widget=forms.HiddenInput())
-    brab = forms.IntegerField( required=False, widget=forms.HiddenInput())
-    created_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())
-    updated_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())
-    deleted = forms.BooleanField( required=False, widget=forms.HiddenInput())
-    visible = forms.BooleanField( required=False, widget=forms.HiddenInput())
+        title = forms.CharField(label='Picture Title', max_length=100)
+        picture = forms.ImageField(label='Select a file',
+            help_text='Max. 42MB!')
+        pic_height = forms.IntegerField( required=False, widget=forms.HiddenInput())
+        pic_width = forms.IntegerField( required=False, widget=forms.HiddenInput())
+        brab = forms.IntegerField( required=False, widget=forms.HiddenInput())
+        created_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())
+        updated_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())
+        deleted = forms.BooleanField( required=False, widget=forms.HiddenInput())
+        visible = forms.BooleanField( required=False, widget=forms.HiddenInput())
 
-    class Meta:
-        model = Pictures
+        class Meta:
+            model = Pictures
 
+
+BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=1)
 
 
 
