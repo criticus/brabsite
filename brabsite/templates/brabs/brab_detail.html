@@ -1,72 +1,81 @@
 {% extends "base.html" %}
 
 {% block page_header %}
-    <div class="page-header">
+
+    <div >
         <h1>{{ brab.title }}</h1>
     </div>
 {% endblock %}
 
 {% block content %}
-    <p>{{ brab.description }}<p>
-    <p>{{ brab.auth_user.name }}</p>
-    <small><b>Tags:
-    {% for tag_to_brab in brab.tag_to_brab_set.all %}
-        {{ tag_to_brab.tag }}
-    {% endfor %}
-    </b></small>
-    <p>{{ brab.created_at }}</p>
-    <hr>
+    <!-- Column 1 / Project Information -->
+    <div class="grid_4">
+        <p>{{ brab.description }}</p>
+        <p>{{ brab.auth_user.name }}</p>
+        <p>{{ brab.created_at }}</p>
+        <p class="clearfix">
+            <a href="/" class="button float">&lt;&lt; Back to Brablist</a>
+        </p>
+        <small><b>Tags:
+            {% for tag_to_brab in brab.tag_to_brab_set.all %}
+                {{ tag_to_brab.tag }}
+            {% endfor %}
+        </b></small>
+        <h5>Comments:</h5>
 
-    {% if brab.pictures_set %}
-        <h2>Pictures:</h2>
-        {% for picture in brab.pictures_set.all %}
-            {% if picture.visible or brab.auth_user.id == user.id %}
-                <p><strong>{{ picture.title }}</strong></p>
-                <img src="{{ picture.picture.url}}" alt="" width="250" height="250">
-                <p><small>
-                    {% if picture.main %}
-                        Main -
-                    {% endif %}
-                    {% if picture.visible and brab.auth_user.id == user.id%}
-                        Visible -
-                    {% else %}
-                        Hidden -
-                    {% endif %}
-                    uploaded on {{ picture.created_at }}</small></p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    {% if brab.auth_user.id == user.id %}
-        <h2>Add a picture</h2>
-        <form action="." method="post" enctype="multipart/form-data">
-            {{ P_form.as_p }}
-            {% include "_forms.html" %}
-            <div class="actions">
-                <input name="P" type="submit" class="btn primary" value="upload">
-            </div>
-        </form>
-    {% else %}
-        <p>You may not add pictures since you are not the author of this brab.</p>
-    {% endif %}
-     <h2>Comments:</h2>
-
-     {% for comment in brab.comments_set.all %}
-         <p><strong>{{ comment.comment }}</strong></p>
-         <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
+        {% for comment in brab.comments_set.all %}
+            <p><strong>{{ comment.comment }}</strong></p>
+            <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
             {{ comment.text }}
-     {% endfor %}
+        {% endfor %}
 
-    {% if user.is_authenticated %}
-        <h2>Add a comment</h2>
-        <form action="." method="post">
-            {{ C_form.as_p }}
-            {% include "_forms.html" %}
-            <div class="actions">
-                <input name="C" type="submit" class="btn primary" value="comment">
-            </div>
-        </form>
-    {% else %}
-        <p>You may not add comments until you log in.</p>
-    {% endif %}
+        {% if user.is_authenticated %}
+            <h5>Add a comment</h5>
+            <form action="." method="post">
+                {{ C_form.as_p }}
+                {% include "_forms.html" %}
+                <div class="actions">
+                    <input name="C" type="submit" class="btn primary" value="comment">
+                </div>
+            </form>
+        {% else %}
+            <p>You may not add comments until you log in.</p>
+        {% endif %}
+
+
+
+
+    </div>
+
+    <!-- Column 2 / Image Carosuel -->
+    <div id="folio_scroller_container" class="grid_8 cleafix" style="width:500px;">
+        <ul id="folio_scroller">
+            {% if brab.pictures_set %}
+                {% for picture in brab.pictures_set.all %}
+                    {% if picture.visible%}
+                        <li><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
+
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+        </ul>
+
+        {% if brab.auth_user.id == user.id %}
+            <h5>Add a picture</h5>
+            <form action="." method="post" enctype="multipart/form-data">
+                {{ P_form.as_p }}
+                {% include "_forms.html" %}
+                <div class="actions">
+                    <input name="P" type="submit" class="btn primary" value="upload">
+                </div>
+            </form>
+        {% else %}
+            <p>You may not add pictures since you are not the author of this brab.</p>
+        {% endif %}
+    </div>
+
+
+
 {% endblock %}

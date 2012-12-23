@@ -37,7 +37,7 @@
                         &nbsp;<a class="btn btn-primary" href="/mybrabs">My Brablist</a></p>
                     {% endif %}
                 {% else %}
-                    <p>Please <a href="/accounts/login">Sign In</a></p>
+                    {% include "registration/login.html" %}
                 {% endif %}
 
             </div>

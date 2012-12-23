@@ -5,12 +5,40 @@
         <h1>Add a brab</h1>
     </div>
 {% endblock %}
-
 {% block content %}
-    <form action="." method="post">
-        {% include "_forms.html" %}
-        <div class="actions">
-            <input type="submit" class="btn primary" value="Brab!">
-        </div>
-    </form>
+
+<form action="." method="post" enctype="multipart/form-data">
+<fieldset class="module aligned ">
+    <table>
+    {% for field in brabform %}
+        {% if not field.is_hidden %}
+            <tr>
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+</fieldset>
+
+<fieldset class="module aligned ">
+    <h2>Picture</h2>
+    <table>
+        {% for field in brabformset.management_form %}
+            {{ field }}
+        {% endfor %}
+        {% for field in brabformset.forms.0 %}
+            {% if not field.is_hidden %}
+                <tr>
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</fieldset>
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Brag About It!">
+    </div>
+</form>
 {% endblock %}

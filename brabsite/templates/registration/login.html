@@ -1,26 +1,49 @@
-{% extends "registration/base.html" %}
-
-{% block title %}Log in{% endblock %}
-
 {% block content %}
-<br/>
-{% if form.errors %}
-    <div class="alert alert-error">
-        Please correct the errors below: {{ form.errors }}
+
+    {% if form.errors %}
+        <div class="alert alert-error">
+            Please correct the errors below: {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="/accounts/login/?next={{ next|default:"/" }}">
+
+        <input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
+
+        <input type="password" name="password" id="id_password" placeholder="Password" class="input-small"/>
+
+        <p style="margin-left:60px;">
+            <a href="#ForgotPsw" role="button" data-toggle="modal">Forgot Password?</a>&nbsp;
+            <a href="#signUp" role="button" data-toggle="modal">Sign Up</a>
+
+            <input type="submit" class="invisible" value="Sign in" class="btn btn-primary"/>
+        </p>
+    </form>
+
+    <!-- SignUp Modal -->
+    <div id="signUp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 style="text-align: left;" id="signUpLabel">Registration</h3>
+        </div>
+        <div class="modal-body">
+            {% include "registration/registration_form.html" %}
+        </div>
     </div>
-{% endif %}
 
-<form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
+    <!-- Forgot Password Modal -->
+    <div id="ForgotPsw" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ForgotPswLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 style="text-align: left;" id="ForgotPswLabel">Reset Password</h3>
+        </div>
+        <div class="modal-body" style="text-align: left;">
+            {% include "registration/password_reset_form.html" %}
+        </div>
+    </div>
 
-<input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
 
-<input type="password" name="password" id="id_password" placeholder="Password" class="input-small"/>
-<input type="submit" value="Sign in" class="btn btn-primary"/>
-</form>
 {% endblock %}
 
 {% block content-related %}
-<p>If you forgot your password <a href="/accounts/password/reset/">click here</a>
-<p>If you don't have an account, you can <a href="/accounts/register/">sign
-up</a> for one.
 {% endblock %}
