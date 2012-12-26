@@ -1,59 +1,72 @@
 {% extends "base.html" %}
 
-{% block page_header %}
-
-    <div >
-        <h1>{{ brab.title }}</h1>
-    </div>
-{% endblock %}
 
 {% block content %}
     <!-- Column 1 / Project Information -->
-    <div class="grid_4">
+    <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
+          <div >
+                <h1>{{ brab.title }}</h1>
+            </div>
+
         <p>{{ brab.description }}</p>
         <p>{{ brab.auth_user.name }}</p>
         <p>{{ brab.created_at }}</p>
-        <p class="clearfix">
-            <a href="/" class="button float">&lt;&lt; Back to Brablist</a>
-        </p>
+
         <small><b>Tags:
             {% for tag_to_brab in brab.tag_to_brab_set.all %}
                 {{ tag_to_brab.tag }}
             {% endfor %}
         </b></small>
-        <h5>Comments:</h5>
 
+
+
+
+    <ul style="margin-left: 0px;">
+    <li style="background-color: #EDEFF4; padding: 3px; ">
+        <strong style="font-size: 13px">{{ brab.comments_set.count }} comments: </strong>
+    </li>
         {% for comment in brab.comments_set.all %}
-            <p><strong>{{ comment.comment }}</strong></p>
-            <p>by: <strong>{{ comment.auth_user }}</strong> <small>on {{ comment.created_at }}</small></p>
-            {{ comment.text }}
+            <li style="background-color: #EDEFF4; padding: 3px; margin-top: 6px; margin-bottom: 6px;">
+            <span class="text-info" style="font-size: 12px;">{{ comment.auth_user }}</span>:
+                <span style="font-size: 12px;"> {{ comment.comment }} </span>  <br/>
+            <span class="muted" style="font-size: 11px;">{{ comment.created_at }}</span>
+
+            </li>
         {% endfor %}
 
         {% if user.is_authenticated %}
-            <h5>Add a comment</h5>
-            <form action="." method="post">
-                {{ C_form.as_p }}
-                {% include "_forms.html" %}
-                <div class="actions">
-                    <input name="C" type="submit" class="btn primary" value="comment">
-                </div>
-            </form>
+
+                <li  style="background-color: #EDEFF4;  padding: 3px; ">
+                    <form action="." method="post" style="margin: 0px;">
+                    <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" style="width: 180px; margin: 0px" name="C-comment" placeholder="write a comment..."></textarea>
+                    <input type="hidden" name="C-auth_user" id="id_C-auth_user" />
+                    <input type="hidden" name="C-brab" id="id_C-brab" />
+                    <input type="hidden" name="C-visible" id="id_C-visible" />
+                    <input type="hidden" name="C-deleted" id="id_C-deleted" />
+                    <input type="hidden" name="C-created_at" id="id_C-created_at" />
+                    <input type="hidden" name="C-updated_at" id="id_C-updated_at" />
+                    <input name="C" type="submit" class="btn btn-info" value="add" style="margin-top: 10px; margin-left: 2px;"/>
+                    </form>
+                   </li>
         {% else %}
-            <p>You may not add comments until you log in.</p>
+            <li  style="background-color: #EDEFF4;  padding: 3px; margin: 6px;"><p  class="text-warning">Log in to add a comment</p></li>
         {% endif %}
+    </ul>
 
-
-
+        <p class="clearfix">
+            <a href="/" class="button float">&lt;&lt; Back to Brablist</a>
+        </p>
 
     </div>
 
     <!-- Column 2 / Image Carosuel -->
-    <div id="folio_scroller_container" class="grid_8 cleafix" style="width:500px;">
-        <ul id="folio_scroller">
+    <div style="width: 600px; float: right">
+    <div id="folio_scroller_container" class="grid_8 cleafix" >
+        <ul id="folio_scroller" >
             {% if brab.pictures_set %}
                 {% for picture in brab.pictures_set.all %}
                     {% if picture.visible%}
-                        <li><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
+                        <li ><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
 
                     {% endif %}
                 {% endfor %}
@@ -61,21 +74,59 @@
 
 
         </ul>
+    </div>
 
-        {% if brab.auth_user.id == user.id %}
-            <h5>Add a picture</h5>
-            <form action="." method="post" enctype="multipart/form-data">
-                {{ P_form.as_p }}
-                {% include "_forms.html" %}
-                <div class="actions">
-                    <input name="P" type="submit" class="btn primary" value="upload">
-                </div>
-            </form>
-        {% else %}
-            <p>You may not add pictures since you are not the author of this brab.</p>
-        {% endif %}
+<div>
+
+    <div>
+
+
+
+        <form action="." method="post" enctype="multipart/form-data">
+            <input type="hidden" name="P-brab" id="id_P-brab" />
+            <input type="hidden" name="P-pic_height" id="id_P-pic_height" />
+            <input type="hidden" name="P-pic_width" id="id_P-pic_width" />
+            <input type="hidden" name="P-visible" id="id_P-visible" />
+            <input type="hidden" name="P-deleted" id="id_P-deleted" />
+            <input type="hidden" name="P-created_at" id="id_P-created_at" />
+            <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
+                <input id="id_P-title" type="hidden" name="P-title" maxlength="100" value="test" placeholder="Picture title"/>
+                <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
+            <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+            <span class="btn btn-file"><span class="fileupload-new">Add a picture</span>
+                <span class="fileupload-exists">Change</span>
+                <input type="file" name="P-picture" id="id_P-picture"/></span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+            <input name="P" type="submit" class="btn btn-info" value="upload">
+        </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+    </div>
     </div>
 
 
+
+{#        {% if brab.auth_user.id == user.id %}#}
+{#            <h5>Add a picture</h5>#}
+{#            <form action="." method="post" enctype="multipart/form-data">#}
+{#                {{ P_form.as_p }}#}
+{#                {% include "_forms.html" %}#}
+{#                <div class="actions">#}
+{#                    <input name="P" type="submit" class="btn primary" value="upload">#}
+{#                </div>#}
+{#            </form>#}
+{#        {% else %}#}
+{#            <p>You may not add pictures since you are not the author of this brab.</p>#}
+{#        {% endif %}#}
+    </div>
+
+</div>
 
 {% endblock %}

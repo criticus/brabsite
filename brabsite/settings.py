@@ -18,11 +18,11 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'brabout',                      # Or path to database file if using sqlite3.
-        'USER': 'Rosty',                      # Not used with sqlite3.
-        'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
+        'NAME': 'rbrabout',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -108,6 +108,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     )
+
 
 ROOT_URLCONF = 'brabsite.urls'
 
