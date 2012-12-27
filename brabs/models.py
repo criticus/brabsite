@@ -211,7 +211,7 @@ class Vote(models.Model):
         return reverse('vote', kwargs={"pk": self.id})
 
     def __unicode__(self):
-        return self.tag
+        return self.name
 
 class Vote_to_brab(models.Model):
     auth_user = models.ForeignKey(User, null=True, blank=True, help_text="Creator")
@@ -226,7 +226,7 @@ class Vote_to_brab(models.Model):
         if self.created_at == None:
             self.created_at = timezone.now()
         self.updated_at = timezone.now()
-        super(Tag_to_brab, self).save()
+        super(Vote_to_brab, self).save()
 
     def get_absolute_url(self):
         return reverse('vote_to_brab', kwargs={"pk": self.id})
