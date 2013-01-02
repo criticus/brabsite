@@ -14,6 +14,11 @@ urlpatterns = patterns('',
         context_object_name="brab_list"),
         name="my-brab-list-view"
     ),
+    url(r'^userbrabs/(?P<user_id>[a-zA-Z0-9-]+)/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="user-brab-list-view"
+    ),
     url(r'^$', ListView.as_view(
         queryset=Brab.objects.all(),
         paginate_by=25,

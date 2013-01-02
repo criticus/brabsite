@@ -1,4 +1,4 @@
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpRequest
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm, PictureForm, BrabFormSet, VotingForm
@@ -190,7 +190,11 @@ class BrabAddView(CreateView):
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 25
-    context_object_name = 'posts'
+    context_object_name = 'brabs'
 
     def get_queryset(self):
-        return Brab.objects.filter(auth_user_id=self.request.user.id)
+        user_id = self.kwargs.get('user_id', None)
+        if user_id:
+            return Brab.objects.filter(auth_user_id=user_id)
+        else:
+            return Brab.objects.filter(auth_user_id=self.request.user.id)
