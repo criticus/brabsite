@@ -69,18 +69,27 @@ class BrabDetailView(DetailView):
             voting_form = VotingForm(prefix="V")
             if picture_form.is_valid():
 
-                if not self.object.pictures_set.count():
+               if self.object.pictures_set.count():
+                   picture_title = picture_form.cleaned_data['title'].title()
+                   title_counter = 0
+                   while self.object.pictures_set.filter(title__exact=picture_title):
+                       title_counter = title_counter + 1
+                       picture_title = picture_title + ' '+ str(title_counter).zfill(3)
+                       picture_form.instance.title = picture_title
+
+               if not self.object.pictures_set.count():
                     picture_form.instance.main = 1
-                elif picture_form.instance.main:
+               elif picture_form.instance.main:
+
                     for picture in self.object.pictures_set.all():
                         picture.main = 0
                         picture.save()
 
-                #            Fill comments.brab_id with pk of the current brab
-                picture_form.instance.brab_id = self.object.pk
-                picture_form.instance.visible = 1
-                picture_form.save()
-                return HttpResponseRedirect(self.object.get_absolute_url())
+                #            Fill picture.brab_id with pk of the current brab
+               picture_form.instance.brab_id = self.object.pk
+               picture_form.instance.visible = 1
+               picture_form.save()
+               return HttpResponseRedirect(self.object.get_absolute_url())
 
         context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form)
         return self.render_to_response(context)
