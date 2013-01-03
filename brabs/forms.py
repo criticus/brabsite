@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from brabs.models import Brab, Comments, Pictures, Category
+from brabs.models import Brab, Comments, Pictures, Category, Vote
 from django.forms.models import modelformset_factory, inlineformset_factory
 
 class BrabForm(ModelForm):
@@ -58,6 +58,15 @@ class PictureForm(ModelForm):
         class Meta:
             model = Pictures
 
+class VotingForm(forms.Form):
+
+    vote_choice = forms.ChoiceField(label='So, how do YOU like it?', widget=forms.RadioSelect)
+
+    def __init__(self,*args,**kwargs):
+        super (VotingForm,self ).__init__(*args,**kwargs) # populates the form
+
+        self.fields['vote_choice'].choices =\
+        [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
 
 BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=1)
 
