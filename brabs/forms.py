@@ -45,7 +45,7 @@ class CommentForm(ModelForm):
 class PictureForm(ModelForm):
 
         title = forms.CharField(label='Picture Title', max_length=100)
-        picture = forms.ImageField(label='Select a file',
+        picture = forms.ImageField(required=True, label='Select a file',
             help_text='Max. 42MB!')
         pic_height = forms.IntegerField( required=False, widget=forms.HiddenInput())
         pic_width = forms.IntegerField( required=False, widget=forms.HiddenInput())

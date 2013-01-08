@@ -1,44 +1,58 @@
 {% extends "base.html" %}
 
-{% block page_header %}
-    <div class="page-header">
-        <h1>Add a brab</h1>
-    </div>
-{% endblock %}
 {% block content %}
 
-<form action="." method="post" enctype="multipart/form-data">
-<fieldset class="module aligned ">
-    <table>
+<form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
+<fieldset class="module aligned">
+    <table cellpadding="5" cellspacing="5">
     {% for field in brabform %}
-        {% if not field.is_hidden %}
-            <tr>
-                {{ field.errors }}
-                {{ field.label_tag }} {{ field }}
-            </tr>
-        {% endif %}
-    {% endfor %}
-    </table>
-</fieldset>
+         {% if not field.is_hidden %}
+                <tr>
+                <td>{{ field.label_tag }}{{ field.errors }}</td>
+                    <td>&nbsp;</td>
+                <td>{{ field }}</td>
+                </tr>
+         {% endif %}
+     {% endfor %}
 
-<fieldset class="module aligned ">
-    <h2>Picture</h2>
-    <table>
+</fieldset>
+    <tr>
         {% for field in brabformset.management_form %}
             {{ field }}
         {% endfor %}
-        {% for field in brabformset.forms.0 %}
-            {% if not field.is_hidden %}
-                <tr>
+    </tr>
+<fieldset class="module aligned ">
+    <tr>
+        <td>
+           Picture
+            {% for field in brabformset.forms.0 %}
+                 {% if not field.is_hidden %}
                     {{ field.errors }}
-                    {{ field.label_tag }} {{ field }}
-                </tr>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
+                    <input id="id_pictures_set-0-title" type="hidden" name="pictures_set-0-title" maxlength="100" value="Image" placeholder="Picture title"/>
+                    <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
+                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+                    <span class="btn btn-file"><span class="fileupload-new">Add a picture</span>
+                        <span class="fileupload-exists">Change</span>
+                        <input type="file" name="pictures_set-0-picture" id="id_pictures_set-0-picture"/></span>
+                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+
+
+            </div>
+        </td>
+    </tr>
+
     </table>
+
 </fieldset>
     <div class="actions">
-        <input type="submit" class="btn primary" value="Brag About It!">
+        <input type="submit" class="btn btn-info" value="Brag About It!">
     </div>
 </form>
 {% endblock %}
