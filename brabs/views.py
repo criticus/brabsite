@@ -197,4 +197,13 @@ class BrabListView(LoggedInMixin, ListView):
         if user_id:
             return Brab.objects.filter(auth_user_id=user_id)
         else:
-            return Brab.objects.filter(auth_user_id=self.request.user.id)
+            if self.request.GET:
+                search_for = self.request.GET["searchfor"]
+                if search_for:
+                    search_for = re.split('; |, |,|;| ', search_for)
+                    return Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
+#                    return Brab.objects.filter(tag_to_brab__tag__tag=search_for)
+                else:
+                    return Brab.objects.filter(auth_user_id=self.request.user.id)
+            else:
+                return Brab.objects.filter(auth_user_id=self.request.user.id)

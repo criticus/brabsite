@@ -75,7 +75,13 @@
     <div class="hr grid_12 clearfix">&nbsp;</div>
 
     <!-- Catch Line and Link -->
-    <span class="grid_12 clearfix"><input type="text" placeholder="Search"></span>
+
+        <span class="grid_12 clearfix">
+            <form action="http://127.0.0.1:8000/searchbrabs/" method="get" style="margin: 0px;">
+                <input type="text" name="searchfor" placeholder="Search">
+                <input name="S" type="submit" class="btn btn-info" value="search tags" style="margin-top: -10px; margin-left: 3px;"/>
+            </form>
+        </span>
 
     <div class="pr grid_12 clearfix">&nbsp;</div>
 
