@@ -248,4 +248,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* topbar */
 
-.topbar                                 {position: absolute; top: 20px; right: 150px; width: 310px; text-align: right;}
+.topbar                                 {position: absolute; top: 20px; right: 150px; width: 320px; text-align: right;}
+
+ul.errorlist                            {margin: 0; padding: 0; }
+.errorlist li                           {background-color: white; color: red; display: block; font-size: 10px; margin: 0 0 3px;}

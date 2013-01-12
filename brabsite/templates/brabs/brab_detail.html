@@ -97,9 +97,7 @@
         <div id="folio_scroller_container" class="grid_8 cleafix" >
             <ul id="folio_scroller" >
                 {% if brab.pictures_set %}
-		{%
-	       
-		for picture in brab.pictures_set.all %}
+		{% for picture in brab.pictures_set.all %}
                         {% if picture.visible%}
                             <li ><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
 
