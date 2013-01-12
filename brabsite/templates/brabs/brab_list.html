@@ -14,11 +14,11 @@
     {% if brab.pictures_set.all %}
         {% for picture in brab.pictures_set.all %}
             {% if picture.main and picture.visible%}
-                <img style="width=223px;height:150px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
             {% endif %}
         {% endfor %}
     {% else %}
-        <img  style="width=223px;height:150px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
+        <img  style="width=180px;height:145px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
     {% endif %}
     </a>
     {% endfor %}
