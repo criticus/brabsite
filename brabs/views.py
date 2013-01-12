@@ -189,12 +189,25 @@ class BrabAddView(CreateView):
 
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
-    paginate_by = 25
+    paginate_by = 12
     context_object_name = 'brabs'
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
-        if user_id:
-            return Brab.objects.filter(auth_user_id=user_id)
+        if self.request.path=="/envybrabs/":
+            q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
+            return q
         else:
-            return Brab.objects.filter(auth_user_id=self.request.user.id)
+            if user_id:
+                return Brab.objects.filter(auth_user_id=user_id)
+            else:
+                if self.request.GET:
+                    search_for = self.request.GET["searchfor"]
+                    if search_for:
+                        search_for = re.split('; |, |,|;| ', search_for)
+                        return Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
+    #                    return Brab.objects.filter(tag_to_brab__tag__tag=search_for)
+                    else:
+                        return Brab.objects.filter(auth_user_id=self.request.user.id)
+                else:
+                    return Brab.objects.filter(auth_user_id=self.request.user.id)

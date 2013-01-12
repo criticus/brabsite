@@ -9,6 +9,11 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^envybrabs/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="my-envy-brab-list-view"
+    ),
     url(r'^mybrabs/$', BrabListView.as_view(
         paginate_by=25,
         context_object_name="brab_list"),
@@ -18,6 +23,11 @@ urlpatterns = patterns('',
         paginate_by=25,
         context_object_name="brab_list"),
         name="user-brab-list-view"
+    ),
+    url(r'^searchbrabs/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="search-brab-list-view"
     ),
     url(r'^$', ListView.as_view(
         queryset=Brab.objects.all(),
