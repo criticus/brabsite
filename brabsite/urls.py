@@ -9,6 +9,11 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^envybrabs/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="my-envy-brab-list-view"
+    ),
     url(r'^mybrabs/$', BrabListView.as_view(
         paginate_by=25,
         context_object_name="brab_list"),

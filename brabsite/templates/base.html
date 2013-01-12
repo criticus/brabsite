@@ -57,12 +57,24 @@
                 {% if user.is_authenticated %}
                     <p>Hey, {{ user.username }}!&nbsp;<a href="/accounts/logout">Logout</a></p>
 
-                    <p><a class="btn btn-info" href="/addabrab">New Brab</a>
-                    {% if "mybrabs" in request.path %}
-                        &nbsp; <a class="btn btn-primary" href="/">Brablist</a></p>
-                    {% else %}
-                        &nbsp;<a class="btn btn-primary" href="/mybrabs">My Brablist</a></p>
-                    {% endif %}
+                    <p>
+                        {% if "addabrab" in request.path %}
+                            &nbsp; <a class="btn btn-primary" href="/">Brablist</a>
+                        {% else %}
+                            <a class="btn btn-info" href="/addabrab">New Brab</a>
+                        {% endif %}
+                        {% if "mybrabs" in request.path %}
+                            &nbsp; <a class="btn btn-primary" href="/">Brablist</a>
+                        {% else %}
+                            &nbsp;<a class="btn btn-primary" href="/mybrabs">My Brablist</a>
+                        {% endif %}
+                        {% if "envybrabs" in request.path %}
+                            &nbsp; <a class="btn btn-primary" href="/">Brablist</a>
+                        {% else %}
+                            &nbsp;<a class="btn btn-primary" href="/envybrabs">My Envylist</a>
+                        {% endif %}
+                    </p>
+
                 {% else %}
                     {% include "registration/login.html" %}
                 {% endif %}
@@ -78,8 +90,8 @@
 
         <span class="grid_12 clearfix">
             <form action="http://127.0.0.1:8000/searchbrabs/" method="get" style="margin: 0px;">
-                <input type="text" name="searchfor" placeholder="Search">
-                <input name="S" type="submit" class="btn btn-info" value="search tags" style="margin-top: -10px; margin-left: 3px;"/>
+                <input type="text" name="searchfor" placeholder="Search Tags">
+                <input name="S" type="submit" class="invisible" value="search tags" style="margin-top: -10px; margin-left: 3px;"/>
             </form>
         </span>
 
