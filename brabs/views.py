@@ -20,11 +20,13 @@ class BrabDetailView(DetailView):
         picture_form = PictureForm(prefix="P")
 #        Find if this user have voted already
         existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
-        if not existing_vote:
-            voting_form = VotingForm(prefix="V")
-            context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form)
+        if existing_vote:
+            voting_form = VotingForm(prefix="V", initial={'vote_choice':existing_vote._result_cache[0].vote_id})
         else:
-            context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form)
+            voting_form = VotingForm(prefix="V")
+
+        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form, existing_vote= existing_vote)
+
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
@@ -37,17 +39,39 @@ class BrabDetailView(DetailView):
 
             if voting_form.is_valid():
                 chosen_vote_id = int(voting_form.cleaned_data['vote_choice'])
-                vote_link = Vote_to_brab(auth_user_id = request.user.id, brab_id = self.object.pk, vote_id = chosen_vote_id)
-                vote_link.save()
+                existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
+                if not existing_vote:
+                    vote_link = Vote_to_brab(auth_user_id = request.user.id, brab_id = self.object.pk, vote_id = chosen_vote_id)
+                    vote_link.save()
+                    existing_vote_total = Vote_totals.objects.filter(brab_id=self.object.pk, vote_id=chosen_vote_id)
+                    if not existing_vote_total:
+                        vote_total = Vote_totals(brab_id = self.object.pk, vote_id = chosen_vote_id, total = 1)
+                    else:
+                        vote_total = Vote_totals.objects.get(brab_id=self.object.pk, vote_id=chosen_vote_id)
+                        vote_total.total = vote_total.total + 1
 
-                existing_vote_total = Vote_totals.objects.filter(brab_id=self.object.pk, vote_id=chosen_vote_id)
-                if not existing_vote_total:
-                    vote_total = Vote_totals(brab_id = self.object.pk, vote_id = chosen_vote_id, total = 1)
+                    vote_total.save()
                 else:
-                    vote_total = Vote_totals.objects.get(brab_id=self.object.pk, vote_id=chosen_vote_id)
-                    vote_total.total = vote_total.total + 1
+                    existing_vote = Vote_to_brab.objects.get(auth_user_id = request.user.id, brab_id=self.object.pk, )
+                    old_vote_id = existing_vote.vote_id
+                    existing_vote.vote_id = chosen_vote_id
+                    existing_vote.save()
 
-                vote_total.save()
+                    existing_old_vote_total = Vote_totals.objects.filter(brab_id=self.object.pk, vote_id=old_vote_id, )
+                    existing_new_vote_total = Vote_totals.objects.filter(brab_id=self.object.pk, vote_id=chosen_vote_id, )
+                    if existing_old_vote_total:
+                        vote_total = Vote_totals.objects.get(brab_id=self.object.pk, vote_id=old_vote_id)
+                        vote_total.total = vote_total.total - 1
+                        vote_total.save()
+
+                    if existing_new_vote_total:
+                        vote_total = Vote_totals.objects.get(brab_id=self.object.pk, vote_id=chosen_vote_id)
+                        vote_total.total = vote_total.total + 1
+                    else:
+                        vote_total = Vote_totals(brab_id = self.object.pk, vote_id = chosen_vote_id, total = 1)
+
+                    vote_total.save()
+
 
                 return HttpResponseRedirect(self.object.get_absolute_url())
 
@@ -139,6 +163,10 @@ class BrabAddView(CreateView):
                 picture[0].save()
                 tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
                 category_count = self.add_category_records(category, request.user.id, brab.pk)
+                #            add vote totals - one per each vote choice...
+                for x in Vote.objects.filter(visible=1):
+                    vote_total = Vote_totals(brab_id = brab.pk, vote_id = x.id, total = 0)
+                    vote_total.save()
                 return HttpResponseRedirect(brab.get_absolute_url())
         else:
 

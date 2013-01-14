@@ -75,15 +75,18 @@
 
             {% if V_form %}
                 {% if user.is_authenticated %}
-                    {% if not brab.auth_user.id == user.id %}
-                        <li style="background-color: #EDEFF4; padding: 3px; ">
-                            <form action="." method="post" style="margin: 0px;">
-                                {{ V_form.as_p }}
-                                {% include "_forms.html" %}
-                                <input name="V" type="submit" class="btn btn-info" value="vote!" style="margin-top: 10px; margin-left: 2px;"/>
-                            </form>
-                        </li>
+                    {% if not existing_vote %}
+                        <small><b>Vote now!
+                    {% else %}
+                        <small><b>Change your vote:
                     {% endif %}
+                    <li style="background-color: #EDEFF4; padding: 3px; ">
+                        <form action="." method="post" style="margin: 0px;">
+                            {{ V_form.as_p }}
+                            {% include "_forms.html" %}
+                            <input name="V" type="submit" class="btn btn-info" value="vote!" style="margin-top: 10px; margin-left: 2px;"/>
+                        </form>
+                    </li>
                 {% else %}
                     <li style="background-color: #EDEFF4; padding: 3px; margin: 6px;"><p class="text-warning">Log in to be able to vote</p></li>
                 {% endif %}
