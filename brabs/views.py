@@ -215,6 +215,122 @@ class BrabAddView(CreateView):
 
         return category_count
 
+class BrabEditView(CreateView):
+    methods = ['get', 'post']
+    context_object_name="brab"
+    template_name = "brabs/brab_add.html"
+    #    Note absence of parenthesis around the form_class and model names below!
+    form_class = BrabForm
+    model = Brab
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
+        categories = []
+        if selected_categories:
+            for category_instance in selected_categories:
+               categories.append(category_instance.category_id)
+
+        selected_tags = Tag_to_brab.objects.filter(brab_id = self.object.pk)
+        tags = ''
+        tag_count = 0
+        if selected_tags:
+            for tag_instance in selected_tags:
+                if tag_count:
+                    tags = tags + ', '
+                tags = tags + tag_instance.tag.tag
+
+        brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags})
+        brabformset = BrabFormSet(instance=self.object)
+        context = self.get_context_data(object=self.object, brabform=brabform, brabformset=brabformset)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+
+        brabform = BrabForm(data=request.POST)
+
+        if brabform.is_valid():
+        #            Fill comments.auth_user_id with request.user.id
+            brabform.instance.auth_user_id = request.user.id
+            #            Fill comments.brab_id with pk of the current brab
+            tags = brabform.cleaned_data['tags']
+            tags = self.parse_tags(tags)
+            category = brabform.cleaned_data['category']
+
+            brab = brabform.save(commit=False)
+            brabformset = BrabFormSet(request.POST, request.FILES, instance=brab)
+            if brabformset.is_valid():
+                brab.save()
+                picture = brabformset.save(commit=False)
+                picture[0].visible = 1
+                picture[0].main = 1
+                picture[0].save()
+                tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
+                category_count = self.add_category_records(category, request.user.id, brab.pk)
+                #            add vote totals - one per each vote choice...
+                for x in Vote.objects.filter(visible=1):
+                    vote_total = Vote_totals(brab_id = brab.pk, vote_id = x.id, total = 0)
+                    vote_total.save()
+                return HttpResponseRedirect(brab.get_absolute_url())
+        else:
+
+            brabformset = BrabFormSet(request.POST, request.FILES)
+
+        self.object = None
+        context = self.get_context_data(object=self.object, brabform=brabform, brabformset=brabformset)
+        return self.render_to_response(context)
+
+
+    def get_object(self):
+        # Call the superclass
+        object = super(BrabEditView, self).get_object()
+        # If necessary, modify the Brab object properties
+        # then save it with object.save()
+        # Return the object
+        return object
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(BrabEditView, self).get_context_data(**kwargs)
+        # Add in some context dictionary value
+        # context['book_list'] = Book.objects.all()
+        return context
+
+    def parse_tags(self, tags):
+        tags = tags.lower()
+        tags = re.split('; |, |,|;', tags)
+        return tags
+
+    def add_tag_records(self, tags, user_id, brab_id):
+        tag_count = 0
+        for tag_text in tags:
+            tag_count = tag_count + 1
+            existing_tags = Tag.objects.filter(tag__exact=tag_text)
+            if not existing_tags:
+                tag_object = Tag(auth_user_id = user_id, tag = tag_text, visible = True)
+                tag_object.save()
+                if not Tag_to_brab.objects.filter(auth_user_id = user_id, brab_id = brab_id, tag_id = tag_object.pk):
+                    tag_link = Tag_to_brab(auth_user_id = user_id, brab_id = brab_id, tag_id = tag_object.pk)
+                    tag_link.save()
+            else:
+                existing_tag = Tag.objects.get(tag__exact=tag_text)
+                tag_link = Tag_to_brab(auth_user_id = user_id, brab_id = brab_id, tag_id = existing_tag.pk)
+                tag_link.save()
+
+        return tag_count
+
+    def add_category_records(self, categories, user_id, brab_id):
+        category_count = 0
+        for categ_id in categories:
+            category_count = category_count + 1
+            if not Category_to_brab.objects.filter(auth_user_id = user_id, brab_id = brab_id, category_id = categ_id):
+                category_link = Category_to_brab(auth_user_id = user_id, brab_id = brab_id, category_id = categ_id)
+                category_link.save()
+
+        return category_count
+
+
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 12

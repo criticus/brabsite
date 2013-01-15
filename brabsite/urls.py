@@ -2,7 +2,7 @@ from django.conf.urls import *
 from django.contrib import admin
 from django.views.generic import ListView, DetailView
 from brabs.models import Brab
-from brabs.views import BrabAddView, BrabDetailView, BrabListView
+from brabs.views import BrabAddView, BrabDetailView, BrabListView, BrabEditView
 from django.conf import settings
 
 admin.autodiscover()
@@ -42,6 +42,11 @@ urlpatterns = patterns('',
         queryset=Brab.objects.all(),
         context_object_name="brab"),
         name="brab"
+    ),
+    url(r'^editbrab/(?P<pk>[a-zA-Z0-9-]+)/$', BrabEditView.as_view(
+        queryset=Brab.objects.all(),
+        context_object_name="brab"),
+        name="editbrab"
     ),
 
     url(r'^admin/', include(admin.site.urls)),
