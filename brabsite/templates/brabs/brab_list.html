@@ -13,7 +13,7 @@
     <span>{{ brab.title }} by {{ brab.auth_user }}</span>
     {% if brab.pictures_set.all %}
         {% for picture in brab.pictures_set.all %}
-            {% if picture.main and picture.visible%}
+            {% if picture.main and picture.visible and not picture.deleted%}
                 <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
             {% endif %}
         {% endfor %}

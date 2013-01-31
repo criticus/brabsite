@@ -70,7 +70,7 @@ class VotingForm(forms.Form):
 
         a=True
 
-BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=1)
+BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=0)
 
 
 

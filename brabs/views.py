@@ -5,7 +5,7 @@ from brabs.forms import BrabForm, CommentForm, PictureForm, BrabFormSet, VotingF
 from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, Vote, Vote_to_brab, Vote_totals
 from brabs.models import LoggedInMixin
 from django.shortcuts import render_to_response
-import re
+import re, string
 
 
 def hello(request):
@@ -218,14 +218,15 @@ class BrabAddView(CreateView):
 class BrabEditView(CreateView):
     methods = ['get', 'post']
     context_object_name="brab"
-    template_name = "brabs/brab_add.html"
+    template_name = "brabs/brab_edit.html"
     #    Note absence of parenthesis around the form_class and model names below!
     form_class = BrabForm
     model = Brab
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-
+#        Find what categories and tags is currently edited brab marked with so that
+#        appropriate fields would appear pre-filled in the template
         selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
         categories = []
         if selected_categories:
@@ -241,38 +242,81 @@ class BrabEditView(CreateView):
                     tags = tags + ', '
                 tags = tags + tag_instance.tag.tag
 
-        brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags})
-        brabformset = BrabFormSet(instance=self.object)
-        context = self.get_context_data(object=self.object, brabform=brabform, brabformset=brabformset)
+        brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags}, prefix="B")
+        picture_form = PictureForm(prefix="P")
+
+#        The section below did not work out (actually it did exactly what intended, but
+#        then there were a bunch of difficulties in displaying pre-filled formset in template, etc.)
+#        brabformset = BrabFormSet(instance=self.object)
+##        Fill inline brabformset picture forms with data about attached pictures
+#        picture_set = self.object.pictures_set.all()
+##        The statement above fires the query
+#        test_stru = zip(brabformset.forms, picture_set)
+#        for subform, data in test_stru:
+#            subform.initial = data
+
+        context = self.get_context_data(object=self.object, brabform=brabform, P_form=picture_form)
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-
-        brabform = BrabForm(data=request.POST)
+        self.object = self.get_object()
+        brabform = BrabForm(data=request.POST, instance=self.object, prefix="B")
 
         if brabform.is_valid():
-        #            Fill comments.auth_user_id with request.user.id
+
             brabform.instance.auth_user_id = request.user.id
-            #            Fill comments.brab_id with pk of the current brab
+
             tags = brabform.cleaned_data['tags']
             tags = self.parse_tags(tags)
             category = brabform.cleaned_data['category']
 
             brab = brabform.save(commit=False)
-            brabformset = BrabFormSet(request.POST, request.FILES, instance=brab)
-            if brabformset.is_valid():
-                brab.save()
-                picture = brabformset.save(commit=False)
-                picture[0].visible = 1
-                picture[0].main = 1
-                picture[0].save()
-                tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
-                category_count = self.add_category_records(category, request.user.id, brab.pk)
-                #            add vote totals - one per each vote choice...
-                for x in Vote.objects.filter(visible=1):
-                    vote_total = Vote_totals(brab_id = brab.pk, vote_id = x.id, total = 0)
-                    vote_total.save()
-                return HttpResponseRedirect(brab.get_absolute_url())
+
+            brab.save()
+            tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
+            category_count = self.add_category_records(category, request.user.id, brab.pk)
+            for key in request.POST:
+                if key.startswith('delete_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(deleted = 1)
+                if key.startswith('makemain_') and request.POST[key] == 'on':
+
+                    if self.object.pictures_set.count():
+                        for picture in self.object.pictures_set.all():
+                            picture.main = 0
+                            picture.save()
+
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(main = 1)
+                if key.startswith('hide_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(visible = 0)
+                if key.startswith('show_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(visible = 1)
+            picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
+            if picture_form.is_valid():
+                if self.object.pictures_set.count():
+                    picture_title = picture_form.cleaned_data['title'].title()
+                    title_counter = 0
+                    while self.object.pictures_set.filter(title__exact=picture_title):
+                        title_counter = title_counter + 1
+                        picture_title = picture_title + ' '+ str(title_counter).zfill(3)
+                        picture_form.instance.title = picture_title
+
+                if not self.object.pictures_set.count():
+                    picture_form.instance.main = 1
+                elif picture_form.instance.main:
+
+                    for picture in self.object.pictures_set.all():
+                        picture.main = 0
+                        picture.save()
+
+                        #            Fill picture.brab_id with pk of the current brab
+                picture_form.instance.brab_id = self.object.pk
+                picture_form.instance.visible = 1
+                picture_form.save()
+            return HttpResponseRedirect(brab.get_absolute_url())
         else:
 
             brabformset = BrabFormSet(request.POST, request.FILES)
@@ -303,6 +347,9 @@ class BrabEditView(CreateView):
         return tags
 
     def add_tag_records(self, tags, user_id, brab_id):
+    #        Delete existing tag links
+        Tag_to_brab.objects.filter(brab_id = brab_id).delete()
+    #        Re-create tag links based on the updated information in the POST
         tag_count = 0
         for tag_text in tags:
             tag_count = tag_count + 1
@@ -310,7 +357,7 @@ class BrabEditView(CreateView):
             if not existing_tags:
                 tag_object = Tag(auth_user_id = user_id, tag = tag_text, visible = True)
                 tag_object.save()
-                if not Tag_to_brab.objects.filter(auth_user_id = user_id, brab_id = brab_id, tag_id = tag_object.pk):
+                if not Tag_to_brab.objects.filter(brab_id = brab_id, tag_id = tag_object.pk):
                     tag_link = Tag_to_brab(auth_user_id = user_id, brab_id = brab_id, tag_id = tag_object.pk)
                     tag_link.save()
             else:
@@ -321,10 +368,13 @@ class BrabEditView(CreateView):
         return tag_count
 
     def add_category_records(self, categories, user_id, brab_id):
+    #        Delete existing category links
+        Category_to_brab.objects.filter(brab_id = brab_id).delete()
+    #        Re-create category links based on the updated information in the POST
         category_count = 0
         for categ_id in categories:
             category_count = category_count + 1
-            if not Category_to_brab.objects.filter(auth_user_id = user_id, brab_id = brab_id, category_id = categ_id):
+            if not Category_to_brab.objects.filter(brab_id = brab_id, category_id = categ_id):
                 category_link = Category_to_brab(auth_user_id = user_id, brab_id = brab_id, category_id = categ_id)
                 category_link.save()
 

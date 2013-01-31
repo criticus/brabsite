@@ -32,6 +32,8 @@
         {% endfor %}
     </small></p>
 
+        <a class="btn btn-info" href="{% url editbrab pk=brab.id %}">Edit...</a>
+
         <ul style="margin-left: 0px;">
             <li style="background-color: #EDEFF4; padding: 3px; ">
                 <strong style="font-size: 13px">{{ brab.comments_set.count }} comments: </strong>
@@ -56,7 +58,7 @@
                         <input type="hidden" name="C-deleted" id="id_C-deleted" />
                         <input type="hidden" name="C-created_at" id="id_C-created_at" />
                         <input type="hidden" name="C-updated_at" id="id_C-updated_at" />
-                        <input name="C" type="submit" class="btn btn-info" value="add" style="margin-top: 10px; margin-left: 2px;"/>
+                        <input name="C" type="submit" class="btn btn-info" value="Add" style="margin-top: 10px; margin-left: 2px;"/>
                     </form>
                 </li>
             {% else %}
@@ -78,13 +80,13 @@
                     {% if not existing_vote %}
                         <small><b>Vote now!
                     {% else %}
-                        <small><b>Change your vote:
+                        <small><b>Change your Vote:
                     {% endif %}
                     <li style="background-color: #EDEFF4; padding: 3px; ">
                         <form action="." method="post" style="margin: 0px;">
                             {{ V_form.as_p }}
                             {% include "_forms.html" %}
-                            <input name="V" type="submit" class="btn btn-info" value="vote!" style="margin-top: 10px; margin-left: 2px;"/>
+                            <input name="V" type="submit" class="btn btn-info" value="Vote!" style="margin-top: 10px; margin-left: 2px;"/>
                         </form>
                     </li>
                 {% else %}
@@ -101,7 +103,7 @@
             <ul id="folio_scroller" >
                 {% if brab.pictures_set %}
 		{% for picture in brab.pictures_set.all %}
-                        {% if picture.visible%}
+                        {% if picture.visible and not picture.deleted%}
                             <li ><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
 
                         {% endif %}
@@ -131,11 +133,11 @@
                                 <input id="id_P-title" type="hidden" name="P-title" maxlength="100" value="Image" placeholder="Picture title"/>
                                 <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
                             <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
-                            <span class="btn btn-file"><span class="fileupload-new">Add a picture</span>
+                            <span class="btn btn-file"><span class="fileupload-new">Add a Picture</span>
                             <span class="fileupload-exists">Change</span>
                             <input type="file" name="P-picture" id="id_P-picture"/></span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                            <input name="P" type="submit" class="btn btn-info" value="upload">
+                            <input name="P" type="submit" class="btn btn-info" value="Upload">
                         </div>
                     </form>
 
