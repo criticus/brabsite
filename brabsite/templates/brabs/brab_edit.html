@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
+
+<fieldset class="module aligned">
+    <table cellpadding="5" cellspacing="5">
+    {% for field in brabform %}
+         {% if not field.is_hidden %}
+                <tr>
+                <td>{{ field.label_tag }}{{ field.errors }}</td>
+                    <td>&nbsp;</td>
+                <td>{{ field }}</td>
+                </tr>
+        {% endif %}
+     {% endfor %}
+
+</fieldset>
+    <tr>
+        <td>Picture</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    {%  if brab.pictures_set %}
+        {% for picture in brab.pictures_set.all %}
+            {% if not picture.deleted%}
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <a href="#"><img alt="" src="{{ picture.picture.url}}" width="230"/></a>
+                    </td>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        {% if picture.main %}
+                            Main
+                            &nbsp;
+                        {% endif %}
+
+                        {% if picture.visible %}
+                            Visible
+                        {% else %}
+                            Hidden
+                        {% endif %}
+                            &nbsp; &nbsp;
+                        {% if picture.visible and not picture.main %}
+                            <input type="checkbox" name="makemain_{{ picture.pk }}" /> Main &nbsp;
+                        {% endif %}
+                        {% if picture.visible %}
+                            <input type="checkbox" name="hide_{{ picture.pk }}"/> Hide
+                        {% else %}
+                            <input type="checkbox" name="show_{{ picture.pk }}"/> Show
+                        {% endif %}
+                            &nbsp;
+                        <input type="checkbox" name="delete_{{ picture.pk }}" /> Delete &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <tr>
+        <td>
+
+                {% for field in picture_form %}
+                    {% if not field.is_hidden %}
+                        {{ field.errors }}
+                    {% endif %}
+                {% endfor %}
+        </td>
+        <td>&nbsp;</td>
+        <td>
+
+            {% if  user.is_authenticated and brab.auth_user.id == user.id %}
+                <input type="hidden" name="P-brab" id="id_P-brab" />
+                <input type="hidden" name="P-pic_height" id="id_P-pic_height" />
+                <input type="hidden" name="P-pic_width" id="id_P-pic_width" />
+                <input type="hidden" name="P-visible" id="id_P-visible" />
+                <input type="hidden" name="P-deleted" id="id_P-deleted" />
+                <input type="hidden" name="P-created_at" id="id_P-created_at" />
+                <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
+                <div class="fileupload fileupload-new" data-provides="fileupload">
+                    <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
+                        <input id="id_P-title" type="hidden" name="P-title" maxlength="100" value="Image" placeholder="Picture title"/>
+                        <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
+                    <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
+                            <span class="btn btn-file"><span class="fileupload-new">Add a Picture</span>
+                            <span class="fileupload-exists">Change</span>
+                            <input type="file" name="P-picture" id="id_P-picture"/></span>
+                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                    {#                        <input name="P" type="submit" class="btn btn-info" value="upload">#}
+                </div>
+
+
+            {% endif %}
+        </td>
+    </tr>
+    </table>
+
+</fieldset>
+
+    <div class="actions">
+        <input type="submit" class="btn btn-info" value="Save Changes...">
+    </div>
+</form>
+
+
+
+{% endblock %}
