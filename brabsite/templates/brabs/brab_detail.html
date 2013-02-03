@@ -7,12 +7,12 @@
     <!-- Column 1 / Project Information -->
     <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
         <div >
-            <h1>{{ brab.title }}</h1>
+            <h3 class="brab-title">{{ brab.title }}</h3>
         </div>
 
-        <p>{{ brab.description }}</p>
+        <p class="brab-descr">{{ brab.description }}</p>
         <p>{{ brab.auth_user.name }}</p>
-        <p>{{ brab.created_at }}</p>
+        <p class="brab-time">{{ brab.created_at }}</p>
 
         <p><small><b>Categories:</b>
             {% for category_to_brab in brab.category_to_brab_set.all %}
