@@ -68,9 +68,8 @@ class VotingForm(forms.Form):
         self.fields['vote_choice'].choices =\
         [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
 
-        a=True
-
-BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=0)
+BrabFormSet = inlineformset_factory(Brab, Pictures, form=PictureForm, extra=1)
+# extra=1 argument will create a first (empty) picture form indexed as 0
 
 
 

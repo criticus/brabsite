@@ -48,15 +48,15 @@
                         {% endif %}
                             &nbsp; &nbsp;
                         {% if picture.visible and not picture.main %}
-                            <input type="checkbox" name="makemain_{{ picture.pk }}" /> Main &nbsp;
+                            <input type="checkbox" name="makemain_{{ picture.pk }}"/> Main &nbsp;
                         {% endif %}
-                        {% if picture.visible %}
+                        {% if picture.visible and not picture.main %}
                             <input type="checkbox" name="hide_{{ picture.pk }}"/> Hide
                         {% else %}
                             <input type="checkbox" name="show_{{ picture.pk }}"/> Show
                         {% endif %}
                             &nbsp;
-                        <input type="checkbox" name="delete_{{ picture.pk }}" /> Delete &nbsp;
+                        <input type="checkbox" name="delete_{{ picture.pk }}"/> Delete &nbsp;
                     </td>
                 </tr>
                 <tr>

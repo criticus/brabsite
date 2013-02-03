@@ -225,6 +225,9 @@ class BrabEditView(CreateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if not self.object.auth_user_id  == request.user.id:
+            return HttpResponse('<h1>You are not author of this brab</h1><br>...therefore you may not edit it!')
+
 #        Find what categories and tags is currently edited brab marked with so that
 #        appropriate fields would appear pre-filled in the template
         selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
