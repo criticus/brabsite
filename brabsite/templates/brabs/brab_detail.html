@@ -87,16 +87,18 @@
                         <small><b>Change your Vote:
                     {% endif %}
 
-                        <form action="." method="post" style="margin: 0px;">
+                        <form action="." method="post" style="margin: 0px;" name="V_form">
                             <div class="btn-group" data-toggle="buttons-radio">
-                                {% for radio in V_form.vote_choice %}
-                                    <span class="votes">
-                                        {{ radio }}
-                                    </span>
+                                {% for vote in vote_choices %}
+                                    {% if vote.0 == current_vote %}
+                                        <button onclick="console.log(this);" type="button" name="V-vote_choice" class="btn btn-info active" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                    {% else %}
+                                        <button onclick="this.form.submit();" type="button" name="V-vote_choice" class="btn btn-info" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                    {% endif %}
                                 {%  endfor %}
 
                             </div>
-                        <input name="V" type="submit" class="btn btn-info" value="Vote!" style="margin-top: 10px; margin-left: 2px;"/>
+                        <input name="V" type="hidden" value="1"/>
                     </form>
 
                 {% else %}
