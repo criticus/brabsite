@@ -16,7 +16,7 @@
 
         <p><small><b>Categories:</b>
             {% for category_to_brab in brab.category_to_brab_set.all %}
-                {{ category_to_brab.category }}
+                {{category_to_brab.category}}
                 {% if not forloop.last %}
                     ;
                 {% endif %}
