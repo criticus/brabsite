@@ -16,16 +16,27 @@ class BrabDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+#        x = self.object.tag_to_brab_set.all()
+#        bunch_of_tags = []
+#        for tag in x:
+#            bunch_of_tags.append(tag.tag.tag)
+
         comment_form = CommentForm(prefix="C")
         picture_form = PictureForm(prefix="P")
 #        Find if this user have voted already
+
+        vote_choices =\
+        [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
+
         existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
         if existing_vote:
             voting_form = VotingForm(prefix="V", initial={'vote_choice':existing_vote._result_cache[0].vote_id})
+            current_vote = existing_vote._result_cache[0].vote_id
         else:
             voting_form = VotingForm(prefix="V")
+            current_vote = 0
 
-        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form, existing_vote= existing_vote)
+        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form, vote_choices = vote_choices,  current_vote =  current_vote)
 
         return self.render_to_response(context)
 
@@ -226,7 +237,8 @@ class BrabEditView(CreateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if not self.object.auth_user_id  == request.user.id:
-            return HttpResponse('<h1>You are not author of this brab</h1><br>...therefore you may not edit it!')
+            return HttpResponse('<div align="center"><h1>You are not the author of this brab</h1><br>...therefore you may not edit it!</div>')
+
 
 #        Find what categories and tags is currently edited brab marked with so that
 #        appropriate fields would appear pre-filled in the template
