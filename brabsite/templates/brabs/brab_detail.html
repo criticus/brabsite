@@ -7,36 +7,40 @@
     <!-- Column 1 / Project Information -->
     <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
         <div >
-            <h3 class="brab-title">{{ brab.title }}</h3>
+            <h3 class="brab-title">{{ brab.title }}
+                <a class="btn btn-small" href="{% url editbrab pk=brab.id %}"><i class="icon-pencil"></i> Edit</a>
+            </h3>
         </div>
 
         <p class="brab-descr">{{ brab.description }}</p>
         <p>{{ brab.auth_user.name }}</p>
         <p class="brab-time">{{ brab.created_at }}</p>
 
-        <p><small><b>Categories:</b>
+
+        <p class="brab-cat"{% if brab.category_to_brab_set.count %}><b>Categories:</b>{% endif %}
             {% for category_to_brab in brab.category_to_brab_set.all %}
-                {{category_to_brab.category}}
-                {% if not forloop.last %}
-                    ;
-                {% endif %}
+
+                <span class="brab-cat-elem">{{ category_to_brab.category}}</span>{% if not forloop.last %}&nbsp;{% endif %}
+
             {% endfor %}
-        </small></p>
+        </p>
 
-        <p<small><b>Tags:</b>
+
+        <p class="brab-tag">
         {% for tag_to_brab in brab.tag_to_brab_set.all %}
-            {{ tag_to_brab.tag }}
-            {% if not forloop.last %}
-                ;
-            {% endif %}
+            #{{ tag_to_brab.tag }}{% if not forloop.last %}&nbsp;{% endif %}
         {% endfor %}
-    </small></p>
+    </p>
 
-        <a class="btn btn-info" href="{% url editbrab pk=brab.id %}">Edit...</a>
+
 
         <ul style="margin-left: 0px;">
             <li style="background-color: #EDEFF4; padding: 3px; ">
-                <strong style="font-size: 13px">{{ brab.comments_set.count }} comments: </strong>
+                {% if brab.comments_set.count %}
+                    <strong style="font-size: 13px">{{ brab.comments_set.count }} comment(s): </strong>
+                {% else %}
+                    <strong style="font-size: 13px">No comments yet. Care to be the first? </strong>
+                {% endif %}
             </li>
             {% for comment in brab.comments_set.all %}
                 <li style="background-color: #EDEFF4; padding: 3px; margin-top: 6px; margin-bottom: 6px;">
@@ -82,13 +86,19 @@
                     {% else %}
                         <small><b>Change your Vote:
                     {% endif %}
-                    <li style="background-color: #EDEFF4; padding: 3px; ">
+
                         <form action="." method="post" style="margin: 0px;">
-                            {{ V_form.as_p }}
-                            {% include "_forms.html" %}
-                            <input name="V" type="submit" class="btn btn-info" value="Vote!" style="margin-top: 10px; margin-left: 2px;"/>
-                        </form>
-                    </li>
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                {% for radio in V_form.vote_choice %}
+                                    <span class="votes">
+                                        {{ radio }}
+                                    </span>
+                                {%  endfor %}
+
+                            </div>
+                        <input name="V" type="submit" class="btn btn-info" value="Vote!" style="margin-top: 10px; margin-left: 2px;"/>
+                    </form>
+
                 {% else %}
                     <li style="background-color: #EDEFF4; padding: 3px; margin: 6px;"><p class="text-warning">Log in to be able to vote</p></li>
                 {% endif %}

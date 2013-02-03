@@ -246,7 +246,7 @@ class BrabEditView(CreateView):
         categories = []
         if selected_categories:
             for category_instance in selected_categories:
-               categories.append(category_instance.category_id)
+                categories.append(category_instance.category_id)
 
         selected_tags = Tag_to_brab.objects.filter(brab_id = self.object.pk)
         tags = ''
