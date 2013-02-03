@@ -7,36 +7,40 @@
     <!-- Column 1 / Project Information -->
     <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
         <div >
-            <h1>{{ brab.title }}</h1>
+            <h3 class="brab-title">{{ brab.title }}
+                <a class="btn btn-small" href="{% url editbrab pk=brab.id %}"><i class="icon-pencil"></i> Edit</a>
+            </h3>
         </div>
 
-        <p>{{ brab.description }}</p>
+        <p class="brab-descr">{{ brab.description }}</p>
         <p>{{ brab.auth_user.name }}</p>
-        <p>{{ brab.created_at }}</p>
+        <p class="brab-time">{{ brab.created_at }}</p>
 
-        <p><small><b>Categories:</b>
+
+        <p class="brab-cat"{% if brab.category_to_brab_set.count %}><b>Categories:</b>{% endif %}
             {% for category_to_brab in brab.category_to_brab_set.all %}
-                {{category_to_brab.category}}
-                {% if not forloop.last %}
-                    ;
-                {% endif %}
+
+                <span class="brab-cat-elem">{{ category_to_brab.category}}</span>{% if not forloop.last %}&nbsp;{% endif %}
+
             {% endfor %}
-        </small></p>
+        </p>
 
-        <p<small><b>Tags:</b>
+
+        <p class="brab-tag">
         {% for tag_to_brab in brab.tag_to_brab_set.all %}
-            {{ tag_to_brab.tag }}
-            {% if not forloop.last %}
-                ;
-            {% endif %}
+            #{{ tag_to_brab.tag }}{% if not forloop.last %}&nbsp;{% endif %}
         {% endfor %}
-    </small></p>
+    </p>
 
-        <a class="btn btn-info" href="{% url editbrab pk=brab.id %}">Edit...</a>
+
 
         <ul style="margin-left: 0px;">
             <li style="background-color: #EDEFF4; padding: 3px; ">
-                <strong style="font-size: 13px">{{ brab.comments_set.count }} comments: </strong>
+                {% if brab.comments_set.count %}
+                    <strong style="font-size: 13px">{{ brab.comments_set.count }} comment(s): </strong>
+                {% else %}
+                    <strong style="font-size: 13px">No comments yet. Care to be the first? </strong>
+                {% endif %}
             </li>
             {% for comment in brab.comments_set.all %}
                 <li style="background-color: #EDEFF4; padding: 3px; margin-top: 6px; margin-bottom: 6px;">
@@ -82,13 +86,21 @@
                     {% else %}
                         <small><b>Change your Vote:
                     {% endif %}
-                    <li style="background-color: #EDEFF4; padding: 3px; ">
-                        <form action="." method="post" style="margin: 0px;">
-                            {{ V_form.as_p }}
-                            {% include "_forms.html" %}
-                            <input name="V" type="submit" class="btn btn-info" value="Vote!" style="margin-top: 10px; margin-left: 2px;"/>
-                        </form>
-                    </li>
+
+                        <form action="." method="post" style="margin: 0px;" name="V_form">
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                {% for vote in vote_choices %}
+                                    {% if vote.0 == current_vote %}
+                                        <button onclick="console.log(this);" type="button" name="V-vote_choice" class="btn btn-info active" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                    {% else %}
+                                        <button onclick="this.form.submit();" type="button" name="V-vote_choice" class="btn btn-info" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                    {% endif %}
+                                {%  endfor %}
+
+                            </div>
+                        <input name="V" type="hidden" value="1"/>
+                    </form>
+
                 {% else %}
                     <li style="background-color: #EDEFF4; padding: 3px; margin: 6px;"><p class="text-warning">Log in to be able to vote</p></li>
                 {% endif %}
