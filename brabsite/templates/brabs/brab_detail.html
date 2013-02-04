@@ -91,13 +91,14 @@
                             <div class="btn-group" data-toggle="buttons-radio">
                                 {% for vote in vote_choices %}
                                     {% if vote.0 == current_vote %}
-                                        <button onclick="console.log(this);" type="button" name="V-vote_choice" class="btn btn-info active" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                        <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-info active" value="{{ vote.0 }}">{{ vote.1 }}</button>
                                     {% else %}
-                                        <button onclick="this.form.submit();" type="button" name="V-vote_choice" class="btn btn-info" value="{{ vote.0 }}">{{ vote.1 }}</button>
+                                        <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-info" value="{{ vote.0 }}">{{ vote.1 }}</button>
                                     {% endif %}
                                 {%  endfor %}
 
                             </div>
+                        <input name="V-vote_choice" type="hidden" value="10">
                         <input name="V" type="hidden" value="1"/>
                     </form>
 
