@@ -37,13 +37,15 @@ class BrabDetailView(DetailView):
         [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
 
         votes_data = []
+        current_vote_totals=Vote_totals.objects.filter(brab_id=self.object.pk)
         for x in Vote.objects.filter(visible=1):
             if x.id == current_vote:
                 vote_selected = 1
             else:
                 vote_selected = 0
             try:
-                vote_total=Vote_totals.objects.get(brab_id=self.object.pk,vote_id=x.id).total
+#                vote_total=Vote_totals.objects.get(brab_id=self.object.pk,vote_id=x.id).total
+                vote_total=current_vote_totals.get(vote_id=x.id).total
             except:
                 vote_total=0
             vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
