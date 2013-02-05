@@ -25,9 +25,6 @@ class BrabDetailView(DetailView):
         picture_form = PictureForm(prefix="P")
 #        Find if this user have voted already
 
-        vote_choices =\
-        [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
-
         existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
         if existing_vote:
             voting_form = VotingForm(prefix="V", initial={'vote_choice':existing_vote._result_cache[0].vote_id})
@@ -36,7 +33,24 @@ class BrabDetailView(DetailView):
             voting_form = VotingForm(prefix="V")
             current_vote = 0
 
-        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form, vote_choices = vote_choices,  current_vote =  current_vote)
+        vote_choices =\
+        [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
+
+        votes_data = []
+        for x in Vote.objects.filter(visible=1):
+            if x.id == current_vote:
+                vote_selected = 1
+            else:
+                vote_selected = 0
+            try:
+                vote_total=Vote_totals.objects.get(brab_id=self.object.pk,vote_id=x.id).total
+            except:
+                vote_total=0
+            vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
+            votes_data.append(vote_data)
+
+        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,
+            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data)
 
         return self.render_to_response(context)
 
@@ -84,7 +98,7 @@ class BrabDetailView(DetailView):
                     vote_total.save()
 
 
-                return HttpResponseRedirect(self.object.get_absolute_url())
+            return HttpResponseRedirect(self.object.get_absolute_url())
 
         if 'C' in request.POST:
             comment_form = CommentForm(data=request.POST, prefix="C")
