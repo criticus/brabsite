@@ -16,15 +16,10 @@ class BrabDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-#        x = self.object.tag_to_brab_set.all()
-#        bunch_of_tags = []
-#        for tag in x:
-#            bunch_of_tags.append(tag.tag.tag)
-
         comment_form = CommentForm(prefix="C")
         picture_form = PictureForm(prefix="P")
-#        Find if this user have voted already
 
+#        Find if this user have voted already
         existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
         if existing_vote:
             voting_form = VotingForm(prefix="V", initial={'vote_choice':existing_vote._result_cache[0].vote_id})
@@ -36,6 +31,8 @@ class BrabDetailView(DetailView):
         vote_choices =\
         [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
 
+#        Create a data structure (list of dictionaries) with information on available vote choices
+#        which one is currently selected by the user, totals of vote for each choice to pass to template in context
         votes_data = []
         current_vote_totals=Vote_totals.objects.filter(brab_id=self.object.pk)
         for x in Vote.objects.filter(visible=1):
@@ -419,20 +416,25 @@ class BrabListView(LoggedInMixin, ListView):
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
+        category_id = self.kwargs.get('category_id', None)
+        tag_name = self.kwargs.get('tag_name', None)
         if self.request.path=="/envybrabs/":
             q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
-            return q
+        elif category_id:
+            q = Brab.objects.filter(category_to_brab__category=category_id).distinct()
+        elif tag_name:
+            q = Brab.objects.filter(tag_to_brab__tag__tag=tag_name)
         else:
             if user_id:
-                return Brab.objects.filter(auth_user_id=user_id)
+                q =  Brab.objects.filter(auth_user_id=user_id)
             else:
                 if self.request.GET:
                     search_for = self.request.GET["searchfor"]
                     if search_for:
                         search_for = re.split('; |, |,|;| ', search_for)
-                        return Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
-    #                    return Brab.objects.filter(tag_to_brab__tag__tag=search_for)
+                        q = Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
                     else:
-                        return Brab.objects.filter(auth_user_id=self.request.user.id)
+                        q = Brab.objects.filter(auth_user_id=self.request.user.id)
                 else:
-                    return Brab.objects.filter(auth_user_id=self.request.user.id)
+                    q = Brab.objects.filter(auth_user_id=self.request.user.id)
+        return q
