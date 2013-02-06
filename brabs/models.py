@@ -296,4 +296,23 @@ class Attribute_to_brab(models.Model):
     def __unicode__(self):
         return self.id
 
+class Follower_to_followee(models.Model):
+    follower = models.ForeignKey(User, related_name='user_followers', null=True, blank=True, help_text="Follower")
+    followee = models.ForeignKey(User, related_name='user_followees', null=True, blank=True, help_text="Followee")
+
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Created")
+    updated_at = models.DateTimeField(auto_now_add=True, help_text="Updated")
+    deleted = models.BooleanField(help_text="Deleted")
+
+    def save(self):
+        if self.created_at == None:
+            self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        super(Follower_to_followee, self).save()
+
+    def get_absolute_url(self):
+        return reverse('follower_to_followee', kwargs={"pk": self.id})
+
+    def __unicode__(self):
+        return self.id
 

@@ -2,7 +2,8 @@ from django.http import Http404, HttpResponse, HttpRequest
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm, PictureForm, BrabFormSet, VotingForm
-from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, Vote, Vote_to_brab, Vote_totals
+from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, \
+    Vote, Vote_to_brab, Vote_totals, Follower_to_followee
 from brabs.models import LoggedInMixin
 from django.shortcuts import render_to_response
 import re, string
@@ -48,14 +49,24 @@ class BrabDetailView(DetailView):
             vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
             votes_data.append(vote_data)
 
-        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,
-            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data)
+            fq=Follower_to_followee.objects.filter(follower_id=request.user.id, followee_id=self.object.auth_user_id)
+            if fq:
+                followed_by_logged_in_user=1
+            else:
+                followed_by_logged_in_user=0
+        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,\
+            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data,\
+                followed_by_logged_in_user=followed_by_logged_in_user)
 
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-
+        if 'F' in request.POST:
+            follower_to_followee = Follower_to_followee(follower_id = request.user.id,\
+                followee_id = self.object.auth_user_id )
+            follower_to_followee.save()
+            return HttpResponseRedirect(self.object.get_absolute_url())
         if 'V' in request.POST:
             comment_form = CommentForm(prefix="C")
             picture_form = PictureForm(prefix="P")
