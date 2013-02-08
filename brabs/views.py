@@ -423,7 +423,6 @@ class BrabEditView(CreateView):
 class BrabListView(LoggedInMixin, ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 12
-    context_object_name = 'brabs'
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
@@ -431,6 +430,9 @@ class BrabListView(LoggedInMixin, ListView):
         tag_name = self.kwargs.get('tag_name', None)
         if self.request.path=="/envybrabs/":
             q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
+        elif self.request.path=="/fwbrabs/":
+            fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+            q = Brab.objects.filter(auth_user_id__in=fq).distinct()
         elif category_id:
             q = Brab.objects.filter(category_to_brab__category=category_id).distinct()
         elif tag_name:
@@ -449,3 +451,13 @@ class BrabListView(LoggedInMixin, ListView):
                 else:
                     q = Brab.objects.filter(auth_user_id=self.request.user.id)
         return q
+
+class Follower_to_followeeListView(LoggedInMixin, ListView):
+    template_name = 'brabs/followee_list.html'
+    paginate_by = 12
+
+    def get_queryset(self):
+        fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+        for follower in fq:
+            z=True
+        return fq

@@ -19,7 +19,7 @@
         <p class="brab-cat"{% if brab.category_to_brab_set.count %}><b>Categories:</b>{% endif %}
             {% for category_to_brab in brab.category_to_brab_set.all %}
 
-               <a href="/brabsbycategory/{{ category_to_brab.id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
+               <a href="/brabsbycategory/{{ category_to_brab.category_id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
 
             {% endfor %}
         </p>

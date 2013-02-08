@@ -2,13 +2,23 @@ from django.conf.urls import *
 from django.contrib import admin
 from django.views.generic import ListView, DetailView
 from brabs.models import Brab
-from brabs.views import BrabAddView, BrabDetailView, BrabListView, BrabEditView
+from brabs.views import BrabAddView, BrabDetailView, BrabListView, BrabEditView, Follower_to_followeeListView
 from django.conf import settings
 
 admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^followees/$', Follower_to_followeeListView.as_view(
+        paginate_by=25,
+        context_object_name="followee_list"),
+        name="followee-list-view"
+    ),
+    url(r'^fwbrabs/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="fw-brab-list-view"
+    ),
     url(r'^envybrabs/$', BrabListView.as_view(
         paginate_by=25,
         context_object_name="brab_list"),
