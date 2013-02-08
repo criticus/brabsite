@@ -9,7 +9,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* Global Styles */
 
-	body								{background:url(/static/images/bg.png) repeat-x #FFFFFF;
+	body								{background: repeat-x #FFFFFF;
                                         font-size:12px;
                                         font-family: tahoma;
                                         color: #444;
@@ -72,20 +72,31 @@ DESCRIPTION: A premium business and portfolio theme.
                                         }
 
     .brab-cat                           {
-                                        margin-top: 10px;
+                                        margin-top: 5px;
+                                        margin-bottom: 5px;
                                         }
     .brab-cat-elem                      {background-color: #bce8f1;
                                         background-image: -webkit-linear-gradient(top,#5bc0de,#2f96b4);
                                         border-radius: 4px;
                                         padding: 3px;
                                         font-size: 13px;
+                                        color: #eeeeee;
                                         }
     .brab-tag                           {color: #999;
                                         font-size: 13px;
+                                        margin-bottom: 5px;
                                         }
     input[type="radio"]          {
                                         color: #ff0000;
                                         margin: 40px;
+    }
+
+    .progress                           {
+                                         margin-bottom: 10px;
+                                        }
+    .btn-danger                         {
+                                        padding: 6px;
+
     }
 	
 /* Custom Grid */
@@ -111,7 +122,7 @@ DESCRIPTION: A premium business and portfolio theme.
 	.container_12 .grid_5 				{width:385px;}
 	.container_12 .grid_6 				{width:470px;}
 	.container_12 .grid_7 				{width:555px;}
-	.container_12 .grid_8 				{width:640px;}
+	.container_12 .grid_8 				{}
 	.container_12 .grid_9 				{width:725px;}
 	.container_12 .grid_10 				{width:810px;}
 	.container_12 .grid_11 				{width:895px;}
