@@ -24,6 +24,16 @@ urlpatterns = patterns('',
         context_object_name="brab_list"),
         name="user-brab-list-view"
     ),
+    url(r'^brabsbycategory/(?P<category_id>[a-zA-Z0-9-]+)/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="user-brab-list-view"
+    ),
+    url(r'^brabsbytag/(?P<tag_name>[a-zA-Z0-9-]+)/$', BrabListView.as_view(
+        paginate_by=25,
+        context_object_name="brab_list"),
+        name="user-brab-list-view"
+    ),
     url(r'^searchbrabs/$', BrabListView.as_view(
         paginate_by=25,
         context_object_name="brab_list"),

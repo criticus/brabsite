@@ -2,7 +2,8 @@ from django.http import Http404, HttpResponse, HttpRequest
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, CreateView, ListView
 from brabs.forms import BrabForm, CommentForm, PictureForm, BrabFormSet, VotingForm
-from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, Vote, Vote_to_brab, Vote_totals
+from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, \
+    Vote, Vote_to_brab, Vote_totals, Follower_to_followee
 from brabs.models import LoggedInMixin
 from django.shortcuts import render_to_response
 import re, string
@@ -16,15 +17,10 @@ class BrabDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-#        x = self.object.tag_to_brab_set.all()
-#        bunch_of_tags = []
-#        for tag in x:
-#            bunch_of_tags.append(tag.tag.tag)
-
         comment_form = CommentForm(prefix="C")
         picture_form = PictureForm(prefix="P")
-#        Find if this user have voted already
 
+#        Find if this user have voted already
         existing_vote = Vote_to_brab.objects.filter(auth_user_id = request.user.id, brab_id=self.object.pk, )
         if existing_vote:
             voting_form = VotingForm(prefix="V", initial={'vote_choice':existing_vote._result_cache[0].vote_id})
@@ -36,27 +32,41 @@ class BrabDetailView(DetailView):
         vote_choices =\
         [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
 
+#        Create a data structure (list of dictionaries) with information on available vote choices
+#        which one is currently selected by the user, totals of vote for each choice to pass to template in context
         votes_data = []
+        current_vote_totals=Vote_totals.objects.filter(brab_id=self.object.pk)
         for x in Vote.objects.filter(visible=1):
             if x.id == current_vote:
                 vote_selected = 1
             else:
                 vote_selected = 0
             try:
-                vote_total=Vote_totals.objects.get(brab_id=self.object.pk,vote_id=x.id).total
+#                vote_total=Vote_totals.objects.get(brab_id=self.object.pk,vote_id=x.id).total
+                vote_total=current_vote_totals.get(vote_id=x.id).total
             except:
                 vote_total=0
             vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
             votes_data.append(vote_data)
 
-        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,
-            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data)
+            fq=Follower_to_followee.objects.filter(follower_id=request.user.id, followee_id=self.object.auth_user_id)
+            if fq:
+                followed_by_logged_in_user=1
+            else:
+                followed_by_logged_in_user=0
+        context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,\
+            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data,\
+                followed_by_logged_in_user=followed_by_logged_in_user)
 
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-
+        if 'F' in request.POST:
+            follower_to_followee = Follower_to_followee(follower_id = request.user.id,\
+                followee_id = self.object.auth_user_id )
+            follower_to_followee.save()
+            return HttpResponseRedirect(self.object.get_absolute_url())
         if 'V' in request.POST:
             comment_form = CommentForm(prefix="C")
             picture_form = PictureForm(prefix="P")
@@ -417,20 +427,25 @@ class BrabListView(LoggedInMixin, ListView):
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
+        category_id = self.kwargs.get('category_id', None)
+        tag_name = self.kwargs.get('tag_name', None)
         if self.request.path=="/envybrabs/":
             q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
-            return q
+        elif category_id:
+            q = Brab.objects.filter(category_to_brab__category=category_id).distinct()
+        elif tag_name:
+            q = Brab.objects.filter(tag_to_brab__tag__tag=tag_name)
         else:
             if user_id:
-                return Brab.objects.filter(auth_user_id=user_id)
+                q =  Brab.objects.filter(auth_user_id=user_id)
             else:
                 if self.request.GET:
                     search_for = self.request.GET["searchfor"]
                     if search_for:
                         search_for = re.split('; |, |,|;| ', search_for)
-                        return Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
-    #                    return Brab.objects.filter(tag_to_brab__tag__tag=search_for)
+                        q = Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
                     else:
-                        return Brab.objects.filter(auth_user_id=self.request.user.id)
+                        q = Brab.objects.filter(auth_user_id=self.request.user.id)
                 else:
-                    return Brab.objects.filter(auth_user_id=self.request.user.id)
+                    q = Brab.objects.filter(auth_user_id=self.request.user.id)
+        return q
