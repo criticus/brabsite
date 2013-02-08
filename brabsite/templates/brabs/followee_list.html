@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% for each_followee in followee_list %}
+
+        {% if not each_followee.deleted %}
+            <p> Following: {{ each_followee.followee }} <---&nbsp;<input type="checkbox" name="deletefollowee_{{ each_followee.pk }}"/> Stop Following... &nbsp;
+        {% endif %}
+
+    {% endfor %}
+{% endblock %}
