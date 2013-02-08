@@ -314,5 +314,5 @@ class Follower_to_followee(models.Model):
         return reverse('follower_to_followee', kwargs={"pk": self.id})
 
     def __unicode__(self):
-        return self.id
+        return str(self.followee_id)
 
