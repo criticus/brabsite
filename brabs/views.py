@@ -5,7 +5,7 @@ from brabs.forms import BrabForm, CommentForm, PictureForm, BrabFormSet, VotingF
 from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, Category_to_brab, \
     Vote, Vote_to_brab, Vote_totals, Follower_to_followee
 from brabs.models import LoggedInMixin
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 import re, string
 
 
@@ -62,6 +62,9 @@ class BrabDetailView(DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if 'SF' in request.POST:
+            Follower_to_followee.objects.filter(follower_id = request.user.id, \
+                followee_id = self.object.auth_user_id).update(deleted = 1)
         if 'F' in request.POST:
             follower_to_followee = Follower_to_followee(follower_id = request.user.id,\
                 followee_id = self.object.auth_user_id )
@@ -262,8 +265,6 @@ class BrabEditView(CreateView):
         self.object = self.get_object()
         if not self.object.auth_user_id  == request.user.id:
             return HttpResponse('<div align="center"><h1>You are not the author of this brab</h1><br>...therefore you may not edit it!</div>')
-
-
 #        Find what categories and tags is currently edited brab marked with so that
 #        appropriate fields would appear pre-filled in the template
         selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
@@ -280,6 +281,7 @@ class BrabEditView(CreateView):
                 if tag_count:
                     tags = tags + ', '
                 tags = tags + tag_instance.tag.tag
+                tag_count = tag_count + 1
 
         brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags}, prefix="B")
         picture_form = PictureForm(prefix="P")
@@ -299,6 +301,9 @@ class BrabEditView(CreateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if not self.object.auth_user_id  == request.user.id:
+            return HttpResponse('<div align="center"><h1>You are not the author of this brab</h1><br>...therefore you may not edit it!</div>')
+
         brabform = BrabForm(data=request.POST, instance=self.object, prefix="B")
 
         if brabform.is_valid():
@@ -333,6 +338,7 @@ class BrabEditView(CreateView):
                 if key.startswith('show_') and request.POST[key] == 'on':
                     picture_record_id = re.sub(r"\D", "", key)
                     Pictures.objects.filter(id = picture_record_id).update(visible = 1)
+
             picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
             if picture_form.is_valid():
                 if self.object.pictures_set.count():
@@ -358,11 +364,30 @@ class BrabEditView(CreateView):
             return HttpResponseRedirect(brab.get_absolute_url())
         else:
 
-            brabformset = BrabFormSet(request.POST, request.FILES)
+            #        Find what categories and tags is currently edited brab marked with so that
+            #        appropriate fields would appear pre-filled in the template
+            selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
+            categories = []
+            if selected_categories:
+                for category_instance in selected_categories:
+                    categories.append(category_instance.category_id)
 
-        self.object = None
-        context = self.get_context_data(object=self.object, brabform=brabform, brabformset=brabformset)
-        return self.render_to_response(context)
+            selected_tags = Tag_to_brab.objects.filter(brab_id = self.object.pk)
+            tags = ''
+            tag_count = 0
+            if selected_tags:
+                for tag_instance in selected_tags:
+                    if tag_count:
+                        tags = tags + ', '
+                    tags = tags + tag_instance.tag.tag
+                    tag_count = tag_count + 1
+
+            brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags}, prefix="B")
+            picture_form = PictureForm(prefix="P")
+
+            # self.object = None
+            context = self.get_context_data(object=self.object, brabform=brabform, P_form=picture_form)
+            return self.render_to_response(context)
 
 
     def get_object(self):
@@ -456,8 +481,17 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
     template_name = 'brabs/followee_list.html'
     paginate_by = 12
 
+    def post(self, request, *args, **kwargs):
+
+        if 'SF' in request.POST:
+            for key in request.POST:
+                if key.startswith('delete_followee_') and request.POST[key] == 'on':
+                    folowee_record_id = re.sub(r"\D", "", key)
+                    Follower_to_followee.objects.filter(id = folowee_record_id).update(deleted = 1)
+
+
+        return redirect('/followees/')
+
     def get_queryset(self):
         fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
-        for follower in fq:
-            z=True
         return fq
