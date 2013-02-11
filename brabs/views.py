@@ -288,6 +288,7 @@ class BrabEditView(CreateView):
 
 #        The section below did not work out (actually it did exactly what intended, but
 #        then there were a bunch of difficulties in displaying pre-filled formset in template, etc.)
+
 #        brabformset = BrabFormSet(instance=self.object)
 ##        Fill inline brabformset picture forms with data about attached pictures
 #        picture_set = self.object.pictures_set.all()
