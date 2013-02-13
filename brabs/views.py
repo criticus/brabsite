@@ -6,7 +6,10 @@ from brabs.models import Brab, Pictures, Comments, Tag, Tag_to_brab, Category, C
     Vote, Vote_to_brab, Vote_totals, Follower_to_followee
 from brabs.models import LoggedInMixin
 from django.shortcuts import render_to_response, redirect
+from django.contrib.auth.models import User
+from django.db import models
 import re, string
+
 
 
 def hello(request):
@@ -479,20 +482,35 @@ class BrabListView(LoggedInMixin, ListView):
         return q
 
 class Follower_to_followeeListView(LoggedInMixin, ListView):
+    methods = ['get', 'post']
     template_name = 'brabs/followee_list.html'
     paginate_by = 12
 
     def post(self, request, *args, **kwargs):
-
         if 'SF' in request.POST:
             for key in request.POST:
                 if key.startswith('delete_followee_') and request.POST[key] == 'on':
-                    folowee_record_id = re.sub(r"\D", "", key)
-                    Follower_to_followee.objects.filter(id = folowee_record_id).update(deleted = 1)
-
+                    followee_id = re.sub(r"\D", "", key)
+                    Follower_to_followee.objects.filter(follower_id=self.request.user.id)\
+                        .filter(followee_id = followee_id).update(deleted = 1)
 
         return redirect('/followees/')
 
     def get_queryset(self):
-        fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+        # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+        fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1)\
+            .annotate(brab_count=models.Count('brab'))
+# .exclude(user_followees__deleted=1)
+
+        # for u in fq:
+        #     z= u.user_followees
+
         return fq
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(Follower_to_followeeListView, self).get_context_data(**kwargs)
+        # Add in some context dictionary value
+        # context['book_list'] = Book.objects.all()
+        return context
+

@@ -5,9 +5,10 @@
         <form action="." method="post" style="margin: 0px;" name="SF_form">
             {% for each_followee in followee_list %}
 
-                {% if not each_followee.deleted %}
-                    <p> Following: {{ each_followee.followee }} <---&nbsp;<input type="checkbox" name="delete_followee_{{ each_followee.pk }}"/> Stop Following... &nbsp;
-                {% endif %}
+                    <p> Following: {{ each_followee.username }}&nbsp;({{ each_followee.brab_count }}&nbsp;
+                    brab{% if each_followee.brab_count == 1 %}){% else %}s){% endif %}
+{# Line above looks ugly, but if formatted well it displays space before "s"  #}
+                        <---&nbsp;<input type="checkbox" name="delete_followee_{{ each_followee.pk }}"/> Stop Following... &nbsp;
 
             {% endfor %}
             <p> <input name="SF" type="submit" value="Save"/>
