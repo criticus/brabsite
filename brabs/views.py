@@ -13,7 +13,7 @@ import re, string
 
 
 def hello(request):
-    return HttpResponse("Hello world")
+    return HttpResponse("Hello world (from brabout)!")
 
 class BrabDetailView(DetailView):
     methods = ['get', 'post']

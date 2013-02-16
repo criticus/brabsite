@@ -1,5 +1,6 @@
 # Django settings for brabsite project.
 import os.path
+import json
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
@@ -14,17 +15,33 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'brabout',                      # Or path to database file if using sqlite3.
-        'USER': 'Rosty',                      # Not used with sqlite3.
-        'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+try:
+    with open('/home/dotcloud/environment.json') as f:
+        env = json.load(f)
+    print 'Detected dotCloud deployment...'
+    # Assumes dotCloud database service is called "data"
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.mysql',
+            'NAME':     'brabout',
+            'USER':     env[u'DOTCLOUD_DATA_MYSQL_LOGIN'],
+            'PASSWORD': env[u'DOTCLOUD_DATA_MYSQL_PASSWORD'],
+            'HOST':     env[u'DOTCLOUD_DATA_MYSQL_HOST'],
+            'PORT':     int(env[u'DOTCLOUD_DATA_MYSQL_PORT']),
+        }
     }
-}
+    print 'Database settings extracted from environment.json file'
+except:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
