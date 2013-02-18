@@ -29,15 +29,5 @@ pip install django-storages
 
 ----------------------------------------------------------------------------
 
-When creating application on dotCloud after initial push fails executing createdb.py 
-with error "Can not connect to the database" run the following commands in Cygwin console:
 
-dotcloud run data -- mysql
-GRANT ALL ON *.* TO 'Rosty'@'%' IDENTIFIED BY 'Diamonds1' WITH GRANT OPTION;
-use mysql;
-SELECT * FROM user;
-
-...if the new admin user "Rosty" has been succesfully added it will show it in the console output
-
-...then re-run dotcloud push
 
