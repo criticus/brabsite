@@ -1,1 +1,1 @@
-Activate your djangoproject.com account - you have {{ expiration_days }} days!
+Activate your Brabout account - you have {{ expiration_days }} days!
