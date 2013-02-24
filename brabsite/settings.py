@@ -1,5 +1,6 @@
 # Django settings for brabsite project.
 import os.path
+import json
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
@@ -14,17 +15,71 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'brabout',                      # Or path to database file if using sqlite3.
-        'USER': 'Rosty',                      # Not used with sqlite3.
-        'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+try:
+    # This will check if app has been deployed on dotCloud
+    # by attempting to open json environment settings file
+    with open('/home/dotcloud/environment.json') as f:
+        env = json.load(f)
+    print 'Detected dotCloud deployment...'
+    # Assumes dotCloud database service is called "data"
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.mysql',
+            'NAME':     'brabout',
+            'USER':     env[u'DOTCLOUD_DATA_MYSQL_LOGIN'],
+            'PASSWORD': env[u'DOTCLOUD_DATA_MYSQL_PASSWORD'],
+            'HOST':     env[u'DOTCLOUD_DATA_MYSQL_HOST'],
+            'PORT':     int(env[u'DOTCLOUD_DATA_MYSQL_PORT']),
+        }
     }
-}
+
+    # Absolute filesystem path to the directory that will hold user-uploaded files.
+    # Example: "/home/media/media.lawrence.com/media/"
+    MEDIA_ROOT = '/home/dotcloud/data/media/'
+
+    # Absolute path to the directory where collectstatic.py will collect all static
+    # files when being run by dotCloud postinstall script. dotCloud web server
+    #  will then serve all static files from that folder. Note: all admin related
+    # static files will be placed into admin subfolder of this path. Django 1.4
+    # uses this default instead of depriciated variable ADMIN_MEDIA_PREFIX
+    # Another note: earlier tutorials suggested using '/home/dotcloud/data/static/'
+    # but they changed a bit the way we build Django apps on dotCloud because of their
+    #  new Granite Builder. The ~/data/ is indeed persisted across pushes by Granite.
+    # However, since the build is done in a separate service in the background
+    # (that is while ourr application is running), we can't access ~/data/ because
+    # ~/data/ is already attached to our production service. In other word we can't
+    # write into ~/data/ during the build, except for the first build.
+
+    # Don't put anything in this directory yourself; store your static files
+    # in apps' "static/" subdirectories and in STATICFILES_DIRS.
+    STATIC_ROOT = '/home/dotcloud/volatile/static/'
+
+except:
+    # no json environment file found - app is running locally in development
+    #  environment
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
+    # Absolute filesystem path to the directory that will hold user-uploaded files.
+    # Example: "/home/media/media.lawrence.com/media/"
+    MEDIA_ROOT = (
+        os.path.join(os.path.dirname(__file__), 'media').replace('\\','/')
+        # Always use forward slashes, even on Windows.
+        # Don't forget to use absolute paths, not relative paths.
+    )
+
+    # Absolute path to the directory static files should be collected to.
+    # Don't put anything in this directory yourself; store your static files
+    # in apps' "static/" subdirectories and in STATICFILES_DIRS.
+    # Example: "/home/media/media.lawrence.com/static/"
+    STATIC_ROOT = ''
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -49,24 +104,12 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = (
-    os.path.join(os.path.dirname(__file__), 'user_media').replace('\\','/')
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    )
+
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/user_media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+MEDIA_URL = '/media/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -74,7 +117,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'site_media').replace('\\','/'),
+    os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -166,10 +209,11 @@ LOGGING = {
 
 #registration settings
 ACCOUNT_ACTIVATION_DAYS=7
-EMAIL_HOST='localhost'
-EMAIL_PORT=1025
-EMAIL_HOST_USER='root'
-EMAIL_HOST_PASSWORD=''
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER='registered.brabout@gmail.com'
+EMAIL_HOST_PASSWORD='RegisteredBragAboutIt'
 
 # python -m smtpd -n -c DebuggingServer localhost:1025
 # pip install django-registration

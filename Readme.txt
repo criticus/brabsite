@@ -26,3 +26,8 @@ How to update master:
 To hook up with Amazon S3 storages:
 pip install boto
 pip install django-storages
+
+----------------------------------------------------------------------------
+
+
+

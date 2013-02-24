@@ -13,7 +13,7 @@ import re, string
 
 
 def hello(request):
-    return HttpResponse("Hello world")
+    return HttpResponse("Hello world (from brabout)!")
 
 class BrabDetailView(DetailView):
     methods = ['get', 'post']
@@ -500,10 +500,6 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
         # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
         fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1)\
             .annotate(brab_count=models.Count('brab'))
-# .exclude(user_followees__deleted=1)
-
-        # for u in fq:
-        #     z= u.user_followees
 
         return fq
 
