@@ -39,11 +39,8 @@
             <div class="">
                 <span class="logo"><a href="/" class="brand">&nbsp;Brabout.com!</a></span>
                 {% if user.is_authenticated %}
-                    <!--<p>Hey, {{ user.username }}!&nbsp;<a href="/accounts/logout">Logout</a></p>-->
-
-
                     {% if "addabrab" in request.path %}
-                        &nbsp; <a class="btn btn-primary" href="/">Brablist</a>
+                        <a class="btn btn-primary" href="/">Brablist</a>
                     {% else %}
                         <a class="btn btn-info" href="/addabrab">New</a>
                     {% endif %}
@@ -56,27 +53,27 @@
                             <li><a href="/mybrabs">Brablist</a></li>
                             <li><a href="/envybrabs">Envylist</a></li>
                             <li><a href="/followees">I Follow</a></li>
-                            <li><a href="">My Followers</a></li>
+                            <li><a href="/followers">My Followers</a></li>
                         </ul>
                     </span>
-
-                    <a class="btn btn-primary" href="/">All Brabs</a>
-
-
-                    <div class="topbar-right">
-                        <form action="/searchbrabs" method="get" class="search">
-                            <div class="input-append">
-                                <input type="text" class="span2 search-query" name="searchfor" placeholder="Search">
-                                <button type="submit" class="btn" name="S"><i class="icon-search"></i></button>
-                            </div>
-
-                        </form>
-                        <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
-                    </div>
-
-                {% else %}
-                    {% include "registration/login.html" %}
                 {% endif %}
+                <a class="btn btn-primary" href="/">All Brabs</a>
+                <div class="topbar-right">
+                    <form action="/searchbrabs" method="get" class="search">
+                        <div class="input-append">
+                            <input style="position: static" type="text" class="span2 search-query" name="searchfor" placeholder="Search">
+                            <button type="submit" class="btn" name="S"><i class="icon-search"></i></button>
+                        </div>
+
+                    </form>
+                    {% if user.is_authenticated %}
+                        <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
+                    {% else %}
+                        {% include "registration/login.html" %}
+                    {% endif %}
+                </div>
+
+
 
             </div>
         </div>
