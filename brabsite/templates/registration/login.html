@@ -6,17 +6,15 @@
         </div>
     {% endif %}
 
-    <form method="post" action="/accounts/login/?next={{ next|default:"/" }}">
+    <form method="post" class="login-form" action="/accounts/login/?next={{ next|default:"/" }}">
 
         <input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
 
         <input type="password" name="password" id="id_password" placeholder="Password" class="input-small"/>
-
-        <p style="margin-left:60px;">
+        <button type="submit" class="btn" name="Sign In"><i class="icon-arrow-right"></i></button>
+        <p class="login-help">
             <a href="#ForgotPsw" role="button" data-toggle="modal">Forgot Password?</a>&nbsp;
             <a href="#signUp" role="button" data-toggle="modal">Sign Up</a>
-
-            <input type="submit" class="invisible" value="Sign in" class="btn btn-primary"/>
         </p>
     </form>
 

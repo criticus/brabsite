@@ -105,9 +105,9 @@ DESCRIPTION: A premium business and portfolio theme.
     }
 
     .search                             {
-                                        display: inline;
+                                        display: inline-block;
                                         margin: 0;
-                                        vertical-align: bottom;
+                                        vertical-align: top;
     }
 
     .search input                       {
@@ -167,7 +167,8 @@ DESCRIPTION: A premium business and portfolio theme.
 	
 /* Site Logo */
 
-	.logo 							{font-size:18px; font-weight:normal; margin: 5px 15px 0 0; color:#444;}
+	.logo 							{margin: 5px 10px 0 0;}
+    .logo a 						{font-size:18px; font-weight:normal; color:#444;}
 
 /* Site Navigation */
 
@@ -316,7 +317,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* topbar */
 
-.topbar                                 {position: relative; width: 100%; text-align: left; float: left; margin-bottom: 12px;}
+.topbar                                 {position: relative; width: 100%; height:auto; text-align: left; float: left; margin-bottom: 12px;}
 .topbar-right                           {display: inline; float: right;}
 
 .search-query                           {background-image: url("../img/search.png"); background-position: 210px 8px; background-repeat: no-repeat}
@@ -330,12 +331,16 @@ ul.errorlist                            {margin: 0; padding: 0; }
 
 .login-block                            {font-size: 13px; margin-left: 10px; vertical-align: bottom}
 .login-block a                          {vertical-align: bottom}
+.login-form                             {display: inline-block; margin-left: 10px; margin-bottom: 0px;}
+.login-form button                      {padding: 4px 10px; margin-bottom: 9px;}
+.login-help                             {text-align: right;}
+.login-help a                           {font-size: 12px;}
 
 .input-append                           {display: inline}
 .input-append input                     {position: static;}
-.input-append .btn                      {margin-left: -15px; padding: 4px 10px; }
+.input-append button.btn                {margin-left: -15px; padding: 4px 10px; }
 .input-append .btn:last-child           {border-radius: 0 5px 5px 0;}
-input.search-query                      {border-radius: 5px;}
+.input-append input.search-query        {border-radius: 5px;}
 
 .brand                                  {vertical-align: bottom}
 
