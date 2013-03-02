@@ -458,7 +458,7 @@ class BrabEditView(CreateView):
         return category_count
 
 
-class BrabListView(LoggedInMixin, ListView):
+class BrabListView(ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 12
 
