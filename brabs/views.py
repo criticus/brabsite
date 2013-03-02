@@ -458,7 +458,7 @@ class BrabEditView(CreateView):
         return category_count
 
 
-class BrabListView(LoggedInMixin, ListView):
+class BrabListView(ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 12
 
@@ -534,10 +534,6 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
         return redirect('/followers/')
 
     def get_queryset(self):
-        # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
-
-        # fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1) \
-        #     .annotate(brab_count=models.Count('brab'))
 
         fq = User.objects.filter(user_followers__followee=self.request.user.id).exclude(user_followers__deleted=1) \
             .annotate(brab_count=models.Count('brab'))
