@@ -2,7 +2,7 @@ from django.conf.urls import *
 from django.contrib import admin
 from django.views.generic import ListView, DetailView
 from brabs.models import Brab
-from brabs.views import hello, BrabAddView, BrabDetailView, BrabListView, BrabEditView, Follower_to_followeeListView
+from brabs.views import hello, BrabAddView, BrabDetailView, BrabListView, BrabEditView, Follower_to_followeeListView, Followee_to_followerListView
 from django.conf import settings
 
 admin.autodiscover()
@@ -10,6 +10,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^hello/$', view=hello, name='hello_page'
+    ),
+    url(r'^followers/$', Followee_to_followerListView.as_view(
+        paginate_by=25,
+        context_object_name="follower_list"),
+        name="follower-list-view"
     ),
     url(r'^followees/$', Follower_to_followeeListView.as_view(
         paginate_by=25,
