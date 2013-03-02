@@ -88,7 +88,7 @@
             {% if user.is_authenticated %}
 
                 <li style="background-color: #EDEFF4; padding: 3px; list-style-type: none; margin-left: 0">
-                    <form action="." method="post" style="margin: 0px;">
+                    <form action="." method="post" style="margin: 0px;" >
                         <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" style="width: 180px; margin: 0px" name="C-comment" placeholder="write a comment..."></textarea>
                         <input type="hidden" name="C-auth_user" id="id_C-auth_user" />
                         <input type="hidden" name="C-brab" id="id_C-brab" />
@@ -108,6 +108,17 @@
 
     <!-- Column 2 / Image Carosuel -->
     <div style="width: 450px; float: right">
+        {% if user.is_authenticated %}
+            <form action="." name="form_follow" method="post" enctype="multipart/form-data">
+            {% if followed_by_logged_in_user %}
+                <input type="hidden" name="SF" value="1">
+                <input class="btn btn-inverse" name="button" value="Unfollow" type="submit">
+            {% else %}
+                <input type="hidden" name="F" value="1">
+                <input class="btn btn-inverse" name="button" value="Follow" type="submit">
+            {% endif %}
+            </form>
+        {% endif %}
         <div id="folio_scroller_container" class="grid_8 cleafix" >
             <ul id="folio_scroller" >
                 {% if brab.pictures_set %}
