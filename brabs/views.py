@@ -52,7 +52,7 @@ class BrabDetailView(DetailView):
             vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
             votes_data.append(vote_data)
 
-            fq=Follower_to_followee.objects.filter(follower_id=request.user.id, followee_id=self.object.auth_user_id)
+            fq=Follower_to_followee.objects.filter(follower_id=request.user.id, followee_id=self.object.auth_user_id, deleted = 0)
             if fq:
                 followed_by_logged_in_user=1
             else:
@@ -68,9 +68,18 @@ class BrabDetailView(DetailView):
         if 'SF' in request.POST:
             Follower_to_followee.objects.filter(follower_id = request.user.id, \
                 followee_id = self.object.auth_user_id).update(deleted = 1)
+            return HttpResponseRedirect(self.object.get_absolute_url())
         if 'F' in request.POST:
-            follower_to_followee = Follower_to_followee(follower_id = request.user.id,\
-                followee_id = self.object.auth_user_id )
+            try:
+                follower_to_followee = Follower_to_followee.objects.get(follower_id = request.user.id, \
+                                                    followee_id = self.object.auth_user_id)
+                follower_to_followee.deleted = 0
+
+            except:
+                follower_to_followee = Follower_to_followee(follower_id = request.user.id,\
+                    followee_id = self.object.auth_user_id )
+
+
             follower_to_followee.save()
             return HttpResponseRedirect(self.object.get_absolute_url())
         if 'V' in request.POST:
@@ -449,7 +458,7 @@ class BrabEditView(CreateView):
         return category_count
 
 
-class BrabListView(LoggedInMixin, ListView):
+class BrabListView(ListView):
     template_name = 'brabs/brab_list.html'
     paginate_by = 12
 
@@ -482,31 +491,60 @@ class BrabListView(LoggedInMixin, ListView):
         return q
 
 class Follower_to_followeeListView(LoggedInMixin, ListView):
+        methods = ['get', 'post']
+        template_name = 'brabs/followee_list.html'
+        paginate_by = 12
+
+        def post(self, request, *args, **kwargs):
+            if 'SF' in request.POST:
+                for key in request.POST:
+                    if key.startswith('delete_followee_') and request.POST[key] == 'on':
+                        followee_id = re.sub(r"\D", "", key)
+                        Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
+                            .filter(followee_id = followee_id).update(deleted = 1)
+
+            return redirect('/followees/')
+
+        def get_queryset(self):
+            # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+            fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1) \
+                .annotate(brab_count=models.Count('brab'))
+            return fq
+
+        def get_context_data(self, **kwargs):
+            # Call the base implementation first to get a context
+            context = super(Follower_to_followeeListView, self).get_context_data(**kwargs)
+            # Add in some context dictionary value
+            # context['book_list'] = Book.objects.all()
+            return context
+
+class Followee_to_followerListView(LoggedInMixin, ListView):
     methods = ['get', 'post']
-    template_name = 'brabs/followee_list.html'
+    template_name = 'brabs/follower_list.html'
     paginate_by = 12
 
     def post(self, request, *args, **kwargs):
         if 'SF' in request.POST:
             for key in request.POST:
-                if key.startswith('delete_followee_') and request.POST[key] == 'on':
-                    followee_id = re.sub(r"\D", "", key)
-                    Follower_to_followee.objects.filter(follower_id=self.request.user.id)\
-                        .filter(followee_id = followee_id).update(deleted = 1)
+                if key.startswith('delete_follower_') and request.POST[key] == 'on':
+                    follower_id = re.sub(r"\D", "", key)
+                    Follower_to_followee.objects.filter(followee_id=self.request.user.id) \
+                        .filter(follower_id = follower_id).update(deleted = 1)
 
-        return redirect('/followees/')
+        return redirect('/followers/')
 
     def get_queryset(self):
-        # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
-        fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1)\
+
+        fq = User.objects.filter(user_followers__followee=self.request.user.id).exclude(user_followers__deleted=1) \
             .annotate(brab_count=models.Count('brab'))
+
+        # fq = User.objects.filter(user_followers__followee=self.request.user.id).exclude(user_followers__deleted=1)
 
         return fq
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
-        context = super(Follower_to_followeeListView, self).get_context_data(**kwargs)
+        context = super(Followee_to_followerListView, self).get_context_data(**kwargs)
         # Add in some context dictionary value
         # context['book_list'] = Book.objects.all()
         return context
-

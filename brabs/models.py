@@ -13,6 +13,7 @@ class LoggedInMixin(object):
             raise http.Http404
         return super(LoggedInMixin, self).dispatch(request, *args, **kwargs)
 
+
 class Brab(models.Model):
     auth_user = models.ForeignKey(User, null=True, blank=True, verbose_name='Brabber', help_text="Brabber")
     title = models.CharField(blank=True, max_length=255, help_text="Brab Title")
