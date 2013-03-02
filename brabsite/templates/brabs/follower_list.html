@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if follower_list %}
+        <form action="." method="post" style="margin: 0px;" name="SF_form">
+            {% for each_follower in follower_list %}
+
+                    <p> Followed by: {{ each_follower.username }}&nbsp;({{ each_follower.brab_count }}&nbsp;
+                    brab{% if each_follower.brab_count == 1 %}){% else %}s){% endif %}
+{# Line above looks ugly, but if formatted well it displays space before "s"  #}
+                        <---&nbsp;<input type="checkbox" name="delete_follower_{{ each_follower.pk }}"/> Remove follower... &nbsp;
+
+            {% endfor %}
+            <p> <input name="SF" type="submit" value="Save"/>
+            <p>&nbsp;
+        </form>
+    {% endif %}
+{% endblock %}
