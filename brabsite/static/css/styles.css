@@ -45,7 +45,7 @@ DESCRIPTION: A premium business and portfolio theme.
 	table,
 	address,
 	fieldset,
-	img									{margin-bottom:20px;}
+	img									{margin-bottom:12px;}
 	#wrapper							{margin-top:7px;}
 	ul li ul,
 	ol li ol							{margin-bottom:0px;}
@@ -98,6 +98,21 @@ DESCRIPTION: A premium business and portfolio theme.
                                         padding: 6px;
 
     }
+
+    .btn-group                          {
+                                        vertical-align: bottom;
+                                        margin-right: 4px;
+    }
+
+    .search                             {
+                                        display: inline;
+                                        margin: 0;
+                                        vertical-align: bottom;
+    }
+
+    .search input                       {
+                                        margin: 0;
+    }
 	
 /* Custom Grid */
 
@@ -114,7 +129,7 @@ DESCRIPTION: A premium business and portfolio theme.
 	.grid_9,
 	.grid_10,
 	.grid_11,
-	.grid_12 							{display:inline; float:left; position:relative; margin-left:20px; margin-right:20px;}
+	.grid_12 							{display:inline; float:left; position:relative; margin: 0;}
 	.container_12 .grid_1				{width:45px;}
 	.container_12 .grid_2 				{width:130px;}
 	.container_12 .grid_3 				{width:215px;}
@@ -126,11 +141,12 @@ DESCRIPTION: A premium business and portfolio theme.
 	.container_12 .grid_9 				{width:725px;}
 	.container_12 .grid_10 				{width:810px;}
 	.container_12 .grid_11 				{width:895px;}
-	.container_12 .grid_12 				{width:790px;}
-	
+	.container_12 .grid_12 				{width:800px;}
+
+    .category_1                         {padding: 10px;}
 /* Global Classes */
 
-	.hr									{border:none; border-bottom:1px solid #f0f0f0; border-top:1px solid #d6d6d6; clear:both; height:0; line-height:0; width:100%; font-size:0; padding:0 ;margin-bottom :20px;}
+	.hr									{border:none; border-bottom:1px solid #f0f0f0; border-top:1px solid #d6d6d6; clear:both; height:0; line-height:0; width:100%; font-size:0; padding:0 ;margin-bottom :12px;}
 	.pr									{border:none; border-bottom:1px solid #f0f0f0; border-top:1px solid #d6d6d6; clear:both; height:0; line-height:0; width:100%; font-size:0; padding:0; margin-bottom :10px;}
 	.dotted								{border-style:dashed; border-left:0; border-right:0;}	
 	.meta								{font-weight:normal;font-family:'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Arial, san-serif; font-size:11px; color:#999999 !important; line-height:16px; text-transform:none; text-shadow:none;}
@@ -151,7 +167,7 @@ DESCRIPTION: A premium business and portfolio theme.
 	
 /* Site Logo */
 
-	h1#logo 							{font-size:48px; font-weight:normal; margin-top:30px; color:#000000;}
+	.logo 							{font-size:18px; font-weight:normal; margin: 5px 15px 0 0; color:#444;}
 
 /* Site Navigation */
 
@@ -300,7 +316,26 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* topbar */
 
-.topbar                                 {position: relative; width: 320px; text-align: right; float: left;}
+.topbar                                 {position: relative; width: 100%; text-align: left; float: left; margin-bottom: 12px;}
+.topbar-right                           {display: inline; float: right;}
 
+.search-query                           {background-image: url("../img/search.png"); background-position: 210px 8px; background-repeat: no-repeat}
 ul.errorlist                            {margin: 0; padding: 0; }
 .errorlist li                           {background-color: white; color: red; display: block; font-size: 10px; margin: 0 0 3px;}
+
+.dropdown-menu li                       {margin-left: 0}
+.dropdown-menu a                        {padding: 3px 15px;}
+
+.dropdown-menu                          {min-width: 90px;}
+
+.login-block                            {font-size: 13px; margin-left: 10px; vertical-align: bottom}
+.login-block a                          {vertical-align: bottom}
+
+.input-append                           {display: inline}
+.input-append input                     {position: static;}
+.input-append .btn                      {margin-left: -15px; padding: 4px 10px; }
+.input-append .btn:last-child           {border-radius: 0 5px 5px 0;}
+input.search-query                      {border-radius: 5px;}
+
+.brand                                  {vertical-align: bottom}
+
