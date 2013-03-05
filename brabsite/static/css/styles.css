@@ -78,7 +78,7 @@ DESCRIPTION: A premium business and portfolio theme.
     .brab-cat-elem                      {background-color: #bce8f1;
                                         background-image: -webkit-linear-gradient(top,#5bc0de,#2f96b4);
                                         border-radius: 4px;
-                                        padding: 3px;
+                                        padding: 1px 4px 1px 4px;
                                         font-size: 13px;
                                         color: #eeeeee;
                                         }
@@ -93,9 +93,10 @@ DESCRIPTION: A premium business and portfolio theme.
 
     .progress                           {
                                          margin-bottom: 10px;
-                                        }
+    }
     .btn-danger                         {
-                                        padding: 6px;
+                                        padding: 0px 4px 0px 4px;
+                                        font-size: 13px;
     }
 
     .btn-group                          {

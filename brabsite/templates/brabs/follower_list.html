@@ -4,18 +4,18 @@
     {% if follower_list %}
         <form action="." method="post" style="margin: 0px;" name="SF_form">
             <ul style="margin-left: 0px;">
-                <li style="background-color: #EDEFF4; width: 362px; padding: 3px; list-style-type:none; margin-left: 0">
+                <li style="background-color: #EDEFF4; width: 365px; padding: 3px; list-style-type:none; margin-left: 0">
 
                     <strong style="font-size: 13px">You are Followed by:</strong>
 
                 </li>
                 {% for each_follower in follower_list %}
-                    <li style="background-color: #EDEFF4; width: 362px; padding: 3px; margin-left: 0px; margin-top: 6px; margin-bottom: 6px; list-style-type: none;">
+                    <li style="background-color: #EDEFF4; width: 365px; padding: 3px; margin-left: 0px; margin-top: 6px; margin-bottom: 6px; list-style-type: none;">
                         <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
                             {{ each_follower.username }}&nbsp;(<a href="/userbrabs/{{ each_follower.pk }}">{{ each_follower.brab_count }}&nbsp;
                             brab{% if each_follower.brab_count == 1 %}{% else %}s{% endif %}</a>)</div>
                         {# Line above looks ugly, but if formatted well it displays space before "s"  #}
-                        &nbsp;<button onclick="this.form.elements['SF'].value = {{ each_follower.pk }}; this.form.submit();" type="button" style="font-size: 12px; padding: 0px 4px 0px 4px" class="btn btn-danger a" value="Delete">Shake off....</button>
+                        &nbsp;<button onclick="this.form.elements['SF'].value = {{ each_follower.pk }}; this.form.submit();" type="button" class="btn btn-danger" value="Delete">Shake off....</button>
                     </li>
                 {% endfor %}
             </ul>
