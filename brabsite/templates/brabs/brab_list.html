@@ -10,16 +10,16 @@
         {% else %}
             <a class="portfolio_item float" href="{% url brab pk=brab.id %}">
         {% endif %}
-    <span>{{ brab.title }} by {{ brab.auth_user }}</span>
-    {% if brab.pictures_set.all %}
-        {% for picture in brab.pictures_set.all %}
-            {% if picture.main and picture.visible and not picture.deleted%}
-                <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
+            <span>{{ brab.title }} by {{ brab.auth_user }}</span>
+            {% if brab.pictures_set.all %}
+                {% for picture in brab.pictures_set.all %}
+                    {% if picture.main and picture.visible and not picture.deleted%}
+                        <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <img  style="width=180px;height:145px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
             {% endif %}
-        {% endfor %}
-    {% else %}
-        <img  style="width=180px;height:145px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
-    {% endif %}
-    </a>
+        </a>
     {% endfor %}
 {% endblock %}
