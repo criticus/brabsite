@@ -3,15 +3,22 @@
 {% block content %}
     {% if followee_list %}
         <form action="." method="post" style="margin: 0px;" name="SF_form">
+            <ul style="margin-left: 0px;">
+                <li style="background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0">
+
+                    <strong style="font-size: 13px">You are Following:</strong>
+
+                </li>
             {% for each_followee in followee_list %}
-
-                    <p> Following: {{ each_followee.username }}&nbsp;({{ each_followee.brab_count }}&nbsp;
-                    brab{% if each_followee.brab_count == 1 %}){% else %}s){% endif %}
+                <li style="background-color: #EDEFF4; padding: 3px; margin-left: 0; margin-top: 6px; margin-bottom: 6px; list-style-type: none;">
+                    {{ each_followee.username }}&nbsp;(<a href="/userbrabs/{{ each_followee.pk }}">{{ each_followee.brab_count }}&nbsp;
+                    brab{% if each_followee.brab_count == 1 %}{% else %}s{% endif %}</a>)
 {# Line above looks ugly, but if formatted well it displays space before "s"  #}
-                        <---&nbsp;<input type="checkbox" name="delete_followee_{{ each_followee.pk }}"/> Stop Following... &nbsp;
-
+                       &nbsp;<button onclick="this.form.elements['SF'].value = {{ each_followee.pk }}; this.form.submit();" type="button" style="font-size: 12px; padding: 0px 4px 0px 4px" class="btn btn-danger a" value="Delete">Let Go...</button>
+                </li>
             {% endfor %}
-            <p> <input name="SF" type="submit" value="Save"/>
+            </ul>
+            <p> <input name="SF" type="hidden" value="0"/>
             <p>&nbsp;
         </form>
     {% endif %}

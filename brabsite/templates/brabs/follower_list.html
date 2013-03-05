@@ -3,15 +3,22 @@
 {% block content %}
     {% if follower_list %}
         <form action="." method="post" style="margin: 0px;" name="SF_form">
-            {% for each_follower in follower_list %}
+            <ul style="margin-left: 0px;">
+                <li style="background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0">
 
-                    <p> Followed by: {{ each_follower.username }}&nbsp;({{ each_follower.brab_count }}&nbsp;
-                    brab{% if each_follower.brab_count == 1 %}){% else %}s){% endif %}
-{# Line above looks ugly, but if formatted well it displays space before "s"  #}
-                        <---&nbsp;<input type="checkbox" name="delete_follower_{{ each_follower.pk }}"/> Remove follower... &nbsp;
+                    <strong style="font-size: 13px">You are Followed by:</strong>
 
-            {% endfor %}
-            <p> <input name="SF" type="submit" value="Save"/>
+                </li>
+                {% for each_follower in follower_list %}
+                    <li style="background-color: #EDEFF4; padding: 3px; margin-left: 0; margin-top: 6px; margin-bottom: 6px; list-style-type: none;">
+                        {{ each_follower.username }}&nbsp;(<a href="/userbrabs/{{ each_follower.pk }}">{{ each_follower.brab_count }}&nbsp;
+                        brab{% if each_follower.brab_count == 1 %}{% else %}s{% endif %}</a>)
+                        {# Line above looks ugly, but if formatted well it displays space before "s"  #}
+                        &nbsp;<button onclick="this.form.elements['SF'].value = {{ each_follower.pk }}; this.form.submit();" type="button" style="font-size: 12px; padding: 0px 4px 0px 4px" class="btn btn-danger a" value="Delete">Shake off...</button>
+                    </li>
+                {% endfor %}
+            </ul>
+            <p> <input name="SF" type="hidden" value="0"/>
             <p>&nbsp;
         </form>
     {% endif %}

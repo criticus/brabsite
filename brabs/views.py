@@ -497,11 +497,9 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
 
         def post(self, request, *args, **kwargs):
             if 'SF' in request.POST:
-                for key in request.POST:
-                    if key.startswith('delete_followee_') and request.POST[key] == 'on':
-                        followee_id = re.sub(r"\D", "", key)
-                        Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
-                            .filter(followee_id = followee_id).update(deleted = 1)
+                followee_id = request.POST['SF']
+                Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
+                    .filter(followee_id = followee_id).update(deleted = 1)
 
             return redirect('/followees/')
 
@@ -525,11 +523,9 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         if 'SF' in request.POST:
-            for key in request.POST:
-                if key.startswith('delete_follower_') and request.POST[key] == 'on':
-                    follower_id = re.sub(r"\D", "", key)
-                    Follower_to_followee.objects.filter(followee_id=self.request.user.id) \
-                        .filter(follower_id = follower_id).update(deleted = 1)
+            follower_id = request.POST['SF']
+            Follower_to_followee.objects.filter(followee_id=self.request.user.id) \
+                .filter(follower_id = follower_id).update(deleted = 1)
 
         return redirect('/followers/')
 
