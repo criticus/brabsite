@@ -31,10 +31,6 @@ class BrabDetailView(DetailView):
         else:
             voting_form = VotingForm(prefix="V")
             current_vote = 0
-
-        vote_choices =\
-        [(x.id, x.name) for x in Vote.objects.filter(visible=1)]
-
 #        Create a data structure (list of dictionaries) with information on available vote choices
 #        which one is currently selected by the user, totals of vote for each choice to pass to template in context
         votes_data = []
@@ -58,8 +54,7 @@ class BrabDetailView(DetailView):
             else:
                 followed_by_logged_in_user=0
         context = self.get_context_data(object=self.object, C_form=comment_form, P_form=picture_form, V_form=voting_form,\
-            vote_choices = vote_choices,  current_vote =  current_vote, votes_data = votes_data,\
-                followed_by_logged_in_user=followed_by_logged_in_user)
+            current_vote =  current_vote, votes_data = votes_data, followed_by_logged_in_user=followed_by_logged_in_user)
 
         return self.render_to_response(context)
 
@@ -497,11 +492,9 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
 
         def post(self, request, *args, **kwargs):
             if 'SF' in request.POST:
-                for key in request.POST:
-                    if key.startswith('delete_followee_') and request.POST[key] == 'on':
-                        followee_id = re.sub(r"\D", "", key)
-                        Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
-                            .filter(followee_id = followee_id).update(deleted = 1)
+                followee_id = request.POST['SF']
+                Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
+                    .filter(followee_id = followee_id).update(deleted = 1)
 
             return redirect('/followees/')
 
@@ -525,11 +518,9 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         if 'SF' in request.POST:
-            for key in request.POST:
-                if key.startswith('delete_follower_') and request.POST[key] == 'on':
-                    follower_id = re.sub(r"\D", "", key)
-                    Follower_to_followee.objects.filter(followee_id=self.request.user.id) \
-                        .filter(follower_id = follower_id).update(deleted = 1)
+            follower_id = request.POST['SF']
+            Follower_to_followee.objects.filter(followee_id=self.request.user.id) \
+                .filter(follower_id = follower_id).update(deleted = 1)
 
         return redirect('/followers/')
 
