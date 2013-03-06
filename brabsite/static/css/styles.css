@@ -71,9 +71,7 @@ DESCRIPTION: A premium business and portfolio theme.
                                         margin: 0;
                                         }
 
-    .brab-cat                           {
-                                        margin-top: 5px;
-                                        margin-bottom: 5px;
+    .brab-cat                           {margin-top: 5px; margin-bottom: 5px;
                                         }
     .brab-cat-elem                      {background-color: #bce8f1;
                                         background-image: -webkit-linear-gradient(top,#5bc0de,#2f96b4);
@@ -86,34 +84,31 @@ DESCRIPTION: A premium business and portfolio theme.
                                         font-size: 13px;
                                         margin-bottom: 5px;
                                         }
-    input[type="radio"]          {
-                                        color: #ff0000;
+    input[type="radio"]                 {color: #ff0000;
                                         margin: 40px;
-    }
+                                        }
 
-    .progress                           {
-                                         margin-bottom: 10px;
-    }
-    .btn-danger                         {
-                                        padding: 0px 4px 0px 4px;
+    .progress                           {margin-bottom: 10px;
+                                        }
+    .btn-danger                         {padding: 0px 4px 0px 4px;
                                         font-size: 13px;
-    }
+                                        }
 
-    .btn-group                          {
-                                        vertical-align: bottom;
+    .btn-group                          {vertical-align: bottom;
                                         margin-right: 4px;
-    }
+                                        }
 
-    .search                             {
-                                        display: inline-block;
+    .search                             {display: inline-block;
                                         margin: 0;
                                         vertical-align: top;
-    }
+                                        }
 
-    .search input                       {
-                                        margin: 0;
-    }
-	
+    .search input                       {margin: 0;
+
+                                        }
+    .brab_ul_li_element                 {background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0;}
+    .brab_ul_li_element_l               {margin-top: 6px; margin-bottom: 6px;}
+
 /* Custom Grid */
 
 	.container_12 						{margin-left:auto; margin-right:auto; width:800px;}

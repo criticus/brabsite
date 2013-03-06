@@ -5,7 +5,7 @@
     <table>
         <tr><td style="vertical-align: top">
             <!-- Column 1 / Project Information -->
-            <div class="grid_4" style="width: 300px;" xmlns="http://www.w3.org/1999/html">
+            <div class="grid_4" style="width: 300px;">
                 <div >
                     <h3 class="brab-title">{{ brab.title }}
                         {% if user.is_authenticated and brab.auth_user.id == user.id %}
@@ -66,7 +66,7 @@
                         {% endif %}
                     {% else %}
                         {% if not brab.auth_user.id == user.id %}
-                            <li style="background-color: #EDEFF4; padding: 3px; margin-left: 0; margin-top: 6px; margin-bottom: 6px; list-style-type:none;"><p class="text-warning">Log in to be able to vote</p></li>
+                            <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
                         {% endif %}
                     {% endif %}
                 {% endif %}
@@ -82,7 +82,7 @@
                     </form>
                 {% endif %}
                 <ul style="margin-left: 0px;">
-                    <li style="background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0">
+                    <li class="brab_ul_li_element">
                         {% if brab.comments_set.count %}
                             <strong style="font-size: 13px">{{ brab.comments_set.count }} comment(s): </strong>
                         {% else %}
@@ -90,7 +90,7 @@
                         {% endif %}
                     </li>
                     {% for comment in brab.comments_set.all %}
-                        <li style="background-color: #EDEFF4; padding: 3px; margin-left: 0; margin-top: 6px; margin-bottom: 6px; list-style-type: none;">
+                        <li class="brab_ul_li_element brab_ul_li_element_l">
                             <span class="text-info" style="font-size: 12px;"><a href="/userbrabs/{{ comment.auth_user.id }}">{{ comment.auth_user }}</a></span>:
                             <span style="font-size: 12px;"> {{ comment.comment }} </span> <br/>
                             <span class="muted" style="font-size: 11px;">{{ comment.created_at }}</span>
@@ -113,7 +113,7 @@
                             </form>
                         </li>
                     {% else %}
-                        <li style="background-color: #EDEFF4; padding: 3px; margin-left: 0; margin-top: 6px; margin-bottom: 6px; list-style-type:none;"><p class="text-warning">Log in to add a comment</p></li>
+                        <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to add a comment</p></li>
                     {% endif %}
 
 
