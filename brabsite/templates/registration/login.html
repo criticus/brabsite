@@ -1,5 +1,20 @@
 {% block content %}
+    <script type="text/javascript">
 
+        EnableSubmit = function(val)
+        {
+            var sbmt = document.getElementById("Subm");
+
+            if (val.checked == true)
+            {
+                sbmt.disabled = false;
+            }
+            else
+            {
+                sbmt.disabled = true;
+            }
+        }
+    </script>
     {% if form.errors %}
         <div class="alert alert-error">
             Please correct the errors below: {{ form.errors }}
@@ -25,7 +40,56 @@
             <h3 style="text-align: left;" id="signUpLabel">Registration</h3>
         </div>
         <div class="modal-body">
-            {% include "registration/registration_form.html" %}
+            <form method="post" action="/accounts/register/" class="form-horizontal">
+
+                <div class="control-group">
+
+                    <label  class="control-label" for="id_username">Username:</label>
+                    <div class="controls">
+                        <input id="id_username" type="text" class="required" name="username" maxlength="30" />
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_email">Email:</label>
+                    <div class="controls">
+                        <input id="id_email" type="text" class="required" name="email" maxlength="75" />
+
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_password1">Password:</label>
+                    <div class="controls">
+                        <input id="id_password1" type="password" class="required" name="password1" />
+
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_password2">Verify Password:</label>
+                    <div class="controls">
+                        <input id="id_password2" type="password" class="required" name="password2" />
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" id="Accept" onClick="EnableSubmit(this)"> Agree to the <a href="">terms and conditions</a>
+                        </label>
+                        <input type="submit" id="Subm" value="Create An Account" class="btn btn-primary" disabled>
+                    </div>
+                </div>
+
+            </form>
         </div>
     </div>
 
@@ -35,8 +99,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3 style="text-align: left;" id="ForgotPswLabel">Reset Password</h3>
         </div>
+
         <div class="modal-body" style="text-align: left;">
-            {% include "registration/password_reset_form.html" %}
+            <p>Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one.</p>
+
+            <form action="/accounts/password/reset/" method="post" class="form-inline">
+                <label for="id_email"  class="control-label">Email:</label>
+                {%  if form.email.errors %}
+                    <p class="text-error">{{ form.email.errors.as_text }}</p>
+                {% endif %}
+                <input id="id_email" type="text" name="email" maxlength="75" />
+                <input type="submit" value="Reset my password" class="btn btn-primary"/>
+            </form>
         </div>
     </div>
 
