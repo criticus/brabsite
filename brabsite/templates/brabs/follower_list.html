@@ -2,6 +2,24 @@
 
 {% block content %}
     {% if follower_list %}
+        {% if is_paginated %}
+
+            <div class="brab_pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="/followers?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a href="/followers?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                </span>
+            </div>
+
+        {% endif %}
+
         <form action="." method="post" style="margin: 0px;" name="SF_form">
             <ul style="margin-left: 0px;">
                 <li class="brab_ul_li_element" style="width: 365px;">>
@@ -22,6 +40,10 @@
             <p> <input name="SF" type="hidden" value="0"/>
             <p>&nbsp;
         </form>
+    {% else %}
+        <div class="brab_pagination">
+            <p>No followers found!!! :(</p>
+        </div>
     {% endif %}
 
 
