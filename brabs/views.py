@@ -484,6 +484,7 @@ class BrabListView(ListView):
                     q = Brab.objects.filter(auth_user_id=self.request.user.id)
         return q
 
+
 class Follower_to_followeeListView(LoggedInMixin, ListView):
         methods = ['get', 'post']
         template_name = 'brabs/followee_list.html'
@@ -502,6 +503,7 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
                 .annotate(brab_count=models.Count('brab'))
 
             return fq
+
 
 class Followee_to_followerListView(LoggedInMixin, ListView):
     methods = ['get', 'post']

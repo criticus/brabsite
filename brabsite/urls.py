@@ -7,7 +7,6 @@ from django.conf import settings
 
 admin.autodiscover()
 
-
 urlpatterns = patterns('',
     url(r'^hello/$', view=hello, name='hello_page'
     ),
