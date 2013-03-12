@@ -455,7 +455,6 @@ class BrabEditView(CreateView):
 
 class BrabListView(ListView):
     template_name = 'brabs/brab_list.html'
-    paginate_by = 12
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
@@ -485,10 +484,10 @@ class BrabListView(ListView):
                     q = Brab.objects.filter(auth_user_id=self.request.user.id)
         return q
 
+
 class Follower_to_followeeListView(LoggedInMixin, ListView):
         methods = ['get', 'post']
         template_name = 'brabs/followee_list.html'
-        paginate_by = 12
 
         def post(self, request, *args, **kwargs):
             if 'SF' in request.POST:
@@ -502,19 +501,14 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
             # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
             fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1) \
                 .annotate(brab_count=models.Count('brab'))
+
             return fq
 
-        def get_context_data(self, **kwargs):
-            # Call the base implementation first to get a context
-            context = super(Follower_to_followeeListView, self).get_context_data(**kwargs)
-            # Add in some context dictionary value
-            # context['book_list'] = Book.objects.all()
-            return context
 
 class Followee_to_followerListView(LoggedInMixin, ListView):
     methods = ['get', 'post']
     template_name = 'brabs/follower_list.html'
-    paginate_by = 12
+
 
     def post(self, request, *args, **kwargs):
         if 'SF' in request.POST:
@@ -529,13 +523,6 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
         fq = User.objects.filter(user_followers__followee=self.request.user.id).exclude(user_followers__deleted=1) \
             .annotate(brab_count=models.Count('brab'))
 
-        # fq = User.objects.filter(user_followers__followee=self.request.user.id).exclude(user_followers__deleted=1)
-
         return fq
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(Followee_to_followerListView, self).get_context_data(**kwargs)
-        # Add in some context dictionary value
-        # context['book_list'] = Book.objects.all()
-        return context
+

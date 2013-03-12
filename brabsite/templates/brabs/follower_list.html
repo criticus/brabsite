@@ -2,6 +2,8 @@
 
 {% block content %}
     {% if follower_list %}
+        {% if is_paginated %}{% load paginator %}{% paginator %}{% endif %}
+
         <form action="." method="post" style="margin: 0px;" name="SF_form">
             <ul style="margin-left: 0px;">
                 <li class="brab_ul_li_element" style="width: 365px;">>
@@ -22,6 +24,10 @@
             <p> <input name="SF" type="hidden" value="0"/>
             <p>&nbsp;
         </form>
+    {% else %}
+        <div class="brab_pagination">
+            <p>No followers found!!! :(</p>
+        </div>
     {% endif %}
 
 

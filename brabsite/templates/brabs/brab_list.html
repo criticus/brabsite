@@ -1,25 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {{ brab_list.index }}
-    {% for brab in brab_list %}
-        {% if forloop.counter|divisibleby:4 %}
-            <a class="portfolio_item float omega" href="{% url brab pk=brab.id %}">
-        {%  elif forloop.counter|add:"-1"|divisibleby:4%}
-            <a class="portfolio_item float alpha" href="{% url brab pk=brab.id %}">
-        {% else %}
-            <a class="portfolio_item float" href="{% url brab pk=brab.id %}">
-        {% endif %}
-            <span>{{ brab.title }} by {{ brab.auth_user }}</span>
-            {% if brab.pictures_set.all %}
-                {% for picture in brab.pictures_set.all %}
-                    {% if picture.main and picture.visible and not picture.deleted%}
-                        <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
-                    {% endif %}
-                {% endfor %}
+
+    {% if brab_list %}
+
+        {% if is_paginated %}{% load paginator %}{% paginator %}{% endif %}
+
+        {{ brab_list.index }}
+        {% for brab in brab_list %}
+            {% if forloop.counter|divisibleby:4 %}
+                <a class="portfolio_item float omega" href="{% url brab pk=brab.id %}">
+            {%  elif forloop.counter|add:"-1"|divisibleby:4%}
+                <a class="portfolio_item float alpha" href="{% url brab pk=brab.id %}">
             {% else %}
-                <img  style="width=180px;height:145px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
+                <a class="portfolio_item float" href="{% url brab pk=brab.id %}">
             {% endif %}
-        </a>
-    {% endfor %}
+                <span>{{ brab.title }} by {{ brab.auth_user }}</span>
+                {% if brab.pictures_set.all %}
+                    {% for picture in brab.pictures_set.all %}
+                        {% if picture.main and picture.visible and not picture.deleted%}
+                            <img style="width=180px;height:145px" src="{{ picture.picture.url}}" alt="" width="90" height="90">
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <img  style="width=180px;height:145px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
+                {% endif %}
+            </a>
+        {% endfor %}
+
+    {% else %}
+        <div class="brab_pagination">
+            <p>No brabs found!!! :(</p>
+        </div>
+    {% endif %}
+
 {% endblock %}
+
+
+

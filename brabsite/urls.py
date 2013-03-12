@@ -7,58 +7,57 @@ from django.conf import settings
 
 admin.autodiscover()
 
-
 urlpatterns = patterns('',
     url(r'^hello/$', view=hello, name='hello_page'
     ),
     url(r'^followers/$', Followee_to_followerListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="follower_list"),
         name="follower-list-view"
     ),
     url(r'^followees/$', Follower_to_followeeListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="followee_list"),
         name="followee-list-view"
     ),
     url(r'^fwbrabs/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="fw-brab-list-view"
     ),
     url(r'^envybrabs/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="my-envy-brab-list-view"
     ),
     url(r'^mybrabs/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="my-brab-list-view"
     ),
     url(r'^userbrabs/(?P<user_id>[a-zA-Z0-9-]+)/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="user-brab-list-view"
     ),
     url(r'^brabsbycategory/(?P<category_id>[a-zA-Z0-9-]+)/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="user-brab-list-view"
     ),
     url(r'^brabsbytag/(?P<tag_name>[a-zA-Z0-9-_  ]+)/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="user-brab-list-view"
     ),
     url(r'^searchbrabs/$', BrabListView.as_view(
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="search-brab-list-view"
     ),
     url(r'^$', ListView.as_view(
         queryset=Brab.objects.all(),
-        paginate_by=25,
+        paginate_by=20,
         context_object_name="brab_list"),
         name="all-brab-list-view"
     ),

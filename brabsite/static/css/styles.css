@@ -109,6 +109,35 @@ DESCRIPTION: A premium business and portfolio theme.
     .brab_ul_li_element                 {background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0;}
     .brab_ul_li_element_l               {margin-top: 6px; margin-bottom: 6px;}
 
+/* Pagination */
+
+    .brab_pagination                    {margin: 0px 0px 10px;}
+    .pager {
+        padding-top: 0px;
+        padding-left: 0px;
+        margin-top: 0px;
+        margin-bottom: 8px;
+    }
+    .pager .page a {
+        border: 3px solid #bbbbbb;
+        margin-left: 1px;
+        margin-right: 1px;
+        padding-left: 4px;
+        padding-right: 4px;
+        text-decoration: none;
+        color: #000000;
+    }
+    .pager .current {
+        border: 3px solid #444444;
+        margin-left: 1px;
+        margin-right: 1px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    .pager_li {
+        margin-left: 10px;
+    }
 /* Custom Grid */
 
 	.container_12 						{margin-left:auto; margin-right:auto; width:800px;}
