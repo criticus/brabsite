@@ -15,13 +15,25 @@
             }
         }
     </script>
-    {% if form.errors %}
-        <div class="alert alert-error">
-            Please correct the errors below: {{ form.errors }}
-        </div>
-    {% endif %}
+
 
     <form method="post" class="login-form" action="/accounts/login/?next={{ next|default:"/" }}">
+
+        {% if form.errors %}
+            <div class="alert alert-error">
+                Please correct the errors below:
+                {% if form.non_field_errors %}
+                    <br>{{ form.non_field_errors }}
+                {% endif %}
+                {% if form.username.errors %}
+                    <br>Brabber ID: {{ form.username.errors }}
+                {% endif %}
+                {% if form.password.errors %}
+                    <br>Password: {{ form.password.errors }}
+                {% endif %}
+
+            </div>
+        {% endif %}
 
         <input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
 
@@ -83,7 +95,7 @@
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            <input type="checkbox" id="Accept" onClick="EnableSubmit(this)"> Agree to the <a href="">terms and conditions</a>
+                            <input type="checkbox" id="Accept" onClick="EnableSubmit(this)"> Agree to the <a href="{{STATIC_URL}}home_pages/terms.htm">terms and conditions</a>
                         </label>
                         <input type="submit" id="Subm" value="Create An Account" class="btn btn-primary" disabled>
                     </div>

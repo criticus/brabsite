@@ -37,7 +37,7 @@
     <div class="topbar">
         <div class="fill">
             <div class="">
-                <span class="logo"><a href="/" class="brand">&nbsp;Brabout.com!</a></span>
+                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut.com!</a></span>
                 {% if user.is_authenticated %}
                     {% if "addabrab" in request.path %}
                         <a class="btn btn-primary" href="/">Brablist</a>
@@ -99,7 +99,7 @@
 
     <!-- Footer -->
     <p class="grid_12 footer clearfix">
-        <span class="float"><b>&copy; Copyright</b> <a href="http://brabout.com">Brabout Inc.</a></span>
+        <span class="float"><b>&copy; Copyright</b> <a href="http://brabout.com">BrabOut Inc.</a></span>
         <a class="float right" href="#">top</a>
     </p>
 

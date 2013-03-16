@@ -525,4 +525,3 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
 
         return fq
 
-
