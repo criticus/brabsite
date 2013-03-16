@@ -343,6 +343,7 @@ class BrabEditView(CreateView):
                 if key.startswith('hide_') and request.POST[key] == 'on':
                     picture_record_id = re.sub(r"\D", "", key)
                     Pictures.objects.filter(id = picture_record_id).update(visible = 0)
+
                 if key.startswith('show_') and request.POST[key] == 'on':
                     picture_record_id = re.sub(r"\D", "", key)
                     Pictures.objects.filter(id = picture_record_id).update(visible = 1)
@@ -452,6 +453,17 @@ class BrabEditView(CreateView):
 
         return category_count
 
+    def is_picture_main(self, picture_record_id):
+        try:
+            current_picture = Pictures.objects.get(id = picture_record_id)
+            if current_picture.main == 1:
+                return_value = True
+            else:
+                return_value = False
+        except:
+            return_value = False
+
+        return return_value
 
 class BrabListView(ListView):
     template_name = 'brabs/brab_list.html'
