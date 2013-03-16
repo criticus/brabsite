@@ -9,7 +9,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* Global Styles */
 
-	body								{background: repeat-x #FFFFFF;
+	body								{background: repeat-x #eee;
                                         font-size:12px;
                                         font-family: tahoma;
                                         color: #444;
@@ -204,7 +204,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* Footer */
 
-	.footer,							
+	.footer                             {padding: 0 20px 50px;}
 	.footer a							{color:#494949;}
 	.footer a:hover						{color:#9d9d9d;}
 	
@@ -359,6 +359,8 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .login-form button                      {padding: 4px 10px; margin-bottom: 9px;}
 .login-help                             {text-align: right;}
 .login-help a                           {font-size: 12px;}
+.login-button                           {margin-right: 20px;}
+.log-buttons                            {width: 200px; float: right; text-align: center}
 
 .input-append                           {display: inline}
 .input-append input                     {position: static;}
@@ -367,4 +369,11 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .input-append input.search-query        {border-radius: 5px;}
 
 .brand                                  {vertical-align: bottom}
+
+.hero-unit p {
+    font-size: 13px;
+    font-weight: 200;
+    line-height: 25px;
+    color: #555555;
+}
 
