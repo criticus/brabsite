@@ -140,11 +140,12 @@
 
 
 
-                <div style="width: 320px; float: right;>
+                <div style="width: 320px; float: right;">
 
                     {% if user.is_authenticated and brab.auth_user.id == user.id %}
 
                         <form action="." method="post" enctype="multipart/form-data">
+
                             <input type="hidden" name="P-brab" id="id_P-brab" />
                             <input type="hidden" name="P-pic_height" id="id_P-pic_height" />
                             <input type="hidden" name="P-pic_width" id="id_P-pic_width" />
