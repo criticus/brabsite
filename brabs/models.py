@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+from imagekit.models.fields import ProcessedImageField, ImageSpecField
+from imagekit.processors import SmartResize, ResizeToFit
+
 
 from django import http
 
@@ -129,7 +132,11 @@ class Messages(models.Model):
 class Pictures(models.Model):
     brab = models.ForeignKey(Brab, blank=True, null=True, help_text="Brab")
     title = models.TextField(null=True, help_text="title")
-    picture = models.ImageField(upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width", null=True, blank=True, max_length=250, help_text="Picture URL")
+    # picture = models.ImageField(upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width", null=True, blank=True, max_length=250, help_text="Picture URL")
+
+    picture = ProcessedImageField([ResizeToFit(800, 800, True, (161,175,199, 90))],format='JPEG', options={'quality': 70},
+                              upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
+                              null=True, blank=True, max_length=250, help_text="Picture URL")
     pic_height = models.IntegerField(null=True, blank=True)
     pic_width = models.IntegerField(null=True, blank=True)
 

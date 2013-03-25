@@ -8,8 +8,8 @@ from brabs.models import LoggedInMixin
 from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.db import models
-import re, string
 
+import re, string
 
 
 def hello(request):
@@ -369,6 +369,7 @@ class BrabEditView(CreateView):
                         #            Fill picture.brab_id with pk of the current brab
                 picture_form.instance.brab_id = self.object.pk
                 picture_form.instance.visible = 1
+
                 picture_form.save()
             return HttpResponseRedirect(brab.get_absolute_url())
         else:
@@ -391,13 +392,12 @@ class BrabEditView(CreateView):
                     tags = tags + tag_instance.tag.tag
                     tag_count = tag_count + 1
 
-            brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags}, prefix="B")
+            # brabform = BrabForm(instance=self.object, initial={'category':categories, 'tags':tags}, prefix="B")
             picture_form = PictureForm(prefix="P")
 
             # self.object = None
             context = self.get_context_data(object=self.object, brabform=brabform, P_form=picture_form)
             return self.render_to_response(context)
-
 
     def get_object(self):
         # Call the superclass
@@ -474,6 +474,8 @@ class BrabListView(ListView):
         tag_name = self.kwargs.get('tag_name', None)
         if self.request.path=="/envybrabs/":
             q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
+        elif self.request.path=="/mybrabs/":
+            q = Brab.objects.filter(auth_user_id=self.request.user.id)
         elif self.request.path=="/fwbrabs/":
             fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
             q = Brab.objects.filter(auth_user_id__in=fq).distinct()
@@ -486,35 +488,42 @@ class BrabListView(ListView):
                 q =  Brab.objects.filter(auth_user_id=user_id)
             else:
                 if self.request.GET:
-                    search_for = self.request.GET["searchfor"]
-                    if search_for:
+                    searchfor_key_present = False
+                    for key in self.request.GET:
+                        if key == "searchfor":
+                            searchfor_key_present = True
+                            break
+
+                    if searchfor_key_present:
+                        search_for = self.request.GET["searchfor"]
                         search_for = re.split('; |, |,|;| ', search_for)
                         q = Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
                     else:
-                        q = Brab.objects.filter(auth_user_id=self.request.user.id)
+                        # q = Brab.objects.filter(auth_user_id=self.request.user.id)
+                        q = Brab.objects.all
                 else:
-                    q = Brab.objects.filter(auth_user_id=self.request.user.id)
+                    q = Brab.objects.all
         return q
 
 
 class Follower_to_followeeListView(LoggedInMixin, ListView):
-        methods = ['get', 'post']
-        template_name = 'brabs/followee_list.html'
+    methods = ['get', 'post']
+    template_name = 'brabs/followee_list.html'
 
-        def post(self, request, *args, **kwargs):
-            if 'SF' in request.POST:
-                followee_id = request.POST['SF']
-                Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
-                    .filter(followee_id = followee_id).update(deleted = 1)
+    def post(self, request, *args, **kwargs):
+        if 'SF' in request.POST:
+            followee_id = request.POST['SF']
+            Follower_to_followee.objects.filter(follower_id=self.request.user.id) \
+                .filter(followee_id = followee_id).update(deleted = 1)
 
-            return redirect('/followees/')
+        return redirect('/followees/')
 
-        def get_queryset(self):
-            # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
-            fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1) \
-                .annotate(brab_count=models.Count('brab'))
+    def get_queryset(self):
+        # fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
+        fq = User.objects.filter(user_followees__follower=self.request.user.id).exclude(user_followees__deleted=1) \
+            .annotate(brab_count=models.Count('brab'))
 
-            return fq
+        return fq
 
 
 class Followee_to_followerListView(LoggedInMixin, ListView):
@@ -537,3 +546,57 @@ class Followee_to_followerListView(LoggedInMixin, ListView):
 
         return fq
 
+
+def resize(data, box, fit):
+# '''Downsample the image.
+#     @param img: Image -  an Image-object
+#     @param box: tuple(x, y) - the bounding box of the result image
+#     @param fix: boolean - crop the image to fill the box
+#     @param out: file-like-object - save the image into the output stream
+#     '''
+    import Image as pil
+    from cStringIO import StringIO
+
+    input_file = StringIO(data)
+    img = pil.open(input_file)
+    #preresize image with factor 2, 4, 8 and fast algorithm
+    factor = 1
+    while img.size[0]/factor > 2*box[0] and img.size[1]*2/factor > 2*box[1]:
+        factor *=2
+    if factor > 1:
+        img.thumbnail((img.size[0]/factor, img.size[1]/factor), pil.NEAREST)
+
+    #calculate the cropping box and get the cropped part
+    if fit:
+        x1 = y1 = 0
+        x2, y2 = img.size
+        wRatio = 1.0 * x2/box[0]
+        hRatio = 1.0 * y2/box[1]
+        if hRatio > wRatio:
+            y1 = int(y2/2-box[1]*wRatio/2)
+            y2 = int(y2/2+box[1]*wRatio/2)
+        else:
+            x1 = int(x2/2-box[0]*hRatio/2)
+            x2 = int(x2/2+box[0]*hRatio/2)
+        img = img.crop((x1,y1,x2,y2))
+
+    #Resize the image with best quality algorithm ANTI-ALIAS
+    img.thumbnail(box, pil.ANTIALIAS)
+
+    #save it into a file-like object
+    # img.save(out, "JPEG", quality=75)
+    #resize
+
+    from django.core.files.temp import NamedTemporaryFile
+    img_temp = NamedTemporaryFile()
+    img.save(img_temp, 'JPEG')
+    return img_temp
+
+    # tmp = StringIO()
+    # img.save(tmp, 'JPEG')
+    # tmp.seek(0)
+    # output_data = tmp.getvalue()
+    # input_file.close()
+    # tmp.close()
+    #
+    # return output_data
