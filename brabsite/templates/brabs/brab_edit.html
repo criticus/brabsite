@@ -9,12 +9,12 @@
     {% for field in brabform %}
          {% if not field.is_hidden %}
                 <tr>
-                <td>{{ field.label_tag }}{{ field.errors }}</td>
-                    <td>&nbsp;</td>
-                <td>{{ field }}</td>
+                    <td>{{ field.label_tag }}{{ field.errors }}</td>
+                        <td>&nbsp;</td>
+                    <td>{{ field }}</td>
                 </tr>
-        {% endif %}
-     {% endfor %}
+         {% endif %}
+    {% endfor %}
 
 </fieldset>
     <tr>

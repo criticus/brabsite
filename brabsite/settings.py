@@ -60,11 +60,11 @@ except:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'rbrabout',                      # Or path to database file if using sqlite3.
-            'USER': 'root',                      # Not used with sqlite3.
-            'PASSWORD': '',                  # Not used with sqlite3.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
             'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
     # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -174,9 +174,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'django.contrib.humanize',
+    'imagekit',
     'storages',
     'brabs',
-    )
+)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -234,6 +235,6 @@ AWS_STORAGE_BUCKET_NAME = "brabout"
 AWS_S3_SECURE_URLS = True
 #
 ## stops IK checking S3 all the time
-#IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
+IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
 
 
