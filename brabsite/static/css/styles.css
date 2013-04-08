@@ -242,8 +242,8 @@ DESCRIPTION: A premium business and portfolio theme.
 	
 /* Common Scroller Styles */
 
-	.roundabout-holder 					{list-style:none; width:450px; height:300px; margin:0px auto;}
-	.roundabout-moveable-item 			{font-size:12px!important; height:300px; width:450px; cursor:pointer; padding:5px; border:1px solid #aaaaaa; -webkit-border-radius:5px; -moz-border-radius:5px; background:#f9f9f9;}
+	.roundabout-holder 					{list-style:none; width:400px; height:400px; margin:0px auto;}
+	.roundabout-moveable-item 			{font-size:12px!important; height:400px; width:400px; cursor:pointer; padding:5px; border:1px solid #aaaaaa; -webkit-border-radius:5px; -moz-border-radius:5px; background:#f9f9f9;}
 	.roundabout-moveable-item img 		{height:100%; width:100%; background-color:#FFFFFF; margin:0;}
 	.roundabout-in-focus 				{cursor:auto;}
 	.roundabout-in-focus:hover			{-webkit-box-shadow:0px 0px 20px #787878; -moz-box-shadow:0px 0px 20px #787878; background:#f9f9f9;}
@@ -261,8 +261,8 @@ DESCRIPTION: A premium business and portfolio theme.
 	
 /* Portfolio Image Slider */
 
-	#folio_scroller_container						{margin-top:35px; margin-bottom:40px; height:auto;}
-	#folio_scroller_container .roundabout-holder	{list-style:none; height:400px; margin:0px auto 20px auto;}
+	#folio_scroller_container						{margin-bottom:40px; height:auto;}
+	#folio_scroller_container .roundabout-holder	{list-style:none; height:500px; margin:0px auto 20px auto;}
 	
 /* Portfolio Styles */
 	

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
+<form class="form-horizontal" action="." method="post" enctype="multipart/form-data" name="frmUpload">
 
 <fieldset class="module aligned">
     <table cellpadding="5" cellspacing="5">
@@ -83,28 +83,28 @@
         <td>&nbsp;</td>
         <td>
 
-            {% if  user.is_authenticated and brab.auth_user.id == user.id %}
                 <input type="hidden" name="P-brab" id="id_P-brab" />
                 <input type="hidden" name="P-pic_height" id="id_P-pic_height" />
                 <input type="hidden" name="P-pic_width" id="id_P-pic_width" />
-                <input type="hidden" name="P-visible" id="id_P-visible" />
+                <input type="hidden" name="C-visible" id="id_C-visible" />
                 <input type="hidden" name="P-deleted" id="id_P-deleted" />
                 <input type="hidden" name="P-created_at" id="id_P-created_at" />
                 <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
-                <div class="fileupload fileupload-new" data-provides="fileupload">
-                    <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">
-                        <input id="id_P-title" type="hidden" name="P-title" maxlength="100" value="Image" placeholder="Picture title"/>
-                        <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>
-                    <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>
-                            <span class="btn btn-file"><span class="fileupload-new">Add a Picture</span>
-                            <span class="fileupload-exists">Change</span>
-                            <input type="file" name="P-picture" id="id_P-picture"/></span>
-                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                    {#                        <input name="P" type="submit" class="btn btn-info" value="upload">#}
+                <div class="row-fluid">
+                    <div class="span12">
+                        <input id="new_picture" type="hidden" name="test[image]">
+                        <div id="new_pic_settings">
+                            <input type="checkbox" name="makemain_new"/> Main &nbsp;
+                            <input type="checkbox"name="hide_new"/> Hide
+                        </div>
+                            <!-- Button to invoke the click of the File Input -->
+                            <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"
+                                   value="Add a Picture" class="btn" style="margin:10px 0;">
+                    </div>
                 </div>
 
 
-            {% endif %}
+
         </td>
 
     <tr>
