@@ -8,6 +8,9 @@
     <link href="{{STATIC_URL}}css/reset.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/jasny-bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{STATIC_URL}}ac_components/imgareaselect/css/imgareaselect-default.css">
+
+    <link rel="stylesheet" href="{{STATIC_URL}}css/jquery.awesome-cropper.css">
     <link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
     <style>.content {padding-top: 80px;}</style>
 
@@ -18,6 +21,9 @@
     <script src="{{STATIC_URL}}js/jquery.easing.1.3.js"></script>
     <script src="{{STATIC_URL}}js/bootstrap-fileupload.js"></script>
     <script src="{{STATIC_URL}}js/jquery.roundabout-shapes-1.1.js"></script>
+    <script src="{{STATIC_URL}}ac_components/imgareaselect/scripts/jquery.imgareaselect.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.awesome-cropper.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function() { //Start up our Project Preview Carosuel
             $('ul#folio_scroller').roundabout({
@@ -26,6 +32,23 @@
                 duration: 700
             });
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#new_picture').awesomeCropper(
+                    { width: 230, height: 230, debug: true }
+            );
+
+            $('#new_pic_settings').hide();
+            $('.awesome-cropper').css('height', '0');
+
+        });
+    </script>
+    <script language="JavaScript" type="text/javascript">
+        function HandleFileButtonClick()
+        {
+            document.frmUpload.myFile.click();
+        }
     </script>
 </head>
 
