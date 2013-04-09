@@ -20,7 +20,7 @@
     };
     $inputAttachTo = $(inputAttachTo);
     input = function(type) {
-      return $("<input name='myFile' style='display: none;'  type = \"" + type + "\" />");
+      return $("<input type = \"" + type + "\" id='new_pic' name='P-picture' style='display: block;'/>");
     };
     div = function() {
       return $("<div/>");
