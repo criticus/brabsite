@@ -327,26 +327,7 @@ class BrabEditView(CreateView):
             brab.save()
             tag_count = self.add_tag_records(tags, request.user.id, brab.pk)
             category_count = self.add_category_records(category, request.user.id, brab.pk)
-            for key in request.POST:
-                if key.startswith('delete_') and request.POST[key] == 'on':
-                    picture_record_id = re.sub(r"\D", "", key)
-                    Pictures.objects.filter(id = picture_record_id).update(deleted = 1)
-                if key.startswith('makemain_') and request.POST[key] == 'on':
 
-                    if self.object.pictures_set.count():
-                        for picture in self.object.pictures_set.all():
-                            picture.main = 0
-                            picture.save()
-
-                    picture_record_id = re.sub(r"\D", "", key)
-                    Pictures.objects.filter(id = picture_record_id).update(main = 1)
-                if key.startswith('hide_') and request.POST[key] == 'on':
-                    picture_record_id = re.sub(r"\D", "", key)
-                    Pictures.objects.filter(id = picture_record_id).update(visible = 0)
-
-                if key.startswith('show_') and request.POST[key] == 'on':
-                    picture_record_id = re.sub(r"\D", "", key)
-                    Pictures.objects.filter(id = picture_record_id).update(visible = 1)
 
             picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
             if picture_form.is_valid():
@@ -371,6 +352,28 @@ class BrabEditView(CreateView):
                 picture_form.instance.visible = 1
 
                 picture_form.save()
+
+            for key in request.POST:
+                if key.startswith('delete_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(deleted = 1)
+                if key.startswith('makemain_') and request.POST[key] == 'on':
+
+                    if self.object.pictures_set.count():
+                        for picture in self.object.pictures_set.all():
+                            picture.main = 0
+                            picture.save()
+
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(main = 1)
+                if key.startswith('hide_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(visible = 0)
+
+                if key.startswith('show_') and request.POST[key] == 'on':
+                    picture_record_id = re.sub(r"\D", "", key)
+                    Pictures.objects.filter(id = picture_record_id).update(visible = 1)
+
             return HttpResponseRedirect(brab.get_absolute_url())
         else:
 

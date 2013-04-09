@@ -24,15 +24,14 @@ try:
     # Assumes dotCloud database service is called "data"
     DATABASES = {
         'default': {
-            'ENGINE':   'django.db.backends.mysql',
-            'NAME':     'brabout',
-            'USER':     env[u'DOTCLOUD_DATA_MYSQL_LOGIN'],
-            'PASSWORD': env[u'DOTCLOUD_DATA_MYSQL_PASSWORD'],
-            'HOST':     env[u'DOTCLOUD_DATA_MYSQL_HOST'],
-            'PORT':     int(env[u'DOTCLOUD_DATA_MYSQL_PORT']),
+            'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
-
     # Absolute filesystem path to the directory that will hold user-uploaded files.
     # Example: "/home/media/media.lawrence.com/media/"
     MEDIA_ROOT = '/home/dotcloud/data/media/'
@@ -60,9 +59,9 @@ except:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'rbrabout',                      # Or path to database file if using sqlite3.
-            'USER': 'root',                      # Not used with sqlite3.
-            'PASSWORD': '',                  # Not used with sqlite3.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
             'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
             'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
         }
