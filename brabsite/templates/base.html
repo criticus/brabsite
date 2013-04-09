@@ -56,6 +56,21 @@
             picture = $('#new_picture').val();
             $('#new_pic').val(picture);
         }
+
+        function Rotate(id, rotation)
+        {
+            var rotation_angle, rotation_times, img;
+            rotation_times = $('#rotate_' + id);
+            rotation_angle = parseInt(rotation_times.val()) + rotation;
+            rotation_times.val(rotation_angle);
+            if (id == 'crop') {
+                img = $('#crop');
+            } else {
+                img = $('#pic_id_'+id)
+            }
+
+            img.rotate(90*rotation_angle);
+        }
     </script>
 </head>
 
