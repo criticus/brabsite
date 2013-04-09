@@ -30,7 +30,9 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>
-                        <a href="#"><img alt="" src="{{ picture.picture.url}}" width="230"/></a>
+
+                        <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
+                        <a href="#"><img id="pic_id_{{ picture.pk }}" alt="" src="{{ picture.picture.url}}" width="230"/></a>
                     </td>
                 <tr>
                     <td>&nbsp;</td>
@@ -61,6 +63,10 @@
                         {% if not picture.main %}
                             <input type="checkbox" name="delete_{{ picture.pk }}"/> Delete &nbsp;
                         {% endif %}
+                        <input type="hidden" id="rotate_{{ picture.pk }}"  name="rotate_{{ picture.pk }}" value="0">
+                        <input type="button" onclick="Rotate({{ picture.pk }}, -1);" value="Rotate Left">
+                        <input type="button" onclick="Rotate({{ picture.pk }}, 1);" value="Rotate Right">
+
                     </td>
                 </tr>
                 <tr>
@@ -97,6 +103,9 @@
                         <div id="new_pic_settings">
                             <input type="checkbox" name="makemain_new"/> Main &nbsp;
                             <input type="checkbox"name="hide_new"/> Hide
+                            <input type="hidden" id="rotate_crop"  name="P-rotate" value="0">
+                            <input type="button" onclick="Rotate('crop', -1);" value="Rotate Left">
+                            <input type="button" onclick="Rotate('crop', 1);" value="Rotate Right">
                         </div>
                             <!-- Button to invoke the click of the File Input -->
                             <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"

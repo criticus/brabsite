@@ -20,7 +20,7 @@
     };
     $inputAttachTo = $(inputAttachTo);
     input = function(type) {
-      return $("<input type = \"" + type + "\" id='new_pic' name='P-picture' style='display: block;'/>");
+      return $("<input type = \"" + type + "\" id='new_pic' name='P-picture' style='display: none;'/>");
     };
     div = function() {
       return $("<div/>");
@@ -201,10 +201,12 @@
       }
     };
     saveCrop = function() {
-      var result;
+      var result, rotation;
 
       $('#new_pic_settings').show();
       $('#new_pic_add').val('Change the Picture');
+      rotation = parseInt($('#rotate_crop').val());
+      Rotate('crop', 0 - rotation);
       $('.awesome-cropper').css('height', '100%');
       result = $cropSandbox.get(0).toDataURL();
       $resultIm.attr('src', result);
