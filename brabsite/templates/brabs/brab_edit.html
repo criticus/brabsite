@@ -97,9 +97,12 @@
                 <input type="hidden" name="P-created_at" id="id_P-created_at" />
                 <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
                 <input type="hidden" name="P-title" id="id_P-title" value="Image"/>
+
                 <div class="row-fluid">
                     <div class="span12">
-                        <input id="new_picture" type="hidden" name="Dummy">
+ {#                    <input id="picture" type="file" name="P-picture">#}
+{#                   Above should be included as fall-back for browsers that don't support JavaScript#}
+                        <input id="new_picture" type="hidden" name="P-new_picture">
                         <div id="new_pic_settings">
                             <input type="checkbox" name="makemain_new"/> Main &nbsp;
                             <input type="checkbox"name="hide_new"/> Hide

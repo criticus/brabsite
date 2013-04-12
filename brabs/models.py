@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from imagekit.models.fields import ProcessedImageField, ImageSpecField
-from imagekit.processors import SmartResize, ResizeToFit
+from imagekit.processors import SmartResize, ResizeToFit, Transpose
 
 
 from django import http
@@ -134,9 +134,17 @@ class Pictures(models.Model):
     title = models.TextField(null=True, help_text="title")
     # picture = models.ImageField(upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width", null=True, blank=True, max_length=250, help_text="Picture URL")
 
-    picture = ProcessedImageField([ResizeToFit(800, 800, True, (161,175,199, 90))],format='JPEG', options={'quality': 70},
-                              upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
-                              null=True, blank=True, max_length=250, help_text="Picture URL")
+    # picture = ProcessedImageField([Transpose(Transpose.AUTO),
+    #                                ResizeToFit(1200, 1200, True, (161,175,199, 90))],
+    #                           format='JPEG', options={'quality': 90},
+    #                           upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
+    #                           null=True, blank=True, max_length=250, help_text="Picture URL")
+
+    picture = ProcessedImageField([ResizeToFit(1200, 1200, True, (161,175,199, 90))],
+                                  format='JPEG', options={'quality': 90},
+                                  upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
+                                  null=True, blank=True, max_length=250, help_text="Picture URL")
+
     pic_height = models.IntegerField(null=True, blank=True)
     pic_width = models.IntegerField(null=True, blank=True)
 

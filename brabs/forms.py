@@ -54,6 +54,7 @@ class PictureForm(ModelForm):
         updated_at = forms.DateTimeField( required=False, widget=forms.HiddenInput())
         deleted = forms.BooleanField( required=False, widget=forms.HiddenInput())
         visible = forms.BooleanField( required=False, widget=forms.HiddenInput())
+        rotate = forms.IntegerField( required=False, widget=forms.HiddenInput())
 
         class Meta:
             model = Pictures
