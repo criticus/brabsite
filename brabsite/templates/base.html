@@ -69,7 +69,8 @@
                 img = $('#pic_id_'+id)
             }
 
-            img.rotate(90*rotation_angle);
+            if ('rotate' in img) img.rotate(90 * rotation_angle)
+
         }
     </script>
 </head>

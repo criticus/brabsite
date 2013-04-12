@@ -9,7 +9,11 @@ from django.shortcuts import render_to_response, redirect
 from django.contrib.auth.models import User
 from django.db import models
 
-import re, string
+from django.core.files.base import ContentFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from hashlib import md5
+from time import localtime
+import re, string, base64
 
 
 def hello(request):
@@ -200,6 +204,45 @@ class BrabAddView(CreateView):
 
             brab = brabform.save(commit=False)
             brabformset = BrabFormSet(request.POST, request.FILES, instance=brab)
+
+            # --------------------------------------------------------------------------------------------
+            picture_string = brabformset.forms[0].data['pictures_set-0-new_picture']
+            # This POST variable will only be filled if client browser supports awesomecropper plugin
+            # because then the HTML5 canvas content will be posted, and not file read from the disk
+
+            number_of_turns = int(brabformset.forms[0].data['pictures_set-0-rotate'])
+
+            if picture_string:
+                file_to_add = CreateInMemoryUploadedFileFromBase64EncodedImage(picture_string, "pictures_set-0-picture", number_of_turns)
+                if file_to_add:
+                    request.FILES.appendlist("pictures_set-0-picture", file_to_add)
+                    brabformset = BrabFormSet(request.POST, request.FILES, instance=brab)
+            else:
+                try:
+                    image_file_name = request.FILES[u'pictures_set-0-picture'].name
+                    new_image_file_present = True
+                except:
+                    new_image_file_present = False
+
+                if new_image_file_present:
+                    image_file_extension = image_file_name.split(".")[-1]
+                    content_type = request.FILES[u'pictures_set-0-picture'].content_type
+
+                    new_file_name = md5(str(localtime())).hexdigest()+image_file_extension
+
+                    if number_of_turns == 0:
+                        request.FILES[u'pictures_set-0-picture'].name = new_file_name
+                    else:
+                        rotated_file = RotateImage(request.FILES["pictures_set-0-picture"], number_of_turns, image_file_extension)
+                        if rotated_file:
+
+                            in_memory_uploaded_file = InMemoryUploadedFile(rotated_file, "pictures_set-0-picture", new_file_name, content_type, rotated_file.size, None)
+                            request.FILES["pictures_set-0-picture"] = in_memory_uploaded_file
+
+                    brabformset = BrabFormSet(request.POST, request.FILES, instance=brab)
+
+            # --------------------------------------------------------------------------------------------
+
             if brabformset.is_valid():
                 brab.save()
                 picture = brabformset.save(commit=False)
@@ -330,44 +373,91 @@ class BrabEditView(CreateView):
 
 
             picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
+            picture_string = picture_form.data['P-new_picture']
+            # This POST variable will only be filled if client browser supports awesomecropper plugin
+            # because then the HTML5 canvas content will be posted, and not file read from the disk
+
+            number_of_turns = int(picture_form.data['P-rotate'])
+
+            if picture_string:
+                file_to_add = CreateInMemoryUploadedFileFromBase64EncodedImage(picture_string, "P-picture", number_of_turns)
+                if file_to_add:
+                    request.FILES.appendlist("P-picture", file_to_add)
+                    picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
+            else:
+                try:
+                    image_file_name = request.FILES[u'P-picture'].name
+                    new_image_file_present = True
+                except:
+                    new_image_file_present = False
+
+                if new_image_file_present:
+                    image_file_extension = image_file_name.split(".")[-1]
+                    content_type = request.FILES[u'P-picture'].content_type
+
+                    new_file_name = md5(str(localtime())).hexdigest()+image_file_extension
+
+                    if number_of_turns == 0:
+                        request.FILES[u'P-picture'].name = new_file_name
+                    else:
+                        rotated_file = RotateImage(request.FILES["P-picture"], number_of_turns, image_file_extension)
+                        if rotated_file:
+
+                            in_memory_uploaded_file = InMemoryUploadedFile(rotated_file, "P-picture", new_file_name, content_type, rotated_file.size, None)
+                            request.FILES["P-picture"] = in_memory_uploaded_file
+
+                    picture_form = PictureForm(data=request.POST, prefix="P", files=request.FILES )
+
             if picture_form.is_valid():
+
                 if self.object.pictures_set.count():
                     picture_title = picture_form.cleaned_data['title'].title()
                     title_counter = 0
-                    while self.object.pictures_set.filter(title__exact=picture_title):
+                    temp_title = picture_title
+                    while self.object.pictures_set.filter(title__exact=temp_title):
                         title_counter = title_counter + 1
-                        picture_title = picture_title + ' '+ str(title_counter).zfill(3)
-                        picture_form.instance.title = picture_title
+                        temp_title = picture_title + ' '+ str(title_counter).zfill(3)
+                        picture_form.instance.title = temp_title
 
                 if not self.object.pictures_set.count():
+                    # This is the first picture we are adding to a brab
                     picture_form.instance.main = 1
-                elif picture_form.instance.main:
 
-                    for picture in self.object.pictures_set.all():
-                        picture.main = 0
-                        picture.save()
-
-                        #            Fill picture.brab_id with pk of the current brab
+                #   Fill picture.brab_id with pk of the current brab
                 picture_form.instance.brab_id = self.object.pk
                 picture_form.instance.visible = 1
 
                 picture_form.save()
+                new_picture_pk = picture_form.instance.id
+            else:
+                new_picture_pk = None
 
             for key in request.POST:
+                if key.startswith('rotate_') and not (request.POST[key] == "0"):
+                    picture_record_id = re.sub(r"\D", "", key)
+                    number_of_turns = int(request.POST[key])
+                    picture_to_rotate = Pictures.objects.get(id = picture_record_id)
+                    RotateImageFromS3(picture_to_rotate.picture.name, number_of_turns)
+
+
                 if key.startswith('delete_') and request.POST[key] == 'on':
                     picture_record_id = re.sub(r"\D", "", key)
                     Pictures.objects.filter(id = picture_record_id).update(deleted = 1)
                 if key.startswith('makemain_') and request.POST[key] == 'on':
-
                     if self.object.pictures_set.count():
                         for picture in self.object.pictures_set.all():
                             picture.main = 0
                             picture.save()
 
                     picture_record_id = re.sub(r"\D", "", key)
+                    if not picture_record_id:
+                        picture_record_id = new_picture_pk
                     Pictures.objects.filter(id = picture_record_id).update(main = 1)
+
                 if key.startswith('hide_') and request.POST[key] == 'on':
                     picture_record_id = re.sub(r"\D", "", key)
+                    if not picture_record_id:
+                        picture_record_id = new_picture_pk
                     Pictures.objects.filter(id = picture_record_id).update(visible = 0)
 
                 if key.startswith('show_') and request.POST[key] == 'on':
@@ -603,3 +693,130 @@ def resize(data, box, fit):
     # tmp.close()
     #
     # return output_data
+
+def CreateInMemoryUploadedFileFromBase64EncodedImage(base64_encoded_image, post_variable_name, num_of_turns):
+    match_object=re.search(r'(.*)base64,(.*)', base64_encoded_image)
+    if match_object:
+        picture_data = match_object.group(2)
+
+        # content_type_string = match_object.group(1)
+        # match_object = re.search(r'data:(.*)', content_type_string)
+        # if match_object:
+        #     content_type = match_object.group(1)
+        # else:
+        #     content_type = "image/gif"
+        # match_object = re.search(r'image/(.*)', content_type)
+        # if match_object:
+        #     file_ext = match_object.group(1)
+        #     if file_ext == "jpeg":
+        #         file_ext = "jpg"
+        #     elif file_ext == "tiff":
+        #         file_ext = "tif"
+        #     elif file_ext == "x-png":
+        #         file_ext = "png"
+        #     elif file_ext == "x-pict":
+        #         file_ext = "pict"
+        #     elif file_ext == "x-ms-bmp":
+        #         file_ext = "bmp"
+        # else:
+        #     file_ext = "jpg"
+
+        missing_padding = 4 - len(picture_data) % 4
+        if missing_padding:
+            picture_data += b'='* missing_padding
+
+        decoded_image = base64.b64decode(picture_data)
+        img_file = ContentFile(decoded_image)
+
+        new_img_file = RotateImage(img_file, num_of_turns)
+
+        # file_name = md5(str(localtime())).hexdigest()+"."+file_ext
+        file_name = md5(str(localtime())).hexdigest()+".jpg"
+        content_type = "image/jpeg"
+
+        in_memory_uploaded_file = InMemoryUploadedFile(new_img_file, post_variable_name, file_name, content_type, img_file.size, None)
+
+        img_file = None
+        new_img_file = None
+        match_object = None
+    else:
+        in_memory_uploaded_file = None
+
+    return  in_memory_uploaded_file
+
+def RotateImage(image_file, number_of_turns, save_format = "JPEG"):
+    from PIL import Image
+    import StringIO
+
+    if number_of_turns:
+        if number_of_turns > 4:
+            rotate_value = number_of_turns - ( 4 * ( number_of_turns / 4 ) )
+        elif number_of_turns < -4:
+            rotate_value = number_of_turns + ( 4 * ( abs(number_of_turns) / 4 ) )
+        else:
+            rotate_value = number_of_turns
+
+        im_orig = Image.open(image_file)
+
+        if rotate_value == 1 or rotate_value == -3:
+            im_result = im_orig.transpose(Image.ROTATE_270)
+        elif rotate_value == 2 or rotate_value == -2:
+            im_result = im_orig.transpose(Image.ROTATE_180)
+        elif rotate_value == 3 or rotate_value == -1:
+            im_result = im_orig.transpose(Image.ROTATE_90)
+
+        img_io = StringIO.StringIO()
+
+        if save_format:
+            if save_format.lower() == "jpg" or save_format.lower() == "jpeg":
+                im_result.save(img_io, format="JPEG", quality=100)
+            if save_format.lower() == "tif":
+                im_result.save(img_io, format="TIFF")
+            else:
+                im_result.save(img_io, format=save_format.upper())
+        else:
+            im_result.save(img_io, format="JPEG", quality=100)
+
+        new_img_file = ContentFile(img_io.getvalue())
+        img_io = None
+        im_orig = None
+        im_result = None
+
+        return new_img_file
+    else:
+        return image_file
+
+def RotateImageFromS3(image_name, number_of_turns):
+
+    from django.core.files.storage import default_storage as s3_storage
+    from PIL import Image
+
+    if number_of_turns:
+        if number_of_turns > 4:
+            rotate_value = number_of_turns - ( 4 * ( number_of_turns / 4 ) )
+        elif number_of_turns < -4:
+            rotate_value = number_of_turns + ( 4 * ( abs(number_of_turns) / 4 ) )
+        else:
+            rotate_value = number_of_turns
+
+
+        im_orig = Image.open(s3_storage.open(image_name, mode="r"))
+
+        if rotate_value == 1 or rotate_value == -3:
+            im_result = im_orig.transpose(Image.ROTATE_270)
+        elif rotate_value == 2 or rotate_value == -2:
+            im_result = im_orig.transpose(Image.ROTATE_180)
+        elif rotate_value == 3 or rotate_value == -1:
+            im_result = im_orig.transpose(Image.ROTATE_90)
+
+        img_io = s3_storage.open(image_name, mode="w")
+        im_result.save(img_io, format=None)
+        img_io.close()
+
+        img_io = None
+        im_orig = None
+        im_result = None
+
+        return True
+    else:
+        return False
