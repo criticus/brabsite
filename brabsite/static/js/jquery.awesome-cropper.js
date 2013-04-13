@@ -225,8 +225,8 @@
       $urlSelect.on('drop', handleDropFileSelect);
       $urlSelectButton.click(function() {
         var url;
-
-        if (!$urlSelect.val().match(/^(https?:\/\/)?/)) {
+          $('#crop').show();
+          if (!$urlSelect.val().match(/^(https?:\/\/)?/)) {
           return;
         }
         if (!fileAllowed($urlSelect.val())) {
