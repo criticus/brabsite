@@ -377,3 +377,29 @@ ul.errorlist                            {margin: 0; padding: 0; }
     color: #555555;
 }
 
+.r-rotate                           {
+    display: inline-block;
+    background: url("../img/r-rotate.png");
+    background-position: 8px 8px;
+    background-repeat: no-repeat;
+    }
+.r-rotate:hover                      {
+    background-position: 8px 8px;
+}
+.l-rotate                           {
+    display: inline-block;
+    background: url("../img/l-rotate.png");
+    background-position: 8px 8px;
+    background-repeat: no-repeat;
+}
+.l-rotate:hover                      {
+    background-position: 8px 8px;
+}
+
+.progress {
+    margin: 50px 0;
+}
+
+.actions {
+    margin-top: 25px;
+}

@@ -64,8 +64,8 @@
                             <input type="checkbox" name="delete_{{ picture.pk }}"/> Delete &nbsp;
                         {% endif %}
                         <input type="hidden" id="rotate_{{ picture.pk }}"  name="rotate_{{ picture.pk }}" value="0">
-                        <input type="button" onclick="Rotate({{ picture.pk }}, -1);" value="Rotate Left">
-                        <input type="button" onclick="Rotate({{ picture.pk }}, 1);" value="Rotate Right">
+                        <button type="button" class="btn l-rotate" onclick="Rotate({{ picture.pk }}, -1);" title="Rotate Left"></button>
+                        <button type="button" class="btn r-rotate" onclick="Rotate({{ picture.pk }}, 1);"  title="Rotate Right"></button>
 
                     </td>
                 </tr>
@@ -98,17 +98,20 @@
                 <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
                 <input type="hidden" name="P-title" id="id_P-title" value="Image"/>
 
-                <div class="row-fluid">
+                <div class="row-fluid" style="border: 1px;">
                     <div class="span12">
  {#                    <input id="picture" type="file" name="P-picture">#}
 {#                   Above should be included as fall-back for browsers that don't support JavaScript#}
                         <input id="new_picture" type="hidden" name="P-new_picture">
                         <div id="new_pic_settings">
+                            Visible &nbsp; &nbsp;
                             <input type="checkbox" name="makemain_new"/> Main &nbsp;
-                            <input type="checkbox"name="hide_new"/> Hide
+                            <input type="checkbox"name="hide_new"/> Hide &nbsp; &nbsp;
+                            <a class="btn" href="#" onclick="RemoveNew();"><i class="icon-trash"></i></a> &nbsp;&nbsp;&nbsp;
                             <input type="hidden" id="rotate_crop"  name="P-rotate" value="0">
-                            <input type="button" onclick="Rotate('crop', -1);" value="Rotate Left">
-                            <input type="button" onclick="Rotate('crop', 1);" value="Rotate Right">
+                            <button type="button" class="btn l-rotate" onclick="Rotate('crop', -1);" title="Rotate Left"></button>
+                            <button type="button" class="btn r-rotate" onclick="Rotate('crop', 1);"  title="Rotate Right"></button>
+
                         </div>
                             <!-- Button to invoke the click of the File Input -->
                             <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"

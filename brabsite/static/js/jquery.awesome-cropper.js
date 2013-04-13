@@ -5,7 +5,7 @@
   $ = jQuery;
 
   $.awesomeCropper = function(inputAttachTo, options) {
-    var $applyButton, $cancelButton, $container, $cropSandbox, $fileSelect, $imagesContainer, $inputAttachTo, $progressBar, $resultIm, $sourceIm, $urlSelect, $urlSelectButton, a, cleanImages, div, drawImage, fileAllowed, handleDragOver, handleDropFileSelect, handleFileSelect, image, input, log, readFile, removeAreaSelect, removeLoading, saveCrop, setAreaSelect, setImages, setLoading, setOriginalSize, settings;
+    var $info_text, $applyButton, $cancelButton, $container, $cropSandbox, $fileSelect, $imagesContainer, $inputAttachTo, $progressBar, $resultIm, $sourceIm, $urlSelect, $urlSelectButton, info, a, cleanImages, div, drawImage, fileAllowed, handleDragOver, handleDropFileSelect, handleFileSelect, image, input, log, readFile, removeAreaSelect, removeLoading, saveCrop, setAreaSelect, setImages, setLoading, setOriginalSize, settings;
 
     settings = {
       width: 50,
@@ -25,11 +25,14 @@
     div = function() {
       return $("<div/>");
     };
+    info = function(text) {
+        return $("<span style='float: left;'>" + text + "</span>");
+    }
     a = function(text) {
       return $("<a href=\"#\">" + text + "</a>");
     };
     image = function() {
-      return $('<img id="crop"/>');
+      return $('<img id="crop" style="padding: 1px;border: 3px solid #090;"/>');
     };
     $container = div().insertAfter($inputAttachTo).addClass('awesome-cropper');
     $cropSandbox = $('<canvas></canvas>');
@@ -51,12 +54,13 @@
     $resultIm = image();
     $container.append($resultIm);
     $sourceIm = image();
+    $info_text = info('* You will be able to rotate the cropped picture later...');
     $applyButton = a('Apply').addClass('btn btn-primary');
     $cancelButton = a('Cancel').addClass('btn').attr({
       'data-dismiss': "modal",
       'aria-hidden': "true"
     });
-    $imagesContainer = div().append(div().addClass('modal-body row-fluid').append(div().addClass('span9').append($sourceIm)).append(div().addClass('span3').append($cropSandbox)), div().addClass('modal-footer').append($cancelButton).append($applyButton)).append().addClass('modal hide fade').attr({
+    $imagesContainer = div().append(div().addClass('modal-body row-fluid').append(div().addClass('span7').append($sourceIm)).append(div().addClass('span3').append($cropSandbox)), div().addClass('modal-footer').append($info_text).append($cancelButton).append($applyButton)).append().addClass('modal hide fade').attr({
       role: 'dialog'
     });
     $container.append($imagesContainer);
@@ -104,7 +108,6 @@
     };
     drawImage = function(img, x, y, width, height) {
       var context, destHeight, destWidth, destX, destY, oHeight, oWidth, r, sourceHeight, sourceWidth, sourceX, sourceY;
-
       oWidth = img.attr('data-original-width');
       oHeight = img.attr('data-original-height');
       if (oWidth > oHeight) {
@@ -130,7 +133,7 @@
       viewPort = $(window).height() - 150;
       if ($sourceIm.height() > viewPort) {
         $sourceIm.css({
-          height: viewPort + "px"
+          height: "300px"//viewPort + "px"
         });
       }
       log(image.width(), image.height());
@@ -203,6 +206,7 @@
     saveCrop = function() {
       var result, rotation;
 
+      $('#crop').show();
       $('#new_pic_settings').show();
       $('#new_pic_add').val('Change the Picture');
       rotation = parseInt($('#rotate_crop').val());

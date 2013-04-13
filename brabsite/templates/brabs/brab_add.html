@@ -3,8 +3,9 @@
 {% block content %}
 
 <form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
+    <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
 
-<fieldset class="module aligned">
+    <fieldset class="module aligned">
     <table cellpadding="5" cellspacing="5">
     {% for field in brabform %}
          {% if not field.is_hidden %}
@@ -24,7 +25,7 @@
     </tr>
 <fieldset class="module aligned ">
     <tr>
-        <td>
+        <td style="vertical-align: top;padding-top: 15px;">
            Picture
             {% for field in brabformset.forms.0 %}
                  {% if not field.is_hidden %}
@@ -50,11 +51,12 @@
 {#                    <input id="picture" type="file" name="pictures_set-0-picture">#}
 {#                   Above should be included as fall-back for browsers that don't support JavaScript#}
                     <input id="new_picture" type="hidden" name="pictures_set-0-new_picture">
-                    <div id="new_pic_settings">
+                    <div id="new_pic_settings" style="text-align: right">
                         <input id="id_pictures_set-0-title" type="hidden" name="pictures_set-0-title" maxlength="100" value="Image"/>
                         <input type="hidden" id="rotate_crop"  name="pictures_set-0-rotate" value="0">
-                        <input type="button" onclick="Rotate('crop', -1);" value="Rotate Left">
-                        <input type="button" onclick="Rotate('crop', 1);" value="Rotate Right">
+                        <button type="button" class="btn l-rotate" onclick="Rotate('crop', -1);"  title="Rotate Left"></button>
+                        <button type="button" class="btn r-rotate" onclick="Rotate('crop', 1);"  title="Rotate Right"></button>
+
                     </div>
                     <!-- Button to invoke the click of the File Input -->
                     <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"
