@@ -133,7 +133,7 @@
       viewPort = $(window).height() - 150;
      // if ($sourceIm.height() > viewPort) {
         $sourceIm.css({
-          height: 0.8*viewPort + "px"
+          height: "300px"//viewPort + "px"
         });
      // }
       log(image.width(), image.height());
