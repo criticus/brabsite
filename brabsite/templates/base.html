@@ -36,7 +36,7 @@
     <script>
         $(document).ready(function () {
             $('#new_picture').awesomeCropper(
-                    { width: 230, height: 230, debug: true }
+                    { width: 200, height: 200, debug: true }
             );
 
             $('#new_pic_settings').hide();
@@ -48,13 +48,6 @@
         function HandleFileButtonClick()
         {
             $('#new_pic').click();
-        }
-
-        function SetPictureFile()
-        {
-            var picture;
-            picture = $('#new_picture').val();
-            $('#new_pic').val(picture);
         }
 
         function Rotate(id, rotation)
@@ -69,8 +62,16 @@
                 img = $('#pic_id_'+id)
             }
 
-            if ('rotate' in img) img.rotate(90 * rotation_angle)
+            if ('rotate' in img) {
+                img.rotate(90 * rotation_angle)
+            }
+        }
 
+        function RemoveNew()
+        {
+            $('#crop').hide();
+            $('#new_pic_settings').hide();
+            $('#new_pic_add').val('Add a Picture');
         }
     </script>
 </head>
