@@ -39,6 +39,7 @@
                     { width: 200, height: 200, debug: true }
             );
 
+            $('#crop').hide();
             $('#new_pic_settings').hide();
             $('.awesome-cropper').css('height', '0');
 
@@ -116,7 +117,7 @@
                     {% if user.is_authenticated %}
                         <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
                     {% else %}
-                        {% include "registration/login.html" %}
+                        {% include "desktop/registration/login.html" %}
                     {% endif %}
                 </div>
 
