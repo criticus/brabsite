@@ -141,6 +141,7 @@ TEMPLATE_LOADERS = (
     )
 
 MIDDLEWARE_CLASSES = (
+    'brabsite.middleware.MobileTemplatesMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     #    'django.middleware.csrf.CsrfViewMiddleware',
@@ -158,9 +159,19 @@ ROOT_URLCONF = 'brabsite.urls'
 WSGI_APPLICATION = 'brabsite.wsgi.application'
 
 import os.path
+
+DIRNAME = os.path.abspath(os.path.dirname(__file__)).replace('\\','/')
+
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+    os.path.join(DIRNAME, 'templates').replace('\\','/'),
     )
+
+MOBILE_TEMPLATE_DIRS = (
+    os.path.join(DIRNAME, 'templates', 'mobile').replace('\\','/'),
+)
+DESKTOP_TEMPLATE_DIRS = (
+    os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
+)
 
 INSTALLED_APPS = (
     'registration',
