@@ -173,6 +173,15 @@ DESKTOP_TEMPLATE_DIRS = (
     os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
 )
 
+MOBILE_USER_AGENTS_FILE =  os.path.join(DIRNAME, 'mobile_agents.txt').replace('\\','/')
+
+MOBILE_IGNORE_LIST =  [#tuple of browsers to ignore
+                      'ipad',
+                      'palm',
+                      'wap']
+
+
+
 INSTALLED_APPS = (
     'registration',
     'django.contrib.auth',
