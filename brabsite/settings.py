@@ -167,7 +167,7 @@ TEMPLATE_DIRS = (
     )
 
 MOBILE_TEMPLATE_DIRS = (
-    os.path.join(DIRNAME, 'templates', 'mobile').replace('\\','/'),
+    os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
 )
 DESKTOP_TEMPLATE_DIRS = (
     os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
