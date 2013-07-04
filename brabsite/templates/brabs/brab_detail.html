@@ -119,28 +119,28 @@
 
             </div>
         </td><td style="vertical-align: top">
-            <!-- Column 2 / Image Carosuel -->
-            <div style="width: 450px; float: right">
 
-                <div id="folio_scroller_container" class="grid_8 cleafix">
+            <div id="myCarousel" class="carousel slide">
 
-                    <ul id="folio_scroller" >
-                        {% if brab.pictures_set %}
-                            {% for picture in brab.pictures_set.all %}
-                                {% if picture.visible and not picture.deleted%}
-                                    <li ><span>{{ picture.title }}</span><a href="#"><img alt="" src="{{ picture.picture.url}}" /></a></li>
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                    {% if brab.pictures_set %}
+                        {% for picture in brab.pictures_set.all %}
+                            {% if picture.main %}
+                                <div class="active item"><img alt="" src="{{ picture.picture.url}}" /></div>
+                            {% elif picture.visible and not picture.deleted%}
+                                <div class="item"><img alt="" src="{{ picture.picture.url}}" /></div>
 
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
-
-                    </ul>
                 </div>
-
-
-
+                <!-- Carousel nav -->
+                <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
             </div>
+
         </td></tr>
     </table>
 
