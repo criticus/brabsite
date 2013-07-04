@@ -409,3 +409,14 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .actions {
     margin-top: 25px;
 }
+
+.frontend_p {
+    text-align: left;
+    font-family: Nuber, Serif;
+    font-size: 16px !important;
+    line-height: 20px;
+}
+
+.required {
+    height: 25px !important;
+}
