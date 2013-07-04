@@ -59,11 +59,11 @@ except:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'rbrabout',                      # Or path to database file if using sqlite3.
-            'USER': 'root',                      # Not used with sqlite3.
-            'PASSWORD': '',                  # Not used with sqlite3.
+            'NAME': 'brabout',                      # Or path to database file if using sqlite3.
+            'USER': 'Rosty',                      # Not used with sqlite3.
+            'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
             'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
     # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -141,6 +141,7 @@ TEMPLATE_LOADERS = (
     )
 
 MIDDLEWARE_CLASSES = (
+    'brabsite.middleware.MobileTemplatesMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     #    'django.middleware.csrf.CsrfViewMiddleware',
@@ -158,9 +159,19 @@ ROOT_URLCONF = 'brabsite.urls'
 WSGI_APPLICATION = 'brabsite.wsgi.application'
 
 import os.path
+
+DIRNAME = os.path.abspath(os.path.dirname(__file__)).replace('\\','/')
+
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+    os.path.join(DIRNAME, 'templates').replace('\\','/'),
     )
+
+MOBILE_TEMPLATE_DIRS = (
+    os.path.join(DIRNAME, 'templates', 'mobile').replace('\\','/'),
+)
+DESKTOP_TEMPLATE_DIRS = (
+    os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
+)
 
 INSTALLED_APPS = (
     'registration',
