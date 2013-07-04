@@ -1,0 +1,133 @@
+{% block content %}
+    <script type="text/javascript">
+
+        EnableSubmit = function(val)
+        {
+            var sbmt = document.getElementById("Subm");
+
+            if (val.checked == true)
+            {
+                sbmt.disabled = false;
+            }
+            else
+            {
+                sbmt.disabled = true;
+            }
+        }
+    </script>
+
+
+    <form method="post" class="login-form" action="/accounts/login/?next={{ next|default:"/" }}">
+
+        {% if form.errors %}
+            <div class="alert alert-error">
+                Please correct the errors below:
+                {% if form.non_field_errors %}
+                    <br>{{ form.non_field_errors }}
+                {% endif %}
+                {% if form.username.errors %}
+                    <br>Brabber ID: {{ form.username.errors }}
+                {% endif %}
+                {% if form.password.errors %}
+                    <br>Password: {{ form.password.errors }}
+                {% endif %}
+
+            </div>
+        {% endif %}
+
+        <input id="id_username" type="text" name="username" maxlength="30" placeholder="Brabber ID" class="input-small"/>
+
+        <input type="password" name="password" id="id_password" placeholder="Password" class="input-small"/>
+        <button type="submit" class="btn" name="Sign In"><i class="icon-arrow-right"></i></button>
+        <p class="login-help">
+            <a href="#ForgotPsw" role="button" data-toggle="modal">Forgot Password?</a>&nbsp;
+            <a href="#signUp" role="button" data-toggle="modal">Sign Up</a>
+        </p>
+    </form>
+
+    <!-- SignUp Modal -->
+    <div id="signUp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signUpLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 style="text-align: left;" id="signUpLabel">Registration</h3>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="/accounts/register/" class="form-horizontal">
+
+                <div class="control-group">
+
+                    <label  class="control-label" for="id_username">Username:</label>
+                    <div class="controls">
+                        <input id="id_username" type="text" class="required" name="username" maxlength="30" />
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_email">Email:</label>
+                    <div class="controls">
+                        <input id="id_email" type="text" class="required" name="email" maxlength="75" />
+
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_password1">Password:</label>
+                    <div class="controls">
+                        <input id="id_password1" type="password" class="required" name="password1" />
+
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+
+                    <label class="control-label" for="id_password2">Verify Password:</label>
+                    <div class="controls">
+                        <input id="id_password2" type="password" class="required" name="password2" />
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" id="Accept" onClick="EnableSubmit(this)"> Agree to the <a href="{{STATIC_URL}}home_pages/terms.htm">terms and conditions</a>
+                        </label>
+                        <input type="submit" id="Subm" value="Create An Account" class="btn btn-primary" disabled>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="ForgotPsw" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ForgotPswLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 style="text-align: left;" id="ForgotPswLabel">Reset Password</h3>
+        </div>
+
+        <div class="modal-body" style="text-align: left;">
+            <p>Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one.</p>
+
+            <form action="/accounts/password/reset/" method="post" class="form-inline">
+                <label for="id_email"  class="control-label">Email:</label>
+                {%  if form.email.errors %}
+                    <p class="text-error">{{ form.email.errors.as_text }}</p>
+                {% endif %}
+                <input id="id_email" type="text" name="email" maxlength="75" />
+                <input type="submit" value="Reset my password" class="btn btn-primary"/>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block content-related %}
+{% endblock %}

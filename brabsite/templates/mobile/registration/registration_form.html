@@ -1,0 +1,96 @@
+{% extends "desktop/registration/base.html" %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+    <h4>Registration</h4>
+  {% if form.errors %}
+      <div class="alert alert-error">
+  Please correct the errors below: {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+
+  
+  <form method="post" action="" class="form-horizontal">
+
+
+    {% if form.username.errors %}
+        <div class="control-group error">
+    {%  else %}
+        <div class="control-group">
+    {%  endif %}
+            <label  class="control-label" for="id_username">Username:</label>
+            <div class="controls">
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="help-inline">{{ form.username.errors.as_text }}</span>
+                {% endif %}
+            </div>
+        </div>
+    {% if form.email.errors %}
+        <div class="control-group error">
+    {%  else %}
+        <div class="control-group">
+    {%  endif %}
+            <label class="control-label" for="id_email">Email:</label>
+            <div class="controls">
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <span class="help-inline">{{ form.email.errors.as_text }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+    {% if form.password1.errors %}
+        <div class="control-group error">
+    {%  else %}
+        <div class="control-group">
+    {%  endif %}
+            <label class="control-label" for="id_password1">Password:</label>
+            <div class="controls">
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                  <span class="help-inline">{{ form.password1.errors.as_text }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+  {% if form.password2.errors %}
+      <div class="control-group error">
+  {%  else %}
+      <div class="control-group">
+  {%  endif %}
+  <label class="control-label" for="id_password2">Verify Password:</label>
+  <div class="controls">
+      {{ form.password2 }}
+      {% if form.password2.errors %}
+          <span class="help-inline">{{ form.password2.errors.as_text }}</span>
+      {% endif %}
+  </div>
+  </div>
+
+      <div class="control-group">
+          <div class="controls">
+              <label class="checkbox">
+                  <input type="checkbox" id="Accept" onClick="EnableSubmit(this)"> Agree to the <a href="">terms and conditions</a>
+              </label>
+              <input type="submit" id="Subm" value="Create An Account" class="btn btn-primary" disabled>
+          </div>
+      </div>
+
+  </form>
+  
+{% endblock %}
+
+{% block content-related %}
+<p>Fill out the form to the left (all fields are required), and your
+account will be created; you'll be sent an email with instructions on how
+to finish your registration.</p>
+
+<p>We'll only use your email to send you signup instructions. We hate spam
+as much as you do.</p>
+
+<p>This account will let you log into the ticket tracker, claim tickets,
+and be exempt from spam filtering.</p>
+{% endblock %}
