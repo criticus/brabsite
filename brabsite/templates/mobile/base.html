@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Brag About It! (Mobile)</title>
+
+
+    <link href="{{STATIC_URL}}css/reset.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/jasny-bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{STATIC_URL}}ac_components/imgareaselect/css/imgareaselect-default.css">
+
+    <link rel="stylesheet" href="{{STATIC_URL}}css/jquery.awesome-cropper.css">
+    <link href="{{STATIC_URL}}css/styles.css" rel="stylesheet">
+    <style>.content {padding-top: 80px;}</style>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.roundabout-1.0.min.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.easing.1.3.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap-fileupload.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.roundabout-shapes-1.1.js"></script>
+    <script src="{{STATIC_URL}}ac_components/imgareaselect/scripts/jquery.imgareaselect.js"></script>
+    <script src="{{STATIC_URL}}js/jquery.awesome-cropper.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#new_picture').awesomeCropper(
+                    { width: 200, height: 200, debug: true }
+            );
+
+            $('#crop').hide();
+            $('#new_pic_settings').hide();
+            $('.awesome-cropper').css('height', '0');
+
+        });
+    </script>
+    <script language="JavaScript" type="text/javascript">
+        function HandleFileButtonClick()
+        {
+            $('#new_pic').click();
+        }
+
+        function Rotate(id, rotation)
+        {
+            var rotation_angle, rotation_times, img;
+            rotation_times = $('#rotate_' + id);
+            rotation_angle = parseInt(rotation_times.val()) + rotation;
+            rotation_times.val(rotation_angle);
+            if (id == 'crop') {
+                img = $('#crop');
+            } else {
+                img = $('#pic_id_'+id)
+            }
+
+            if ('rotate' in img) {
+                img.rotate(90 * rotation_angle)
+            }
+        }
+
+        function RemoveNew()
+        {
+            $('#crop').hide();
+            $('#new_pic_settings').hide();
+            $('#new_pic_add').val('Add a Picture');
+        }
+    </script>
+</head>
+
+<body class="portfolio">
+
+
+<div id="wrapper" class="container_12 clearfix">
+
+    <div class="topbar">
+        <div class="fill">
+            <div class="">
+                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut.com!</a></span>
+                {% if user.is_authenticated %}
+                    {% if "addabrab" in request.path %}
+                        <a class="btn btn-primary" href="/">Brablist</a>
+                    {% else %}
+                        <a class="btn btn-info" href="/addabrab">New</a>
+                    {% endif %}
+                    <span class="btn-group">
+                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                            My Stuff
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/mybrabs">Brablist</a></li>
+                            <li><a href="/envybrabs">Envylist</a></li>
+                            <li><a href="/followees">I Follow</a></li>
+                            <li><a href="/followers">My Followers</a></li>
+                        </ul>
+                    </span>
+                {% endif %}
+                <a class="btn btn-primary" href="/">All Brabs</a>
+                <div class="topbar-right">
+                    <form action="/searchbrabs" method="get" class="search">
+                        <div class="input-append">
+                            <input style="position: static" type="text" class="span2 search-query" name="searchfor" placeholder="Search">
+                            <button type="submit" class="btn" name="S"><i class="icon-search"></i></button>
+                        </div>
+
+                    </form>
+                    {% if user.is_authenticated %}
+                        <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
+                    {% else %}
+                        {% include "desktop/registration/login.html" %}
+                    {% endif %}
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="hr grid_12 clearfix">&nbsp;</div>
+
+
+    <!-- Portfolio Items -->
+
+    <!-- Section 1 -->
+
+    <div class="category_1 clearfix">
+        <!-- Row 1 -->
+
+        <div class="grid_12">
+            {% block page_header %}{% endblock %}
+            {% block content %}{% endblock %}
+       </div>
+    </div>
+
+
+    <div class="hr grid_12 clearfix">&nbsp;</div>
+
+    <!-- Footer -->
+    <p class="footer clearfix">
+        <span class="float"><b>&copy; Copyright</b> <a href="http://brabout.com">BrabOut Inc.</a></span>
+        <a class="float right" href="#">top</a>
+    </p>
+
+</div><!--end wrapper-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

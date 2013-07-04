@@ -60,10 +60,10 @@ except:
         'default': {
             'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': 'brabout',                      # Or path to database file if using sqlite3.
-            'USER': 'Rosty',                      # Not used with sqlite3.
+            'USER': 'root',                      # Not used with sqlite3.
             'PASSWORD': 'Diamonds1',                  # Not used with sqlite3.
             'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '5000',                      # Set to empty string for default. Not used with sqlite3.
+            'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
         }
     }
     # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -167,11 +167,20 @@ TEMPLATE_DIRS = (
     )
 
 MOBILE_TEMPLATE_DIRS = (
-    os.path.join(DIRNAME, 'templates', 'mobile').replace('\\','/'),
+    os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
 )
 DESKTOP_TEMPLATE_DIRS = (
     os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
 )
+
+MOBILE_USER_AGENTS_FILE =  os.path.join(DIRNAME, 'mobile_agents.txt').replace('\\','/')
+
+MOBILE_IGNORE_LIST =  [#tuple of browsers to ignore
+                      'ipad',
+                      'palm',
+                      'wap']
+
+
 
 INSTALLED_APPS = (
     'registration',
