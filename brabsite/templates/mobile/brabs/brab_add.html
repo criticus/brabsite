@@ -1,0 +1,80 @@
+{% extends "mobile/base.html" %}
+
+{% block content %}
+
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+    <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
+
+    <fieldset class="module aligned">
+    <table cellpadding="5" cellspacing="5">
+    {% for field in brabform %}
+         {% if not field.is_hidden %}
+                <tr>
+                <td>{{ field.label_tag }}{{ field.errors }}</td>
+                    <td>&nbsp;</td>
+                <td>{{ field }}</td>
+                </tr>
+         {% endif %}
+    {% endfor %}
+
+</fieldset>
+    <tr>
+        {% for field in brabformset.management_form %}
+            {{ field }}
+        {% endfor %}
+    </tr>
+<fieldset class="module aligned ">
+    <tr>
+        <td style="vertical-align: top;padding-top: 15px;">
+           Picture
+            {% for field in brabformset.forms.0 %}
+                 {% if not field.is_hidden %}
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>&nbsp;</td>
+        <td>
+{#            <div class="fileupload fileupload-new" data-provides="fileupload">#}
+{#                <div class="fileupload-new thumbnail" style="width: 50px; height: 50px;">#}
+{#                    <input id="id_pictures_set-0-title" type="hidden" name="pictures_set-0-title" maxlength="100" value="Image" placeholder="Picture title"/>#}
+{#                    <img src="http://www.placehold.it/50x50/EFEFEF/AAAAAA" /></div>#}
+{#                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 50px; height: 50px;"></div>#}
+{#                    <span class="btn btn-file"><span class="fileupload-new">Add a Picture</span>#}
+{#                        <span class="fileupload-exists">Change</span>#}
+{#                        <input type="file" name="pictures_set-0-picture" id="id_pictures_set-0-picture"/></span>#}
+{#                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>#}
+{#            </div>#}
+
+            <div class="row-fluid">
+                <div class="span12">
+{#                    <input id="picture" type="file" name="pictures_set-0-picture">#}
+{#                   Above should be included as fall-back for browsers that don't support JavaScript#}
+                    <input id="new_picture" type="hidden" name="pictures_set-0-new_picture">
+                    <div id="new_pic_settings" style="text-align: right">
+                        <input id="id_pictures_set-0-title" type="hidden" name="pictures_set-0-title" maxlength="100" value="Image"/>
+                        <input type="hidden" id="rotate_crop"  name="pictures_set-0-rotate" value="0">
+                        <button type="button" class="btn l-rotate" onclick="Rotate('crop', -1);"  title="Rotate Left"></button>
+                        <button type="button" class="btn r-rotate" onclick="Rotate('crop', 1);"  title="Rotate Right"></button>
+
+                    </div>
+                    <!-- Button to invoke the click of the File Input -->
+                    <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"
+                           value="Add a Picture" class="btn" style="margin:10px 0;">
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    </table>
+
+</fieldset>
+
+    <div class="actions">
+        <input type="submit" class="btn btn-info" value="Brag About It!">
+    </div>
+    </form>
+
+
+
+{% endblock %}

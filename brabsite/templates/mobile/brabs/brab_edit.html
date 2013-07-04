@@ -1,0 +1,148 @@
+{% extends "mobile/base.html" %}
+
+{% block content %}
+
+<form class="form-horizontal" action="" method="post" enctype="multipart/form-data" name="frmUpload">
+
+<fieldset class="module aligned">
+    <table cellpadding="5" cellspacing="5">
+    {% for field in brabform %}
+         {% if not field.is_hidden %}
+                <tr>
+                    <td>{{ field.label_tag }}{{ field.errors }}</td>
+                        <td>&nbsp;</td>
+                    <td>{{ field }}</td>
+                </tr>
+         {% endif %}
+    {% endfor %}
+
+</fieldset>
+    <tr>
+        <td>Picture</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    {%  if brab.pictures_set %}
+        {% for picture in brab.pictures_set.all %}
+            {% if not picture.deleted%}
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+
+                        <script type="text/javascript" src="http://jqueryrotate.googlecode.com/svn/trunk/jQueryRotate.js"></script>
+                        <a href="#"><img id="pic_id_{{ picture.pk }}" alt="" src="{{ picture.picture.url}}" width="230"/></a>
+                    </td>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>
+                        {% if picture.main %}
+                            Main
+                            &nbsp;
+                        {% endif %}
+
+                        {% if picture.visible %}
+                            Visible
+                        {% else %}
+                            Hidden
+                        {% endif %}
+                            &nbsp; &nbsp;
+                        {% if picture.visible and not picture.main %}
+                            <input type="checkbox" name="makemain_{{ picture.pk }}"/> Main &nbsp;
+                        {% endif %}
+                        {% if picture.visible %}
+                            {% if not picture.main %}
+                                <input type="checkbox" name="hide_{{ picture.pk }}"/> Hide
+                            {% endif %}
+                        {% else %}
+                            <input type="checkbox" name="show_{{ picture.pk }}"/> Show
+                        {% endif %}
+                            &nbsp;
+                        {% if not picture.main %}
+                            <input type="checkbox" name="delete_{{ picture.pk }}"/> Delete &nbsp;
+                        {% endif %}
+                        <input type="hidden" id="rotate_{{ picture.pk }}"  name="rotate_{{ picture.pk }}" value="0">
+                        <button type="button" class="btn l-rotate" onclick="Rotate({{ picture.pk }}, -1);" title="Rotate Left"></button>
+                        <button type="button" class="btn r-rotate" onclick="Rotate({{ picture.pk }}, 1);"  title="Rotate Right"></button>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <tr>
+        <td>
+
+                {% for field in picture_form %}
+                    {% if not field.is_hidden %}
+                        {{ field.errors }}
+                    {% endif %}
+                {% endfor %}
+        </td>
+        <td>&nbsp;</td>
+        <td>
+
+                <input type="hidden" name="P-brab" id="id_P-brab" />
+                <input type="hidden" name="P-pic_height" id="id_P-pic_height" />
+                <input type="hidden" name="P-pic_width" id="id_P-pic_width" />
+                <input type="hidden" name="P-visible" id="id_P-visible" />
+                <input type="hidden" name="P-deleted" id="id_P-deleted" />
+                <input type="hidden" name="P-created_at" id="id_P-created_at" />
+                <input type="hidden" name="P-updated_at" id="id_P-updated_at" />
+                <input type="hidden" name="P-title" id="id_P-title" value="Image"/>
+
+                <div class="row-fluid" style="border: 1px;">
+                    <div class="span12">
+ {#                    <input id="picture" type="file" name="P-picture">#}
+{#                   Above should be included as fall-back for browsers that don't support JavaScript#}
+                        <input id="new_picture" type="hidden" name="P-new_picture">
+                        <div id="new_pic_settings">
+                            Visible &nbsp; &nbsp;
+                            <input type="checkbox" name="makemain_new"/> Main &nbsp;
+                            <input type="checkbox"name="hide_new"/> Hide &nbsp; &nbsp;
+                            <a class="btn" href="#" onclick="RemoveNew();"><i class="icon-trash"></i></a> &nbsp;&nbsp;&nbsp;
+                            <input type="hidden" id="rotate_crop"  name="P-rotate" value="0">
+                            <button type="button" class="btn l-rotate" onclick="Rotate('crop', -1);" title="Rotate Left"></button>
+                            <button type="button" class="btn r-rotate" onclick="Rotate('crop', 1);"  title="Rotate Right"></button>
+
+                        </div>
+                            <!-- Button to invoke the click of the File Input -->
+                            <input id="new_pic_add" type="button" onclick="HandleFileButtonClick();"
+                                   value="Add a Picture" class="btn" style="margin:10px 0;">
+                    </div>
+                </div>
+
+
+
+        </td>
+
+    <tr>
+        <td>
+            &nbsp;
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <div class="actions">
+                <input type="submit" class="btn btn-info" value="Save Changes" onclick="return SetPictureFile();">
+                <input type="submit" class="btn btn-info" value="Cancel" href="{% url brab pk=brab.id %}">
+            </div>
+
+        </td>
+    </tr>
+    </tr>
+    </table>
+
+</fieldset>
+
+
+</form>
+
+
+{% endblock %}
