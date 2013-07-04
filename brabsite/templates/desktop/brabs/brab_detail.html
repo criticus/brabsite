@@ -10,6 +10,7 @@
                     <h3 class="brab-title">{{ brab.title }}
                         {% if user.is_authenticated and brab.auth_user.id == user.id %}
                             <a class="btn btn-small" href="{% url editbrab pk=brab.id %}"><i class="icon-pencil"></i> Edit</a>
+                             <a class="btn btn-small" href="{% url deletebrab pk=brab.id %}"><i class="icon-trash"></i> Delete</a>
                         {% endif %}
                     </h3>
                 </div>

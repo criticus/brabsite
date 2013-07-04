@@ -8,6 +8,7 @@
 
         {{ brab_list.index }}
         {% for brab in brab_list %}
+
             {% if forloop.counter|divisibleby:4 %}
                 <a class="portfolio_item float omega" href="{% url brab pk=brab.id %}">
             {%  elif forloop.counter|add:"-1"|divisibleby:4%}
