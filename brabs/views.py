@@ -765,6 +765,8 @@ def RotateImage(image_file, number_of_turns, save_format = "JPEG"):
             im_result = im_orig.transpose(Image.ROTATE_180)
         elif rotate_value == 3 or rotate_value == -1:
             im_result = im_orig.transpose(Image.ROTATE_90)
+        else:
+            im_result = im_orig
 
         img_io = StringIO.StringIO()
 
@@ -809,6 +811,8 @@ def RotateImageFromS3(image_name, number_of_turns):
             im_result = im_orig.transpose(Image.ROTATE_180)
         elif rotate_value == 3 or rotate_value == -1:
             im_result = im_orig.transpose(Image.ROTATE_90)
+        else:
+            im_result = im_orig
 
         img_io = s3_storage.open(image_name, mode="w")
         im_result.save(img_io, format=None)
