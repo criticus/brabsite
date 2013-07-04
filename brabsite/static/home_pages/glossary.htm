@@ -1,73 +1,65 @@
-<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Brabout: Brag about everything shamelessly!</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min_dl.css" rel="stylesheet">
-	<link href="css/bootstrap_dl.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-	  .navbar-inner-blue {
-  /*background-color: #FFFFFF; /* background color will be white for all browsers */
- /* #0077AA, #222222*/
-  background-image: -moz-linear-gradient(center top , #0077AA, #222222);
-  background-image: -ms-linear-gradient(top, #0077AA, #222222);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0077AA), to(#222222));
-  background-image: -webkit-linear-gradient(top, #0077AA, #222222);
-  background-image: -o-linear-gradient(top, #0077AA, #222222);
-  background-image: linear-gradient(top, #0077AA, #222222);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0077AA', endColorstr='#222222', GradientType=0);
-}
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .navbar-inner-blue {
+            background-image: -moz-linear-gradient(center top , #0077AA, #222222);
+            background-image: -ms-linear-gradient(top, #0077AA, #222222);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0077AA), to(#222222));
+            background-image: -webkit-linear-gradient(top, #0077AA, #222222);
+            background-image: -o-linear-gradient(top, #0077AA, #222222);
+            background-image: linear-gradient(top, #0077AA, #222222);
+            background-repeat: repeat-x;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0077AA', endColorstr='#222222', GradientType=0);
+        }
     </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <link href="../css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+</head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
-   <body>
+<body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner-blue">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner-blue">
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand"  href="index.htm"><h2>BrabOut &nbsp;<em style="font-size:15px; font-weight:normal; ">Brag About Anything Shamelessly!</em></h2></a>
-          <div class="nav-collapse collapse" style="float:right; padding-right:60px; padding-top:35px;">
-             <ul class="nav">
-              			<li><a href="index.htm">Home</a></li>
-                  		<li><a href="team.htm">Team</a></li>
- 				  		<li><a href="head.htm">Headquarters</a></li>                  
- 						<li><a href="terms.htm">Terms</a></li>    
-            </ul>
-            
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
 
-    <div class="container">
+            <a class="brand"  href="index.htm"><h2>BrabOut &nbsp;<em style="font-size:15px; font-weight:normal; ">Brag About Anything Shamelessly!</em></h2></a>
+            <div class="" style="float:right; padding-top:15px; z-index: 2000">
+                <ul class="nav">
+
+                    <li><a href="index.htm">About</a></li>
+                    <li><a href="terms.htm">Terms</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="landing-container" style="margin-top: 30px;padding: 20px 40px;">
 
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
+      <div class="hero-unit" style="padding: 0 60px;">
         <h1 align="center">Glossary</h1>
-        <p>
+        <p class="frontend_p">
 		For those of you who don't know what a Brab is, we created a glossary. </p>
-        <p>Brabber: That would be you, the user </p>
-        <p>Brabit: Our way of saying �Brag about it!' </p>
-        <p>Brab: What you are sharing with others </p>
-        <p>BrabList: All Brabs </p>
-        <p>EnvyList: A collection of your favorite Brabs</p>
+        <p class="frontend_p"><span class="text-info">BRABBER</span> - That would be you, the user. </p>
+        <p class="frontend_p"><span class="text-info">BRABIT</span> - Our way of saying "Brag about it!". </p>
+        <p class="frontend_p"><span class="text-info">BRAB</span> - What you are sharing with others. </p>
+        <p class="frontend_p"><span class="text-info">BRABLIST</span> - All Brabs. </p>
+        <p class="frontend_p"><span class="text-info">ENVYLIST</span> - A collection of your favorite Brabs.</p>
       </div>
   
 
@@ -78,23 +70,6 @@
       </footer>
 
     </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/bootstrap-transition.js"></script>
-    <script src="../assets/js/bootstrap-alert.js"></script>
-    <script src="../assets/js/bootstrap-modal.js"></script>
-    <script src="../assets/js/bootstrap-dropdown.js"></script>
-    <script src="../assets/js/bootstrap-scrollspy.js"></script>
-    <script src="../assets/js/bootstrap-tab.js"></script>
-    <script src="../assets/js/bootstrap-tooltip.js"></script>
-    <script src="../assets/js/bootstrap-popover.js"></script>
-    <script src="../assets/js/bootstrap-button.js"></script>
-    <script src="../assets/js/bootstrap-collapse.js"></script>
-    <script src="../assets/js/bootstrap-carousel.js"></script>
-    <script src="../assets/js/bootstrap-typeahead.js"></script>
 
 
   </body>

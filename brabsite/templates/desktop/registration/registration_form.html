@@ -1,9 +1,78 @@
-{% extends "desktop/registration/base.html" %}
+<html>
+<head>
+    <title>Brabout: Brag about everything shamelessly!</title>
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .navbar-inner-blue {
+            background-image: -moz-linear-gradient(center top , #0077AA, #222222);
+            background-image: -ms-linear-gradient(top, #0077AA, #222222);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0077AA), to(#222222));
+            background-image: -webkit-linear-gradient(top, #0077AA, #222222);
+            background-image: -o-linear-gradient(top, #0077AA, #222222);
+            background-image: linear-gradient(top, #0077AA, #222222);
+            background-repeat: repeat-x;
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0077AA', endColorstr='#222222', GradientType=0);
+        }
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
 
-{% block title %}Sign up{% endblock %}
+    EnableSubmit = function(val)
+    {
+        var sbmt = document.getElementById("Subm");
+
+        if (val.checked == true)
+        {
+            sbmt.disabled = false;
+        }
+        else
+        {
+            sbmt.disabled = true;
+        }
+    }
+</script>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner-blue">
+        <div class="container">
+
+            <a class="brand"  href="index.htm"><h2>BrabOut &nbsp;<em style="font-size:15px; font-weight:normal; ">Brag About Anything Shamelessly!</em></h2></a>
+            <div class="" style="float:right; padding-top:15px; z-index: 2000">
+                <ul class="nav">
+
+                    <li><a href="index.htm">About</a></li>
+                    <li><a href="terms.htm">Terms</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="landing-container" style="margin-top: 30px;padding: 20px 40px;">
+
+    <div class="hero-unit" style="padding: 0 60px;">
 
 {% block content %}
     <h4>Registration</h4>
+    <p>Fill out the form, and your
+        account will be created; you'll be sent an email with instructions on how
+        to finish your registration.</p>
   {% if form.errors %}
       <div class="alert alert-error">
   Please correct the errors below: {{ form.non_field_errors }}
@@ -84,13 +153,20 @@
 {% endblock %}
 
 {% block content-related %}
-<p>Fill out the form to the left (all fields are required), and your
-account will be created; you'll be sent an email with instructions on how
-to finish your registration.</p>
 
-<p>We'll only use your email to send you signup instructions. We hate spam
-as much as you do.</p>
 
-<p>This account will let you log into the ticket tracker, claim tickets,
-and be exempt from spam filtering.</p>
 {% endblock %}
+    </div>
+
+
+    <hr>
+
+    <footer>
+        <p>&copy; BrabOut 2012</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
+</body>
+</html>
