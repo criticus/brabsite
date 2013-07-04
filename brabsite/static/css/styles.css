@@ -380,8 +380,9 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .r-rotate                           {
     display: inline-block;
     background: url("../img/r-rotate.png");
-    background-position: 8px 8px;
+    background-position: 7px 6px;
     background-repeat: no-repeat;
+    height: 25px;
     }
 .r-rotate:hover                      {
     background-position: 8px 8px;
@@ -389,8 +390,9 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .l-rotate                           {
     display: inline-block;
     background: url("../img/l-rotate.png");
-    background-position: 8px 8px;
+    background-position: 7px 6px;
     background-repeat: no-repeat;
+    height: 25px;
 }
 .l-rotate:hover                      {
     background-position: 8px 8px;
