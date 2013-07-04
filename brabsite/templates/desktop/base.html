@@ -33,10 +33,28 @@
             $('#crop').hide();
             $('#new_pic_settings').hide();
             $('.awesome-cropper').css('height', '0');
+            $('.carousel').carousel({
+                interval: false
+            })
+            if($('.carousel-inner .item:first').hasClass('active')) {
+                $('#myCarousel').children('.left.carousel-control').hide();
+            }
+            $('#myCarousel').on('slid', '', function() {
+                var $this = $(this);
 
+                $this.children('.carousel-control').show();
+
+                if($('.carousel-inner .item:first').hasClass('active')) {
+                    $this.children('.left.carousel-control').hide();
+                } else if($('.carousel-inner .item:last').hasClass('active')) {
+                    $this.children('.right.carousel-control').hide();
+                }
+
+            });
         });
     </script>
     <script language="JavaScript" type="text/javascript">
+
         function HandleFileButtonClick()
         {
             $('#new_pic').click();
