@@ -56,7 +56,7 @@ urlpatterns = patterns('',
         name="search-brab-list-view"
     ),
     url(r'^$', ListView.as_view(
-        queryset=Brab.objects.all(),
+        queryset=Brab.objects.filter(deleted=0),
         paginate_by=20,
         context_object_name="brab_list"),
         name="all-brab-list-view"
@@ -73,6 +73,11 @@ urlpatterns = patterns('',
         queryset=Brab.objects.all(),
         context_object_name="brab"),
         name="editbrab"
+    ),
+    url(r'^deletebrab/(?P<pk>[a-zA-Z0-9-]+)/$', BrabEditView.as_view(
+        queryset=Brab.objects.all(),
+        context_object_name="brab"),
+        name="deletebrab"
     ),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',{'template_name': 'desktop/brabs/brab_list.html'}),
     url(r'^admin/', include(admin.site.urls)),

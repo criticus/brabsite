@@ -316,6 +316,12 @@ class BrabEditView(CreateView):
         self.object = self.get_object()
         if not self.object.auth_user_id  == request.user.id:
             return HttpResponse('<div align="center"><h1>You are not the author of this brab</h1><br>...therefore you may not edit it!</div>')
+
+        if self.request.path=="/deletebrab/"+str(self.object.pk)+'/':
+           self.object.deleted = 1
+           self.object.save()
+           # return HttpResponse('<div align="center"><h1>Brab #'+str(self.object.pk)+' deleted!</div>')
+           return redirect('/mybrabs/')
 #        Find what categories and tags is currently edited brab marked with so that
 #        appropriate fields would appear pre-filled in the template
         selected_categories = Category_to_brab.objects.filter(brab_id = self.object.pk)
@@ -567,19 +573,19 @@ class BrabListView(ListView):
         category_id = self.kwargs.get('category_id', None)
         tag_name = self.kwargs.get('tag_name', None)
         if self.request.path=="/envybrabs/":
-            q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).distinct()
+            q = Brab.objects.filter(vote_to_brab__vote=4).filter(vote_to_brab__auth_user_id=self.request.user.id).filter(deleted=0).distinct()
         elif self.request.path=="/mybrabs/":
-            q = Brab.objects.filter(auth_user_id=self.request.user.id)
+            q = Brab.objects.filter(auth_user_id=self.request.user.id).filter(deleted=0)
         elif self.request.path=="/fwbrabs/":
             fq=Follower_to_followee.objects.filter(follower_id=self.request.user.id)
-            q = Brab.objects.filter(auth_user_id__in=fq).distinct()
+            q = Brab.objects.filter(auth_user_id__in=fq).filter(deleted=0).distinct()
         elif category_id:
-            q = Brab.objects.filter(category_to_brab__category=category_id).distinct()
+            q = Brab.objects.filter(category_to_brab__category=category_id).filter(deleted=0).distinct()
         elif tag_name:
-            q = Brab.objects.filter(tag_to_brab__tag__tag=tag_name)
+            q = Brab.objects.filter(tag_to_brab__tag__tag=tag_name).filter(deleted=0)
         else:
             if user_id:
-                q =  Brab.objects.filter(auth_user_id=user_id)
+                q =  Brab.objects.filter(auth_user_id=user_id).filter(deleted=0)
             else:
                 if self.request.GET:
                     searchfor_key_present = False
@@ -591,12 +597,12 @@ class BrabListView(ListView):
                     if searchfor_key_present:
                         search_for = self.request.GET["searchfor"]
                         search_for = re.split('; |, |,|;| ', search_for)
-                        q = Brab.objects.filter(tag_to_brab__tag__tag__in=search_for)
+                        q = Brab.objects.filter(tag_to_brab__tag__tag__in=search_for).filter(deleted=0)
                     else:
                         # q = Brab.objects.filter(auth_user_id=self.request.user.id)
-                        q = Brab.objects.all
+                        q = Brab.objects.filter(deleted=0)
                 else:
-                    q = Brab.objects.all
+                    q = Brab.objects.filter(deleted=0)
         return q
 
 
