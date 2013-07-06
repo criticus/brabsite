@@ -2,10 +2,10 @@
 
 
 {% block content %}
-    <table>
+    <table style="margin-bottom: 0">
         <tr><td style="vertical-align: top">
             <!-- Column 1 / Project Information -->
-            <div class="grid_4" style="width: 300px;">
+            <div class="grid_4" style="width: 390px; margin-right: 20px">
                 <div >
                     <h3 class="brab-title">{{ brab.title }}
                         {% if user.is_authenticated and brab.auth_user.id == user.id %}
@@ -17,14 +17,6 @@
 
                 <p class="brab-descr">{{ brab.description }}</p>
                 <p class="brab-time">{{ brab.auth_user.username }} on {{ brab.created_at }}</p>
-                <p class="brab-cat"{% if brab.category_to_brab_set.count %}><b>Categories:</b>{% endif %}
-                {% for category_to_brab in brab.category_to_brab_set.all %}
-
-                    <a href="/brabsbycategory/{{ category_to_brab.category_id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
-
-                {% endfor %}
-                </p>
-
 
                 <p class="brab-tag">
                     {% for tag_to_brab in brab.tag_to_brab_set.all %}
@@ -32,21 +24,11 @@
                     {% endfor %}
                 </p>
 
-                {% if user.is_authenticated and not brab.auth_user.id == user.id %}
-                    <form action="." name="form_follow" method="post" enctype="multipart/form-data">
-                        {% if followed_by_logged_in_user %}
-                            <input type="hidden" name="SF" value="1">
-                            <input class="btn btn-inverse" name="button" value="Unfollow" type="submit">
-                        {% else %}
-                            <input type="hidden" name="F" value="1">
-                            <input class="btn btn-inverse" name="button" value="Follow" type="submit">
-                        {% endif %}
-                    </form>
-                {% endif %}
+
                 <ul style="margin-left: 0px;">
                     <li class="brab_ul_li_element">
                         {% if brab.comments_set.count %}
-                            <strong style="font-size: 13px">{{ brab.comments_set.count }} comment(s): </strong>
+                            <strong style="font-size: 11px">{{ brab.comments_set.count }} comment(s): </strong>
                         {% else %}
                             <strong style="font-size: 13px">No comments yet. Care to be the first? </strong>
                         {% endif %}
@@ -62,9 +44,9 @@
 
                     {% if user.is_authenticated %}
 
-                        <li style="background-color: #EDEFF4; padding: 3px; list-style-type: none; margin-left: 0">
+                        <li style="background-color: #EDEFF4; list-style-type: none; margin-left: 0">
                             <form action="." method="post" style="margin: 0px;" >
-                                <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" style="width: 208px; margin: 0px" name="C-comment" placeholder="write a comment..."></textarea>
+                                <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" class="comments_textarea" name="C-comment" placeholder="write a comment..."></textarea>
                                 <input type="hidden" name="C-auth_user" id="id_C-auth_user" />
                                 <input type="hidden" name="C-brab" id="id_C-brab" />
                                 <input type="hidden" name="C-visible" id="id_C-visible" />
@@ -81,22 +63,23 @@
 
             </div>
         </td><td style="vertical-align: top">
-            <div style="margin-bottom: 10px;">
+            <div style="display: inline-block; width: 380px;">
 
                 {% if V_form %}
                 {% if user.is_authenticated %}
                     {% if not brab.auth_user.id == user.id %}
-                        <form action="." method="post" style="margin: 0px;" name="V_form">
+                        <form action="." method="post" style="margin: 0px; float: left" name="V_form">
                                 {% for vote in votes_data %}
                                     {% if vote.id == current_vote %}
                                         <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; $(this).closest('form').submit();">{{ vote.past }} ({{ vote.total }})
                                     {% else %}
                                         <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; document.getElementsByName('V_form')[0].submit();">{{ vote.name }} ({{ vote.total }})
                                     {% endif %}
-                                    {% if not forloop.last %}
-                                    |
-                                    {% endif %}
                                     </a>
+
+                                    {% if not forloop.last %}
+                                        |
+                                    {% endif %}
                                 {%  endfor %}
                             <input name="V-vote_choice" type="hidden" value="">
                             <input name="V" type="hidden" value="1"/>
@@ -109,6 +92,17 @@
                 {% endif %}
             {% endif %}
 
+                {% if user.is_authenticated and not brab.auth_user.id == user.id %}
+                    <form action="." name="form_follow" method="post" enctype="multipart/form-data" style="float: right; margin: 0 0 5px;">
+                        {% if followed_by_logged_in_user %}
+                            <input type="hidden" name="SF" value="1">
+                            <input class="btn btn-inverse" name="button" value="Unfollow" type="submit">
+                        {% else %}
+                            <input type="hidden" name="F" value="1">
+                            <input class="btn btn-inverse" name="button" value="Follow" type="submit">
+                        {% endif %}
+                    </form>
+                {% endif %}
             </div>
             <div id="myCarousel" class="carousel slide">
 
@@ -134,6 +128,17 @@
             </div>
 
         </td></tr>
+    <tr>
+        <td>
+            <p class="brab-cat"{% if brab.category_to_brab_set.count %}>Categories:{% endif %}
+            {% for category_to_brab in brab.category_to_brab_set.all %}
+
+                <a href="/brabsbycategory/{{ category_to_brab.category_id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
+
+            {% endfor %}
+            </p>
+        </td>
+    </tr>
     </table>
 
 {% endblock %}
