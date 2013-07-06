@@ -30,7 +30,7 @@
                         {% if brab.comments_set.count %}
                             <strong style="font-size: 11px">{{ brab.comments_set.count }} comment(s): </strong>
                         {% else %}
-                            <strong style="font-size: 13px">No comments yet. Care to be the first? </strong>
+                            <strong style="font-size: 11px">No comments yet. Care to be the first? </strong>
                         {% endif %}
                     </li>
                     {% for comment in brab.comments_set.all %}
