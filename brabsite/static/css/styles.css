@@ -15,7 +15,7 @@ DESCRIPTION: A premium business and portfolio theme.
                                         color: #444;
                                         }
 	a:focus								{outline:1px dotted;}
-	a									{color:#717171; text-decoration:none;}
+	a									{color:#2f96b4; text-decoration:none;}
 	a:hover								{text-decoration:none;}
 	a span								{font-size:90%;}
 	h1									{font-size:25px;}
@@ -71,7 +71,10 @@ DESCRIPTION: A premium business and portfolio theme.
                                         margin: 0;
                                         }
 
-    .brab-cat                           {margin-top: 5px; margin-bottom: 5px;
+    .brab-cat                           {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
                                         }
     .brab-cat-elem                      {background-color: #bce8f1;
                                         background-image: -webkit-linear-gradient(top,#5bc0de,#2f96b4);
@@ -106,8 +109,8 @@ DESCRIPTION: A premium business and portfolio theme.
     .search input                       {margin: 0;
 
                                         }
-    .brab_ul_li_element                 {background-color: #EDEFF4; padding: 3px; list-style-type:none; margin-left: 0;}
-    .brab_ul_li_element_l               {margin-top: 6px; margin-bottom: 6px;}
+    .brab_ul_li_element                 {background-color: #EDEFF4; list-style-type:none; margin-left: 0;}
+    .brab_ul_li_element_l               {margin-bottom: 6px;}
 
 /* Pagination */
 
@@ -204,7 +207,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 /* Footer */
 
-	.footer                             {padding: 0 20px 50px;}
+	.footer                             {font-size: 12px;}
 	.footer a							{color:#494949;}
 	.footer a:hover						{color:#9d9d9d;}
 	
@@ -423,4 +426,20 @@ ul.errorlist                            {margin: 0; padding: 0; }
 
 .pointer {
     cursor: pointer;
+}
+
+.comments_textarea {
+    width: 208px;
+    margin: 0px;
+    resize: none;
+}
+
+.carousel {
+    margin-bottom: 0;
+
+}
+
+.carousel img {
+    width: 380px;
+    height: 380px;
 }
