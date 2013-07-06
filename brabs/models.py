@@ -212,6 +212,7 @@ class Tag_to_brab(models.Model):
 class Vote(models.Model):
     auth_user = models.ForeignKey(User, help_text="Creator")
     name = models.CharField(blank=True, max_length=250, help_text="Vote Name")
+    past = models.CharField(blank=True, max_length=250, help_text="Voted Name")
     visible = models.BooleanField(help_text="Visible")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Created")
     updated_at = models.DateTimeField(auto_now_add=True, help_text="Updated")

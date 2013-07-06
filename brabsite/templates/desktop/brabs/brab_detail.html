@@ -36,7 +36,7 @@
 
                     {% for vote_data in votes_data %}
                         <div class="poll_block">
-                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.name }} ({{ vote_data.total }}):</div>
+                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.past }} ({{ vote_data.total }}):</div>
                             <div class="progress progress-danger" style="height: 15px; width: 100px;">
                                 <div class="bar" style="width: {{ vote_data.total }}0px"></div>
                             </div>
