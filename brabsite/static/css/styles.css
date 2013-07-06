@@ -420,3 +420,7 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .required {
     height: 25px !important;
 }
+
+.pointer {
+    cursor: pointer;
+}

@@ -32,45 +32,6 @@
                     {% endfor %}
                 </p>
 
-                <small>
-
-                    {% for vote_data in votes_data %}
-                        <div class="poll_block">
-                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.past }} ({{ vote_data.total }}):</div>
-                            <div class="progress progress-danger" style="height: 15px; width: 100px;">
-                                <div class="bar" style="width: {{ vote_data.total }}0px"></div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </small>
-
-                {% if V_form %}
-                    {% if user.is_authenticated %}
-                        {% if not brab.auth_user.id == user.id %}
-                            <form action="." method="post" style="margin: 0px;" name="V_form">
-                                &nbsp;
-                                <div class="btn-group" data-toggle="buttons-radio" style="margin-bottom: 5px;">
-                                    {% for vote in votes_data %}
-                                        {% if vote.id == current_vote %}
-
-                                            <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-danger active" value="{{ vote.id }}">
-                                                {{ vote.name }}
-                                            </button>
-                                        {% else %}
-                                            <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-danger" value="{{ vote.id }}">{{ vote.name }}</button>
-                                        {% endif %}
-                                    {%  endfor %}
-                                </div>
-                                <input name="V-vote_choice" type="hidden" value="10">
-                                <input name="V" type="hidden" value="1"/>
-                            </form>
-                        {% endif %}
-                    {% else %}
-                        {% if not brab.auth_user.id == user.id %}
-                            <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
                 {% if user.is_authenticated and not brab.auth_user.id == user.id %}
                     <form action="." name="form_follow" method="post" enctype="multipart/form-data">
                         {% if followed_by_logged_in_user %}
@@ -120,7 +81,35 @@
 
             </div>
         </td><td style="vertical-align: top">
+            <div style="margin-bottom: 10px;">
 
+                {% if V_form %}
+                {% if user.is_authenticated %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <form action="." method="post" style="margin: 0px;" name="V_form">
+                                {% for vote in votes_data %}
+                                    {% if vote.id == current_vote %}
+                                        <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; $(this).closest('form').submit();">{{ vote.past }} ({{ vote.total }})
+                                    {% else %}
+                                        <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; document.getElementsByName('V_form')[0].submit();">{{ vote.name }} ({{ vote.total }})
+                                    {% endif %}
+                                    {% if not forloop.last %}
+                                    |
+                                    {% endif %}
+                                    </a>
+                                {%  endfor %}
+                            <input name="V-vote_choice" type="hidden" value="">
+                            <input name="V" type="hidden" value="1"/>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            </div>
             <div id="myCarousel" class="carousel slide">
 
                 <!-- Carousel items -->
