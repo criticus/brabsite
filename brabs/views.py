@@ -50,7 +50,7 @@ class BrabDetailView(DetailView):
                 vote_total=current_vote_totals.get(vote_id=x.id).total
             except:
                 vote_total=0
-            vote_data = {'id':x.id, 'name':x.name, 'selected':vote_selected, 'total':vote_total}
+            vote_data = {'id':x.id, 'name':x.name, 'past':x.past, 'selected':vote_selected, 'total':vote_total}
             votes_data.append(vote_data)
 
             fq=Follower_to_followee.objects.filter(follower_id=request.user.id, followee_id=self.object.auth_user_id, deleted = 0)

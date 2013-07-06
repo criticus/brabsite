@@ -32,17 +32,17 @@
                     {% endfor %}
                 </p>
 
-                <small>
-
-                    {% for vote_data in votes_data %}
-                        <div class="poll_block">
-                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.name }} ({{ vote_data.total }}):</div>
-                            <div class="progress progress-danger" style="height: 15px; width: 100px;">
-                                <div class="bar" style="width: {{ vote_data.total }}0px"></div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </small>
+{#                <small>#}
+{##}
+{#                    {% for vote_data in votes_data %}#}
+{#                        <div class="poll_block">#}
+{#                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.name }} ({{ vote_data.total }}):</div>#}
+{#                            <div class="progress progress-danger" style="height: 15px; width: 100px;">#}
+{#                                <div class="bar" style="width: {{ vote_data.total }}0px"></div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </small>#}
 
                 {% if V_form %}
                     {% if user.is_authenticated %}
@@ -120,7 +120,41 @@
 
             </div>
         </td><td style="vertical-align: top">
+            <div style="margin-bottom: 10px;">
 
+                {% if V_form %}
+                {% if user.is_authenticated %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <form action="." method="post" style="margin: 0px;" name="V_form">
+                                {% for vote in votes_data %}
+                                    {% if vote.id == current_vote %}
+                                        <a href="#" onclick="this.form.elements['V-vote_choice'].value = {{ vote.id }}; this.form.submit();">{{ vote.past }} ({{ vote.total }})
+                                    {% else %}
+                                        <a href="#" onclick="this.form.elements['V-vote_choice'].value = {{ vote.id }}; this.form.submit();">{{ vote.name }} ({{ vote.total }})
+                                    {% endif %}
+                                    |
+                                    </a>
+                                {%  endfor %}
+                            <input name="V-vote_choice" type="hidden" value="10">
+                            <input name="V" type="hidden" value="1"/>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+
+
+
+
+
+                <a href="">Like (25)&nbsp;|&nbsp;</a>
+                <a href="">Love (0)&nbsp;|&nbsp;</a>
+                <a href="">Got To Have (7)</a>
+            </div>
             <div id="myCarousel" class="carousel slide">
 
                 <!-- Carousel items -->
