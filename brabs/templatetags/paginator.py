@@ -67,4 +67,4 @@ def paginator(context):
         'get_params': get_params,
     }
 
-register.inclusion_tag("desktop/paginator.html", takes_context=True)(paginator)
+register.inclusion_tag("paginator.html", takes_context=True)(paginator)

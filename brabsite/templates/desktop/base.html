@@ -127,7 +127,7 @@
                     {% if user.is_authenticated %}
                         <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
                     {% else %}
-                        {% include "desktop/registration/login.html" %}
+                        {% include "registration/login.html" %}
                     {% endif %}
                 </div>
 

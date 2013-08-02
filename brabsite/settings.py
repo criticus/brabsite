@@ -167,7 +167,7 @@ TEMPLATE_DIRS = (
     )
 
 MOBILE_TEMPLATE_DIRS = (
-    os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
+    os.path.join(DIRNAME, 'templates', 'mobile').replace('\\','/'),
 )
 DESKTOP_TEMPLATE_DIRS = (
     os.path.join(DIRNAME, 'templates', 'desktop').replace('\\','/'),
@@ -176,9 +176,10 @@ DESKTOP_TEMPLATE_DIRS = (
 MOBILE_USER_AGENTS_FILE =  os.path.join(DIRNAME, 'mobile_agents.txt').replace('\\','/')
 
 MOBILE_IGNORE_LIST =  [#tuple of browsers to ignore
-                      'ipad',
                       'palm',
                       'wap']
+
+                      # 'ipad',
 
 
 
