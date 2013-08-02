@@ -349,7 +349,7 @@ DESCRIPTION: A premium business and portfolio theme.
 
 .search-query                           {background-image: url("../img/search.png"); background-position: 210px 8px; background-repeat: no-repeat}
 ul.errorlist                            {margin: 0; padding: 0; }
-.errorlist li                           {background-color: white; color: red; display: block; font-size: 10px; margin: 0 0 3px;}
+.errorlist li                           {color: red; display: block; font-size: 11px; margin: 0;}
 
 .dropdown-menu li                       {margin-left: 0}
 .dropdown-menu a                        {padding: 3px 15px;}
@@ -442,4 +442,10 @@ ul.errorlist                            {margin: 0; padding: 0; }
 .carousel img {
     width: 380px;
     height: 380px;
+}
+
+.alert {
+    width: 230px;
+    padding: 8px;
+    margin-bottom: 10px;
 }
