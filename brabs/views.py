@@ -186,7 +186,7 @@ class BrabDetailView(DetailView):
 class BrabAddView(CreateView):
     methods = ['get', 'post']
     context_object_name="brab"
-    template_name = "desktop/brabs/brab_add.html"
+    template_name = "brabs/brab_add.html"
 #    Note absence of parenthesis around the form_class and model names below!
     form_class = BrabForm
     model = Brab
@@ -307,7 +307,7 @@ class BrabAddView(CreateView):
 class BrabEditView(CreateView):
     methods = ['get', 'post']
     context_object_name="brab"
-    template_name = "desktop/brabs/brab_edit.html"
+    template_name = "brabs/brab_edit.html"
     #    Note absence of parenthesis around the form_class and model names below!
     form_class = BrabForm
     model = Brab
@@ -566,7 +566,7 @@ class BrabEditView(CreateView):
         return return_value
 
 class BrabListView(ListView):
-    template_name = 'desktop/brabs/brab_list.html'
+    template_name = 'brabs/brab_list.html'
 
     def get_queryset(self):
         user_id = self.kwargs.get('user_id', None)
@@ -608,7 +608,7 @@ class BrabListView(ListView):
 
 class Follower_to_followeeListView(LoggedInMixin, ListView):
     methods = ['get', 'post']
-    template_name = 'desktop/brabs/followee_list.html'
+    template_name = 'brabs/followee_list.html'
 
     def post(self, request, *args, **kwargs):
         if 'SF' in request.POST:
@@ -628,7 +628,7 @@ class Follower_to_followeeListView(LoggedInMixin, ListView):
 
 class Followee_to_followerListView(LoggedInMixin, ListView):
     methods = ['get', 'post']
-    template_name = 'desktop/brabs/follower_list.html'
+    template_name = 'brabs/follower_list.html'
 
 
     def post(self, request, *args, **kwargs):

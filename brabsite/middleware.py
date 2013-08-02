@@ -49,8 +49,8 @@ class MobileTemplatesMiddleware(object):
                 is_mobile=True
 
         if is_mobile:
-            set_thread_vars(settings=settings, TEMPLATE_DIRS=settings.MOBILE_TEMPLATE_DIRS + self.ORIG_TEMPLATE_DIRS)
+            set_thread_vars(settings=settings, TEMPLATE_DIRS=settings.MOBILE_TEMPLATE_DIRS)
             set_thread_vars(request=request, mobile=True)
         else:
-            set_thread_vars(settings=settings, TEMPLATE_DIRS=settings.DESKTOP_TEMPLATE_DIRS + self.ORIG_TEMPLATE_DIRS)
+            set_thread_vars(settings=settings, TEMPLATE_DIRS=settings.DESKTOP_TEMPLATE_DIRS)
             set_thread_vars(request=request, mobile=False)

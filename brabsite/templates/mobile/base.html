@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Brag About It! (Mobile)</title>
+    <title>Brag About It!</title>
 
 
     <link href="{{STATIC_URL}}css/reset.css" rel="stylesheet">
@@ -33,10 +33,28 @@
             $('#crop').hide();
             $('#new_pic_settings').hide();
             $('.awesome-cropper').css('height', '0');
+            $('.carousel').carousel({
+                interval: false
+            })
+            if($('.carousel-inner .item:first').hasClass('active')) {
+                $('#myCarousel').children('.left.carousel-control').hide();
+            }
+            $('#myCarousel').on('slid', '', function() {
+                var $this = $(this);
 
+                $this.children('.carousel-control').show();
+
+                if($('.carousel-inner .item:first').hasClass('active')) {
+                    $this.children('.left.carousel-control').hide();
+                } else if($('.carousel-inner .item:last').hasClass('active')) {
+                    $this.children('.right.carousel-control').hide();
+                }
+
+            });
         });
     </script>
     <script language="JavaScript" type="text/javascript">
+
         function HandleFileButtonClick()
         {
             $('#new_pic').click();
@@ -65,11 +83,17 @@
             $('#new_pic_settings').hide();
             $('#new_pic_add').val('Add a Picture');
         }
+
+
+        $("#new_pic_add").on("click", function(){
+            $('#new_pic').click();
+        });
     </script>
 </head>
 
 <body class="portfolio">
 
+Mobile!
 
 <div id="wrapper" class="container_12 clearfix">
 
@@ -84,7 +108,7 @@
                         <a class="btn btn-info" href="/addabrab">New</a>
                     {% endif %}
                     <span class="btn-group">
-                        <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="btn btn-primary dropdown-toggle" style="vertical-align: bottom" data-toggle="dropdown" href="#">
                             My Stuff
                             <span class="caret"></span>
                         </a>
@@ -108,7 +132,7 @@
                     {% if user.is_authenticated %}
                         <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
                     {% else %}
-                        {% include "desktop/registration/login.html" %}
+                        {% include "registration/login.html" %}
                     {% endif %}
                 </div>
 
