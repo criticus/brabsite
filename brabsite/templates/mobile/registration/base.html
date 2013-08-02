@@ -10,22 +10,7 @@
     <link rel=StyleSheet href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css" media=screen>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script type="text/javascript">
 
-        EnableSubmit = function(val)
-        {
-            var sbmt = document.getElementById("Subm");
-
-            if (val.checked == true)
-            {
-                sbmt.disabled = false;
-            }
-            else
-            {
-                sbmt.disabled = true;
-            }
-        }
-    </script>
 
                 <title>{% block title %}Tagging Exploration{% endblock %}</title>
 </head>

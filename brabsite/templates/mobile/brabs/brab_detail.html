@@ -1,29 +1,22 @@
-{% extends "mobile/base.html" %}
+{% extends "base.html" %}
 
 
 {% block content %}
-    <table>
+    <table style="margin-bottom: 0">
         <tr><td style="vertical-align: top">
             <!-- Column 1 / Project Information -->
-            <div class="grid_4" style="width: 300px;">
+            <div class="grid_4" style="width: 390px; margin-right: 20px">
                 <div >
                     <h3 class="brab-title">{{ brab.title }}
                         {% if user.is_authenticated and brab.auth_user.id == user.id %}
                             <a class="btn btn-small" href="{% url editbrab pk=brab.id %}"><i class="icon-pencil"></i> Edit</a>
+                             <a class="btn btn-small" href="{% url deletebrab pk=brab.id %}"><i class="icon-trash"></i> Delete</a>
                         {% endif %}
                     </h3>
                 </div>
 
                 <p class="brab-descr">{{ brab.description }}</p>
                 <p class="brab-time">{{ brab.auth_user.username }} on {{ brab.created_at }}</p>
-                <p class="brab-cat"{% if brab.category_to_brab_set.count %}><b>Categories:</b>{% endif %}
-                {% for category_to_brab in brab.category_to_brab_set.all %}
-
-                    <a href="/brabsbycategory/{{ category_to_brab.category_id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
-
-                {% endfor %}
-                </p>
-
 
                 <p class="brab-tag">
                     {% for tag_to_brab in brab.tag_to_brab_set.all %}
@@ -31,62 +24,13 @@
                     {% endfor %}
                 </p>
 
-                <small>
 
-                    {% for vote_data in votes_data %}
-                        <div>
-                            <div style="float: left; width: 110px; font-size: 12px">{{ vote_data.name }} ({{ vote_data.total }}):</div>
-                            <div class="progress progress-danger" style="height: 15px;">
-                                <div class="bar" style="width: {{ vote_data.total }}0px"></div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </small>
-
-                {% if V_form %}
-                    {% if user.is_authenticated %}
-                        {% if not brab.auth_user.id == user.id %}
-                            <form action="." method="post" style="margin: 0px;" name="V_form">
-                                &nbsp;
-                                <div class="btn-group" data-toggle="buttons-radio" style="margin-bottom: 5px;">
-                                    {% for vote in votes_data %}
-                                        {% if vote.id == current_vote %}
-
-                                            <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-danger active" value="{{ vote.id }}">
-                                                {{ vote.name }}
-                                            </button>
-                                        {% else %}
-                                            <button onclick="this.form.elements['V-vote_choice'].value = this.value; this.form.submit();" type="button" class="btn btn-danger" value="{{ vote.id }}">{{ vote.name }}</button>
-                                        {% endif %}
-                                    {%  endfor %}
-                                </div>
-                                <input name="V-vote_choice" type="hidden" value="10">
-                                <input name="V" type="hidden" value="1"/>
-                            </form>
-                        {% endif %}
-                    {% else %}
-                        {% if not brab.auth_user.id == user.id %}
-                            <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
-                        {% endif %}
-                    {% endif %}
-                {% endif %}
-                {% if user.is_authenticated and not brab.auth_user.id == user.id %}
-                    <form action="." name="form_follow" method="post" enctype="multipart/form-data">
-                        {% if followed_by_logged_in_user %}
-                            <input type="hidden" name="SF" value="1">
-                            <input class="btn btn-inverse" name="button" value="Unfollow" type="submit">
-                        {% else %}
-                            <input type="hidden" name="F" value="1">
-                            <input class="btn btn-inverse" name="button" value="Follow" type="submit">
-                        {% endif %}
-                    </form>
-                {% endif %}
                 <ul style="margin-left: 0px;">
                     <li class="brab_ul_li_element">
                         {% if brab.comments_set.count %}
-                            <strong style="font-size: 13px">{{ brab.comments_set.count }} comment(s): </strong>
+                            <strong style="font-size: 11px">{{ brab.comments_set.count }} comment(s): </strong>
                         {% else %}
-                            <strong style="font-size: 13px">No comments yet. Care to be the first? </strong>
+                            <strong style="font-size: 11px">No comments yet. Care to be the first? </strong>
                         {% endif %}
                     </li>
                     {% for comment in brab.comments_set.all %}
@@ -100,9 +44,9 @@
 
                     {% if user.is_authenticated %}
 
-                        <li style="background-color: #EDEFF4; padding: 3px; list-style-type: none; margin-left: 0">
+                        <li style="background-color: #EDEFF4; list-style-type: none; margin-left: 0">
                             <form action="." method="post" style="margin: 0px;" >
-                                <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" style="width: 208px; margin: 0px" name="C-comment" placeholder="write a comment..."></textarea>
+                                <textarea aria-expended="false" id="id_C-comment" rows="2" cols="40" class="comments_textarea" name="C-comment" placeholder="write a comment..."></textarea>
                                 <input type="hidden" name="C-auth_user" id="id_C-auth_user" />
                                 <input type="hidden" name="C-brab" id="id_C-brab" />
                                 <input type="hidden" name="C-visible" id="id_C-visible" />
@@ -119,7 +63,47 @@
 
             </div>
         </td><td style="vertical-align: top">
+            <div style="display: inline-block; width: 380px;">
 
+                {% if V_form %}
+                {% if user.is_authenticated %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <form action="." method="post" style="margin: 0px; float: left" name="V_form">
+                                {% for vote in votes_data %}
+                                    {% if vote.id == current_vote %}
+                                        <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; $(this).closest('form').submit();">{{ vote.past }} ({{ vote.total }})
+                                    {% else %}
+                                        <a class="pointer" onclick="$(this).closest('form')[0].elements['V-vote_choice'].value = {{ vote.id }}; document.getElementsByName('V_form')[0].submit();">{{ vote.name }} ({{ vote.total }})
+                                    {% endif %}
+                                    </a>
+
+                                    {% if not forloop.last %}
+                                        |
+                                    {% endif %}
+                                {%  endfor %}
+                            <input name="V-vote_choice" type="hidden" value="">
+                            <input name="V" type="hidden" value="1"/>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    {% if not brab.auth_user.id == user.id %}
+                        <li class="brab_ul_li_element brab_ul_li_element_l"><p class="text-warning">Log in to be able to vote</p></li>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+                {% if user.is_authenticated and not brab.auth_user.id == user.id %}
+                    <form action="." name="form_follow" method="post" enctype="multipart/form-data" style="float: right; margin: 0 0 5px;">
+                        {% if followed_by_logged_in_user %}
+                            <input type="hidden" name="SF" value="1">
+                            <input class="btn btn-inverse" name="button" value="Unfollow" type="submit">
+                        {% else %}
+                            <input type="hidden" name="F" value="1">
+                            <input class="btn btn-inverse" name="button" value="Follow" type="submit">
+                        {% endif %}
+                    </form>
+                {% endif %}
+            </div>
             <div id="myCarousel" class="carousel slide">
 
                 <!-- Carousel items -->
@@ -136,12 +120,25 @@
                     {% endif %}
 
                 </div>
+                {% if brab.pictures_set.count > 1 %}
                 <!-- Carousel nav -->
                 <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
                 <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                {% endif %}
             </div>
 
         </td></tr>
+    <tr>
+        <td>
+            <p class="brab-cat"{% if brab.category_to_brab_set.count %}>Categories:{% endif %}
+            {% for category_to_brab in brab.category_to_brab_set.all %}
+
+                <a href="/brabsbycategory/{{ category_to_brab.category_id }}" class="brab-cat-elem">{{ category_to_brab.category}}</a>{% if not forloop.last %}&nbsp;{% endif %}
+
+            {% endfor %}
+            </p>
+        </td>
+    </tr>
     </table>
 
 {% endblock %}

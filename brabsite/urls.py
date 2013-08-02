@@ -79,7 +79,7 @@ urlpatterns = patterns('',
         context_object_name="brab"),
         name="deletebrab"
     ),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login',{'template_name': 'desktop/brabs/brab_list.html'}),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login',{'template_name': 'brabs/brab_list.html'}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',{'next_page': '/'}),
     url(r'^accounts/', include('registration.urls')),
