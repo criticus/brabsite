@@ -21,9 +21,8 @@
 
         {% if form.errors %}
             <div class="alert alert-error">
-                Please correct the errors below:
                 {% if form.non_field_errors %}
-                    <br>{{ form.non_field_errors }}
+                    {{ form.non_field_errors }}
                 {% endif %}
                 {% if form.username.errors %}
                     <br>Brabber ID: {{ form.username.errors }}
