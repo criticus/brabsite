@@ -140,7 +140,7 @@ class Pictures(models.Model):
     #                           upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
     #                           null=True, blank=True, max_length=250, help_text="Picture URL")
 
-    picture = ProcessedImageField([ResizeToFit(900, 900, True, (161,175,199, 90))],
+    picture = ProcessedImageField([ResizeToFit(900, 900, False, (161,175,199, 90))],
                                   format='JPEG', options={'quality': 90},
                                   upload_to= 'pictures/%Y/%m/%d', height_field="pic_height", width_field="pic_width",
                                   null=True, blank=True, max_length=250, help_text="Picture URL")
