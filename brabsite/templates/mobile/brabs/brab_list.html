@@ -9,22 +9,18 @@
         {{ brab_list.index }}
         {% for brab in brab_list %}
 
-            {% if forloop.counter|divisibleby:4 %}
-                <a class="portfolio_item float omega" href="{% url brab pk=brab.id %}">
-            {%  elif forloop.counter|add:"-1"|divisibleby:4%}
-                <a class="portfolio_item float alpha" href="{% url brab pk=brab.id %}">
-            {% else %}
-                <a class="portfolio_item float" href="{% url brab pk=brab.id %}">
-            {% endif %}
+
+                <a class="portfolio_item float" style="width: 680px" href="{% url brab pk=brab.id %}">
+
                 <span>{{ brab.title }} by {{ brab.auth_user }}</span>
                 {% if brab.pictures_set.all %}
                     {% for picture in brab.pictures_set.all %}
                         {% if picture.main and picture.visible and not picture.deleted%}
-                            <img style="width=180px;height:180px" src="{{ picture.picture.url}}" alt="" width="180" height="180">
+                            <img style="width:680px; height: 680px" src="{{ picture.picture.url}}" alt="">
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <img  style="width=180px;height:180px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
+                    <img  style="width:680px; height:680px" class="" src="{{STATIC_URL}}images/223x112.gif"  alt=""/>
                 {% endif %}
             </a>
         {% endfor %}

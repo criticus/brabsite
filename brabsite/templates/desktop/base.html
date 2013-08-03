@@ -95,10 +95,10 @@
     <div class="topbar">
         <div class="fill">
             <div class="">
-                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut.com!</a></span>
+                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut!</a></span>
                 {% if user.is_authenticated %}
                     {% if "addabrab" in request.path %}
-                        <a class="btn btn-primary" href="/">Brablist</a>
+                        <a class="btn btn-primary" href="/all">Brablist</a>
                     {% else %}
                         <a class="btn btn-info" href="/addabrab">New</a>
                     {% endif %}
@@ -115,7 +115,7 @@
                         </ul>
                     </span>
                 {% endif %}
-                <a class="btn btn-primary" href="/">All Brabs</a>
+                <a class="btn btn-primary" href="/all">All Brabs</a>
                 <div class="topbar-right">
                     <form action="/searchbrabs" method="get" class="search">
                         <div class="input-append">

@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView
 from brabs.models import Brab
 from brabs.views import hello, BrabAddView, BrabDetailView, BrabListView, BrabEditView, Follower_to_followeeListView, Followee_to_followerListView
 from django.conf import settings
+from django.views.generic.simple import redirect_to
 
 admin.autodiscover()
 
@@ -55,7 +56,9 @@ urlpatterns = patterns('',
         context_object_name="brab_list"),
         name="search-brab-list-view"
     ),
-    url(r'^$', ListView.as_view(
+    url(r'^$',redirect_to, {'url': '/static/home_pages/index.htm'}
+    ),
+    url(r'^all/$', ListView.as_view(
         queryset=Brab.objects.filter(deleted=0),
         paginate_by=20,
         context_object_name="brab_list"),
