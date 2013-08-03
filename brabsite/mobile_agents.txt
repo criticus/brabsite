@@ -6,7 +6,8 @@
 # This list is public domain, please feel free to use it for your own projects
 # If HTTP_USER_AGENT.lower() contains any of these strings, it's a mobile
 # Also include some games consoles, see below
-Android
+ipad
+iPad
 sony
 symbian
 nokia
@@ -55,6 +56,7 @@ plucker
 sec
 fennec
 android
+Android
 # The Google transcoder
 google wireless transcoder
 # These are games consoles that either have a small screen or display on a
