@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title>Brag About It!</title>
@@ -15,6 +15,7 @@
     <style>.content {padding-top: 80px;}</style>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://jquerymobile.com/demos/1.2.1/js/jquery.mobile-1.2.1.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
     <script src="{{STATIC_URL}}js/jquery.roundabout-1.0.min.js"></script>
@@ -88,22 +89,26 @@
         $("#new_pic_add").on("click", function(){
             $('#new_pic').click();
         });
+
+       $('a').on('click touchend', function(e) {
+            var el = $(this);
+            var link = el.attr('href');
+            window.location = link;
+        });
     </script>
 </head>
 
 <body class="portfolio">
-
-Mobile!
 
 <div id="wrapper" class="container_12 clearfix">
 
     <div class="topbar">
         <div class="fill">
             <div class="">
-                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut.com!</a></span>
+                <span class="logo"><a href="{{STATIC_URL}}home_pages/index.htm" class="brand">&nbsp;BrabOut!</a></span>
                 {% if user.is_authenticated %}
                     {% if "addabrab" in request.path %}
-                        <a class="btn btn-primary" href="/">Brablist</a>
+                        <a class="btn btn-primary" href="/all">Brablist</a>
                     {% else %}
                         <a class="btn btn-info" href="/addabrab">New</a>
                     {% endif %}
@@ -120,15 +125,9 @@ Mobile!
                         </ul>
                     </span>
                 {% endif %}
-                <a class="btn btn-primary" href="/">All Brabs</a>
+                <a class="btn btn-primary" href="/all">All Brabs</a>
                 <div class="topbar-right">
-                    <form action="/searchbrabs" method="get" class="search">
-                        <div class="input-append">
-                            <input style="position: static" type="text" class="span2 search-query" name="searchfor" placeholder="Search">
-                            <button type="submit" class="btn" name="S"><i class="icon-search"></i></button>
-                        </div>
 
-                    </form>
                     {% if user.is_authenticated %}
                         <span class="login-block">Hi, {{ user.username }}!<a style="margin-left: 3px" href="/accounts/logout">Logout</a></span>
                     {% else %}
@@ -143,7 +142,13 @@ Mobile!
     </div>
     <div class="hr grid_12 clearfix">&nbsp;</div>
 
+<form action="/searchbrabs" method="get" class="search">
+                        <div class="input-append">
+                            <input style="position: static" type="text" class="span2 search-query" name="searchfor" placeholder="Search">
+                            <button type="submit" class="btn" name="S" style="display: none"></button>
+                        </div>
 
+                    </form>
     <!-- Portfolio Items -->
 
     <!-- Section 1 -->
@@ -163,7 +168,7 @@ Mobile!
     <!-- Footer -->
     <p class="footer clearfix">
         <span class="float"><b>&copy; Copyright</b> <a href="http://brabout.com">BrabOut Inc.</a></span>
-        <a class="float right" href="#">top</a>
+        <a class="float right" href="#" style="display:inline-block;position: fixed; bottom: 15px; right: 20px; z-index: 100; font-size: 35px; font-weight: bold; padding: 10px;border:1px solid rgb(221, 221, 221);"> To The Top &uarr;</a>
     </p>
 
 </div><!--end wrapper-->
